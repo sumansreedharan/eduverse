@@ -1,0 +1,34 @@
+.admin-dashboard {
+    text-align: center;
+    padding: 20px;
+    background-color: #ffffff;
+  }
+  
+  .dashboard-summary {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    margin-top: 40px;
+  }
+  
+  .summary-item {
+    border: 1px solid #3498db; /* Blue color */
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 5px;
+    width: 200px;
+  }
+  
+  .summary-item h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #3498db; /* Blue color */
+  }
+  
+  .summary-item p {
+    font-size: 36px;
+    font-weight: bold;
+    color: #3498db; /* Blue color */
+  }
+  

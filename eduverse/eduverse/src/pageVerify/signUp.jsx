@@ -1,0 +1,387 @@
+// import React, { useState } from "react";
+// import { useForm } from "react-hook-form";
+// import axios from "axios";
+// import "./sign.scss";
+// import {
+//   MDBBtn,
+//   MDBContainer,
+//   MDBRow,
+//   MDBCol,
+//   MDBCard,
+//   MDBCardBody,
+//   MDBInput,
+// } from "mdb-react-ui-kit";
+
+// function Signup() {
+//   const [showOTP, setShowOTP] = useState(false);
+//   const [errorMessage, setErrorMessage] = useState("");
+//   const [successMessage, setSuccessMessage] = useState("");
+//   const {
+//     register,
+//     handleSubmit,
+//     formState: { errors },
+//     setValue,
+//   } = useForm();
+
+//   const onSubmit = async (data) => {
+//     try {
+//       const response = await axios.post(
+//         "http://localhost:3001/api/register",
+//         data,
+//         {
+//           headers: {
+//             "Content-Type": "application/json",
+//           },
+//         }
+//       );
+
+//       setShowOTP(true);
+//       setErrorMessage("");
+//       setSuccessMessage("");
+//     } catch (error) {
+//       console.error(error);
+//       setErrorMessage("Registration failed. Please try again.");
+//     }
+//   };
+
+//   const onVerifyOTP = async (data) => {
+//     try {
+//       const response = await axios.post(
+//         "http://localhost:3001/api/verifyOtp",
+//         data,
+//         {
+//           headers: {
+//             "Content-Type": "application/json",
+//           },
+//         }
+//       );
+
+//       setOTP("");
+//       setSuccessMessage("OTP matched successfully.");
+//       setErrorMessage("");
+//     } catch (error) {
+//       console.error(error);
+//       setErrorMessage("Invalid OTP. Please try again.");
+//     }
+//   };
+//   return (
+//     <MDBContainer fluid>
+//       <MDBRow className="d-flex justify-content-center align-items-center h-100 the-body">
+//         <MDBCol col="12">
+//           <MDBCard
+//             className="bg-white my-5 mx-auto"
+//             style={{ borderRadius: "1rem", maxWidth: "500px" }}
+//           >
+//             <MDBCardBody className="p-5 w-100 d-flex flex-column">
+//               <h2 className="fw-bold mb-2 text-center">Register</h2>
+//               <p className="text-white-50 mb-3">
+//                 Please enter your login and password!
+//               </p>
+
+//               <MDBInput
+//                 wrapperClass="mb-4 w-100"
+//                 label="Name"
+//                 id="formControlLg"
+//                 type="text"
+//                 size="lg"
+//               />
+//               <MDBInput
+//                 wrapperClass="mb-4 w-100"
+//                 label="Email"
+//                 id="formControlLg"
+//                 type="password"
+//                 size="lg"
+//               />
+//               <MDBInput
+//                 wrapperClass="mb-4 w-100"
+//                 label="Mobile"
+//                 id="formControlLg"
+//                 type="password"
+//                 size="lg"
+//               />
+//               <MDBInput
+//                 wrapperClass="mb-4 w-100"
+//                 label="Password"
+//                 id="formControlLg"
+//                 type="password"
+//                 size="lg"
+//               />
+//               <MDBInput
+//                 wrapperClass="mb-4 w-100"
+//                 label="Confirm password"
+//                 id="formControlLg"
+//                 type="password"
+//                 size="lg"
+//               />
+
+//               <div className="mb-4 w-100">
+//                 <label htmlFor="roleSelect" className="form-label">
+//                   Role
+//                 </label>
+//                 <select
+//                   className="form-select"
+//                   id="roleSelect"
+//                   aria-label="Role"
+//                   size="lg"
+//                 >
+//                   <option value="user">User</option>
+//                   <option value="mentor">Mentor</option>
+//                 </select>
+//               </div>
+
+//               {/* <MDBCheckbox name='flexCheck' id='flexCheckDefault' className='mb-4' label='Remember password' /> */}
+
+//               <MDBBtn size="lg">Register</MDBBtn>
+
+//               <hr className="my-4" />
+
+//               {/* <MDBBtn className="mb-2 w-100" size="lg" style={{backgroundColor: '#dd4b39'}}>
+//                 <MDBIcon fab icon="google" className="mx-2"/>
+//                 Sign in with google
+//               </MDBBtn>
+
+//               <MDBBtn className="mb-4 w-100" size="lg" style={{backgroundColor: '#3b5998'}}>
+//                 <MDBIcon fab icon="facebook-f" className="mx-2"/>
+//                 Sign in with facebook
+//               </MDBBtn> */}
+//             </MDBCardBody>
+//           </MDBCard>
+//         </MDBCol>
+//       </MDBRow>
+//     </MDBContainer>
+//   );
+// }
+
+// export default Signup;
+
+
+
+import React, { useState } from "react";
+import axios from "axios";
+import { useForm } from "react-hook-form";
+import {useNavigate} from "react-router-dom"
+import "./sign.scss";
+import {
+  MDBBtn,
+  MDBContainer,
+  MDBRow,
+  MDBCol,
+  MDBCard,
+  MDBCardBody,
+  MDBInput,
+} from "mdb-react-ui-kit";
+
+function Signup() {
+  const [showOTP, setShowOTP] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+  const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+  } = useForm();
+
+  const onSubmit = async (data) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:3001/api/register",
+        data,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      setShowOTP(true);
+      setErrorMessage("");
+      setSuccessMessage("");
+    } catch (error) {
+      console.error(error);
+      setErrorMessage("Registration failed. Please try again.");
+    }
+  };
+
+  const onVerifyOTP = async (data) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:3001/api/verifyOtp",
+        data,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      setSuccessMessage("OTP matched successfully.");
+      setErrorMessage("");
+        navigate("/login")
+    } catch (error) {
+      console.error(error);
+      setErrorMessage("Invalid OTP. Please try again.");
+    }
+  };
+
+  return (
+    <MDBContainer fluid>
+      <MDBRow className="d-flex justify-content-center align-items-center h-100 the-body">
+        <MDBCol col="12">
+          <MDBCard
+            className="bg-white my-5 mx-auto"
+            style={{ borderRadius: "1rem", maxWidth: "500px" }}
+          >
+            <MDBCardBody className="p-5 w-100 d-flex flex-column">
+              <h2 className="fw-bold mb-2 text-center">Register</h2>
+              <p className="text-white-50 mb-3">Please Register</p>
+
+              <form onSubmit={handleSubmit(showOTP ? onVerifyOTP : onSubmit)}>
+                {errorMessage && (
+                  <p className="error-message">{errorMessage}</p>
+                )}
+                {successMessage && (
+                  <p className="success-message">{successMessage}</p>
+                )}
+
+                <div className="mb-4 w-100">
+                  <label htmlFor="name" className="form-label">
+                    Name
+                  </label>
+                  <MDBInput
+                    wrapperClass="w-100"
+                    id="name"
+                    type="text"
+                    size="lg"
+                    {...register("name", { required: true })}
+                  />
+                  {errors.name && (
+                    <p className="error-message">Name is required</p>
+                  )}
+                </div>
+
+                <div className="mb-4 w-100">
+                  <label htmlFor="email" className="form-label">
+                    Email
+                  </label>
+                  <MDBInput
+                    wrapperClass="w-100"
+                    id="email"
+                    type="email"
+                    size="lg"
+                    {...register("email", {
+                      required: true,
+                      pattern: /^\S+@\S+$/i,
+                    })}
+                  />
+                  {errors.email && errors.email.type === "required" && (
+                    <p className="error-message">Email is required</p>
+                  )}
+                  {errors.email && errors.email.type === "pattern" && (
+                    <p className="error-message">Invalid email format</p>
+                  )}
+                </div>
+
+                <div className="mb-4 w-100">
+                  <label htmlFor="mobile" className="form-label">
+                    Mobile
+                  </label>
+                  <MDBInput
+                    wrapperClass="w-100"
+                    id="mobile"
+                    type="password"
+                    size="lg"
+                    {...register("mobile", { required: true })}
+                  />
+                  {errors.mobile && (
+                    <p className="error-message">Mobile is required</p>
+                  )}
+                </div>
+
+                <div className="mb-4 w-100">
+                  <label htmlFor="password" className="form-label">
+                    Password
+                  </label>
+                  <MDBInput
+                    wrapperClass="w-100"
+                    id="password"
+                    type="password"
+                    size="lg"
+                    {...register("password", { required: true })}
+                  />
+                  {errors.password && (
+                    <p className="error-message">Password is required</p>
+                  )}
+                </div>
+
+                <div className="mb-4 w-100">
+                  <label htmlFor="confirmPassword" className="form-label">
+                    Confirm password
+                  </label>
+                  <MDBInput
+                    wrapperClass="w-100"
+                    id="confirmPassword"
+                    type="password"
+                    size="lg"
+                    {...register("confirmPassword", { required: true })}
+                  />
+                  {errors.confirmPassword && (
+                    <p className="error-message">
+                      Confirm Password is required
+                    </p>
+                  )}
+                </div>
+
+                <div className="mb-4 w-100">
+                  <label htmlFor="roleSelect" className="form-label">
+                    Role
+                  </label>
+                  <select
+                    className="form-select"
+                    id="roleSelect"
+                    aria-label="Role"
+                    size="lg"
+                    {...register("role")}
+                    onChange={(e) => setValue("role", e.target.value)}
+                  >
+                    <option value="user">User</option>
+                    <option value="mentor">Mentor</option>
+                  </select>
+                </div>
+
+                {showOTP && (
+                  <div className="mb-4 w-100">
+                    <label htmlFor="otp" className="form-label">
+                      OTP
+                    </label>
+                    <MDBInput
+                      wrapperClass="w-100"
+                      id="otp"
+                      type="text"
+                      size="lg"
+                      {...register("otp", { required: true })}
+                    />
+                    {errors.otp && (
+                      <p className="error-message">OTP is required</p>
+                    )}
+                  </div>
+                )}
+
+                <MDBBtn size="lg" type="submit">
+                  {showOTP ? "Verify OTP" : "Register"}
+                </MDBBtn>
+              </form>
+
+              <hr className="my-4" />
+            </MDBCardBody>
+          </MDBCard>
+        </MDBCol>
+      </MDBRow>
+    </MDBContainer>
+  );
+}
+
+export default Signup;
+
+
