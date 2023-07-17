@@ -7,5 +7,9 @@ adminRoute.use(cors())
 
 
 adminRoute.get("/totalCounts",adminController.getCounts)
+adminRoute.get("/listUsers",adminController.listUser)
+adminRoute.get("/listMentors",adminController.listMentor)
+adminRoute.put("/blockUser/:id",adminAuth,adminController.blockUnblockUser)
+adminRoute.put("/blockMentor/:id",adminAuth,adminController.blockUnblockMentor)
 
 module.exports = adminRoute

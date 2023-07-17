@@ -1,16 +1,16 @@
 const User = require("../models/userModel");
 const jwt = require("jsonwebtoken");
-const otpGenerator = require('otp-generator');
+// const otpGenerator = require('otp-generator');
 const nodemailer = require('nodemailer');
+
+require('dotenv').config()
 
 const Register = async (req, res) => {
   try {
     const { name, email, mobile, password, role } = req.body;
 
-    const otp = otpGenerator.generate(6, { upperCase: false, specialChars: false });
+    const otp = generateNumericOTP(6); // Generate a numeric OTP of length 6
 
-
-    // Send OTP to the registered email using Nodemailer
     sendOTPByEmail(email, otp)
       .then(async () => {
         await User.create({
@@ -19,7 +19,7 @@ const Register = async (req, res) => {
           mobile,
           password,
           role,
-          otp, // Store the OTP in the user object
+          otp: Number(otp), // Save the OTP as a number
         });
 
         res.status(200).json({ message: "Your registration is successful" });
@@ -41,14 +41,14 @@ async function sendOTPByEmail(email, otp) {
     port: 587,
     secure: false,
     auth: {
-      user: 'verifyyourmail0007@gmail.com',
-      pass: 'ahywtvcavokgbivc',
+      user: process.env.SECRET_EMAIL,
+      pass: process.env.PASSWORD_KEY,
     },
   });
 
   
   const mailOptions = {
-    from: 'verifyyourmail0007@gmail.com',
+    from: process.env.SECRET_EMAIL,
     to: email,
     subject: 'OTP Verification',
     text: `Your OTP is: ${otp}`,
@@ -58,63 +58,105 @@ async function sendOTPByEmail(email, otp) {
   await transporter.sendMail(mailOptions);
 }
 
+function generateNumericOTP(length) {
+  const digits = '0123456789';
+  let otp = '';
+
+  for (let i = 0; i < length; i++) {
+    const randomIndex = Math.floor(Math.random() * digits.length);
+    otp += digits[randomIndex];
+  }
+
+  return otp;
+}
+
 const VerifyOTP = async (req, res) => {
   try {
     const { email, otp } = req.body;
-  
 
     const user = await User.findOne({ email });
-  
 
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
 
     if (user.otp !== otp) {
-
       return res.status(400).json({ error: "Invalid OTP" });
     }
 
-    
-    const token = jwt.sign({ userId: user._id }, "secret123");
+    const token = jwt.sign({ userId: user._id }, process.env.COMMON_SECRET_KEY);
 
     res.json({ token });
   } catch (error) {
     console.log(error.message);
     res.status(500).json({ error: "An error occurred during OTP verification" });
   }
-};
+}
 
 
-const methodLogin = async (req,res) => {
+
+// const methodLogin = async (req,res) => {
+//   try {
+//     const {email,password} = req.body
+//     const user = await User.findOne({email,password})
+//     if(user){
+//       const token = jwt.sign(
+//         {
+//           id:user._id
+//         },
+//         "secret123"
+//       );
+//       let role = ''
+//       if(user.role==='admin'){
+//         role = 'admin'
+//       }else if(user.role === 'mentor'){
+//         role = 'mentor'
+//       }else{
+//         role = user;
+//       }
+//       return res.json({ status: "ok", token, role,user });
+//     } else {
+//       return res.json({ status: "error", user: false });  
+
+//     }
+//   } catch (error) {
+//     console.log(error);
+//     res.status(500).json({error:"server error"})
+//   }
+// }
+
+const methodLogin = async (req, res) => {
   try {
-    const {email,password} = req.body
-    const user = await User.findOne({email,password})
-    if(user){
-      const token = jwt.sign(
-        {
-          id:user._id
-        },
-        "secret123"
-      );
-      let role = ''
-      if(user.role==='admin'){
-        role = 'admin'
-      }else if(user.role === 'mentor'){
-        role = 'mentor'
-      }else{
+    const { email, password } = req.body;
+    const user = await User.findOne({ email, password });
+
+    if (user) {
+      if (user.blocked) {
+        
+        return res.json({ status: "blocked", message: "You are temporarily blocked by the admin." });
+      }
+
+      const token = jwt.sign({ id: user._id },process.env.COMMON_SECRET_KEY);
+      let role = "";
+
+      if (user.role === "admin") {
+        role = "admin";
+      } else if (user.role === "mentor") {
+        role = "mentor";
+      } else {
         role = user;
       }
-      return res.json({ status: "ok", token, role,user });
-    } else {
-      return res.json({ status: "error", user: false });  
 
+      return res.json({ status: "ok", token, role, user });
+    } else {
+      return res.json({ status: "error", user: false });
     }
   } catch (error) {
     console.log(error);
-    res.status(500).json({error:"server error"})
+    res.status(500).json({ error: "server error" });
   }
-}
+};
+
 
 module.exports = {
   Register,

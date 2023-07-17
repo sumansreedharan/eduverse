@@ -72,26 +72,33 @@ import React, { useState } from "react";
 import { MDBModal, MDBModalBody, MDBModalHeader, MDBBtn } from "mdb-react-ui-kit";
 import "./popUp.scss";
 
-function EditProfilePopup({ isOpen, onClose }) {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [mobile, setMobile] = useState("");
-  const [image, setImage] = useState("");
+
+
+function EditProfilePopup({ isOpen, onClose,userDetails, onSaveProfile,}) {
+  const [name, setName] = useState(userDetails.name);
+  const [email, setEmail] = useState(userDetails.email);
+  const [mobile, setMobile] = useState(userDetails.mobile);
+  const [image, setImage] = useState(userDetails.profileImage);
+  
 
   const handleSave = () => {
     // Handle saving the updated profile details
     const updatedProfile = {
+      userId: userDetails._id,
       name,
       email,
       mobile,
-      image,
+      profileImage:image,
     };
 
     // You can dispatch an action to update the user details using Redux or any other state management system
     // For example: dispatch(updateUserProfile(updatedProfile));
+  
+    // // Close the modal after saving
+    onSaveProfile(updatedProfile);
 
-    // Close the modal after saving
-    onClose();
+      
+
   };
 
   const handleImageChange = (e) => {

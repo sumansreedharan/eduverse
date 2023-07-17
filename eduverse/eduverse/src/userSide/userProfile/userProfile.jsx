@@ -11,15 +11,20 @@ import {
   MDBBtn,
 } from "mdb-react-ui-kit";
 import "./userProfile.scss"; // Import the SCSS file
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 import ResponsiveAppBar from "../../header/navbar";
-import EditProfilePopup  from "./editUserPopUp"
-import { useSelector } from "react-redux";
+import EditProfilePopup from "./editUserPopUp";
+import { useSelector, useDispatch } from "react-redux";
+import { setLoginDetails } from "../../useRedux/userActions";
+import { setLoggoedUser } from "../../useRedux/user";
+
 
 function userProfile() {
-    const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
-  const userDetails = useSelector((state) => state.user.userInfo.user);
-  console.log("userDetails1234567:", userDetails);
+  const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
+  const userDetails = useSelector(state => state.loggedUser.currentUser);
+  const dispatch = useDispatch();
+  
 
   const handleEditProfile = () => {
     setIsEditProfileOpen(true);
@@ -29,8 +34,61 @@ function userProfile() {
     setIsEditProfileOpen(false);
   };
 
+  // const updateUserProfileInBackend = async (updatedProfile) => {
+  //   console.log("revised", updatedProfile);
+  //   try {
+  //     const response = await axios.post(
+  //       "http://localhost:3001/updateUser",
+  //       updatedProfile
+  //     );
+  //     console.log(response.data,"from backend");
+  //     dispatch(setLoggoedUser(response.data.updatedUser));
+  //     return response.data;
+  //   } catch (error) {
+  //     throw error;
+  //   }
+  // };
+
+  const updateUserProfileInBackend = async (updatedProfile) => {
+    console.log("revised", updatedProfile);
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.post(
+        "http://localhost:3001/updateUser",
+        updatedProfile,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(response.data, "from backend");
+      dispatch(setLoggoedUser(response.data.updatedUser));
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  };
+  
+
+  const handleSaveProfile = async (updatedProfile) => {
+    try {
+      const updatedUser = await updateUserProfileInBackend(updatedProfile);
+      console.log("keri", updatedProfile);
+      dispatch(setLoginDetails(updatedUser));
+
+      handleCloseEditProfile();
+    } catch (error) {
+      console.log("Error:", error);
+    }
+  };
+
+
+ 
+
+
   return (
-    <section className="vh-100 section-user-profile light-grey-bg" >
+    <section className="vh-100 section-user-profile light-grey-bg">
       <ResponsiveAppBar role={"user"} />
       <MDBContainer className="py-5 h-100">
         <MDBRow className="justify-content-center align-items-center h-100">
@@ -54,12 +112,22 @@ function userProfile() {
                   />
                   <MDBTypography tag="h5">{userDetails.name}</MDBTypography>
                   <MDBCardText>{userDetails.role}</MDBCardText>
-                  <MDBBtn outline color="light" className="mb-5" onClick={handleEditProfile}>
+                  <MDBBtn
+                    outline
+                    color="light"
+                    className="mb-5"
+                    onClick={handleEditProfile}
+                  >
                     Edit profile
                   </MDBBtn>
                   {isEditProfileOpen && (
-        <EditProfilePopup isOpen={isEditProfileOpen} onClose={handleCloseEditProfile} />
-      )}
+                    <EditProfilePopup
+                      isOpen={isEditProfileOpen}
+                      onClose={handleCloseEditProfile}
+                      userDetails={userDetails}
+                      onSaveProfile={handleSaveProfile}
+                    />
+                  )}
                 </MDBCol>
                 <MDBCol md="8">
                   <MDBCardBody className="p-4">
@@ -103,5 +171,3 @@ function userProfile() {
 }
 
 export default userProfile;
-
-

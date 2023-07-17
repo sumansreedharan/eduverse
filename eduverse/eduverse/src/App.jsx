@@ -7,6 +7,8 @@ import UserHome from './userSide/userHome/userHome'
 import AdminHome from './adminSide/adminHome/adminHome'
 import MentorHome from './mentorSide/mentorHome/mentorHome'
 import UserProfile from './userSide/userProfile/userProfile'
+import UserManage from './adminSide/userManage/userManage'
+import MentorManage from "./adminSide/mentorManage/mentorManage"
 
 const App = () => {
   return (
@@ -18,6 +20,8 @@ const App = () => {
          <Route path = "/login" element={<Login />} />
          <Route path="/userHome" element={<UserHome />} />
          <Route path="/admin/adminHome" element={<AdminHome />} />
+         <Route path="/admin/userManage" element={<UserManage />} />
+         <Route path="/admin/mentorManage" element={<MentorManage />} />
          <Route path="/mentorHome" element={<MentorHome />} />
          <Route path="/userProfile" element={<UserProfile />} />
         </Routes>

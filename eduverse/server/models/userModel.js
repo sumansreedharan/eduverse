@@ -22,9 +22,9 @@ const userSchema = new mongoose.Schema({
         default:"user"
 
     },
-    status:{
+    blocked:{
         type:Boolean,
-        default:true
+        default:false
     },
     profileImage:{
         type:String,

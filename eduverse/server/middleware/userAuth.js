@@ -1,16 +1,17 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/userModel");
 
-async function AdminAuth(req, res, next) {
+async function UserAuth(req, res, next) {
   try {
     const token = req.headers.authorization.split(" ")[1];
     const decoded = jwt.verify(token, process.env.COMMON_SECRET_KEY);
+
     const { id } = decoded;
-    const admin = await User.findById(id);
-    if (admin) {
-      req.admin = admin;
+    const user = await User.findById(id);
+    if (user) {
+      req.user = user;
       // Check if user is a regular user
-      if (admin.role === "admin") {
+      if (user.role === "user") {
         next();
       } else {
         res.json({ status: "error", message: "Unauthorized" });
@@ -24,4 +25,4 @@ async function AdminAuth(req, res, next) {
   }
 }
 
-module.exports = AdminAuth;
+module.exports = UserAuth;

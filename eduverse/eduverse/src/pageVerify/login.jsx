@@ -1,9 +1,13 @@
-import React, {useState} from 'react';
-import axios from "axios"
-import "./login.scss"
-import {useNavigate} from "react-router-dom"
-import  {setLoginDetails}  from '../useRedux/userActions';
-import { useDispatch } from 'react-redux';
+
+import React, { useState } from "react";
+import axios from "axios";
+import "./login.scss";
+import { useNavigate } from "react-router-dom";
+import { setLoginDetails } from "../useRedux/userActions";
+import { useDispatch } from "react-redux";
+import Logo from "../assets/edu.png";
+import Demo from "../assets/smart.png";
+
 import {
   MDBBtn,
   MDBContainer,
@@ -13,69 +17,83 @@ import {
   MDBCardBody,
   MDBInput,
   MDBIcon,
-  MDBCheckbox
-}
-from 'mdb-react-ui-kit';
+  MDBCheckbox,
+} from "mdb-react-ui-kit";
+import { setLoggoedUser } from "../useRedux/user";
 
 function Login() {
-  const [email,setEmail] =  useState("")
-  const [password,setPassword] = useState("");
-  const [errorMessage,setErrorMessage] = useState("")
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
-  const handleLogin = async(e) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [blockedMessage, setBlockedMessage] = useState("");
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:3001/api/login",{
+      const response = await axios.post("http://localhost:3001/api/login", {
         email,
         password,
       });
-      const {status,token,role,user} = response.data;
-      if(status==="ok"){
-        localStorage.setItem("token",token)
-        localStorage.setItem("role",role)
+      const { status, message, token, role, user } = response.data;
+
+      if (status === "ok") {
+        localStorage.setItem("token", token);
+        localStorage.setItem("role", role);
         console.log("User details:", user);
         dispatch(setLoginDetails(user));
-        console.log("dispatched details",user);
+        dispatch(setLoggoedUser(response.data.user));
+        console.log("dispatched details", user);
 
-        if(role==="admin"){
+        if (role === "admin") {
           console.log("redirected to admin page");
-          navigate('/admin/adminHome')
-        }else if(role==="mentor"){
+          navigate("/admin/adminHome");
+        } else if (role === "mentor") {
           console.log("redirected into mentor page");
-          navigate('/mentorHome')
-        }else{
+          navigate("/mentorHome");
+        } else {
           console.log("entered into users home");
-          navigate('/userHome')
+          navigate("/userHome");
         }
-      }else{
-        setErrorMessage("user not exist")
+      } else if (status === "blocked") {
+        setBlockedMessage(message);
+      } else {
+        setErrorMessage("User does not exist");
       }
     } catch (error) {
       console.log(error);
-      setErrorMessage("An error message occurred")
+      setErrorMessage("An error occurred");
     }
-  }
+  };
 
   return (
     <MDBContainer fluid>
       <MDBRow className="d-flex justify-content-center align-items-center the-body">
-        <MDBCol col="12">
+        <MDBCol col="12" lg="6" className="quote-col">
+          <div className="image-container">
+            <img src={Demo} alt="Education" className="education-image" />
+          </div>
+        </MDBCol>
+        <MDBCol col="12" lg="6">
           <MDBCard
             className="bg-white my-5 mx-auto"
             style={{ borderRadius: "1rem", maxWidth: "500px" }}
           >
             <MDBCardBody className="p-5 w-100 d-flex flex-column">
-              <h2 className="fw-bold mb-2 text-center">Sign in</h2>
-              <p className="text-white-50 mb-3">
-                Please enter your login and password!
-              </p>
-  
+              <div className="logo-container">
+                <img src={Logo} alt="Logo" className="logo" />
+              </div>
+              <h2 className="fw-bold mb-2 text-center">Log in</h2>
               <form onSubmit={handleLogin}>
                 {errorMessage && (
                   <p className="error-message">{errorMessage}</p>
                 )}
-  
+
+                {blockedMessage && (
+                  <p className="error-message">{blockedMessage}</p>
+                )}
+
                 <div className="mb-4 w-100">
                   <label htmlFor="email" className="form-label">
                     Email address
@@ -89,7 +107,7 @@ function Login() {
                     onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
-  
+
                 <div className="mb-4 w-100">
                   <label htmlFor="password" className="form-label">
                     Password
@@ -103,12 +121,11 @@ function Login() {
                     onChange={(e) => setPassword(e.target.value)}
                   />
                 </div>
-  
-                <MDBBtn size="lg" type="submit">
+
+                <MDBBtn className="login-button" size="lg" type="submit">
                   Login
                 </MDBBtn>
               </form>
-  
               <hr className="my-4" />
             </MDBCardBody>
           </MDBCard>
@@ -116,8 +133,6 @@ function Login() {
       </MDBRow>
     </MDBContainer>
   );
-  
-  
 }
 
 export default Login;

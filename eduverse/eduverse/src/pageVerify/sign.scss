@@ -1,3 +1,35 @@
 .the-body {
-  background-color: #508bfc;
+  background-color: #3498db;
+
+  .reg-button {
+    display: block;
+    margin: 0 auto;
+    background-color: #3498db;
+  }
+
+  .logo-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  
+  .logo {
+    max-width: 100px;
+    max-height: 100px;
+   
+  }
+
+  .educational-image {
+    width: 30rem;
+    height: 28rem;
+    float: right;
+    margin-top: 15rem;
+  }
+  
+  .error-message {
+    color: red;
+    font-size: 18px;
+    font-weight: 600;
+  }
+  
 }
