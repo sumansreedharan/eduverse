@@ -1,0 +1,61 @@
+
+.course-upload-form {
+    max-width: 600px;
+    margin: 0 auto;
+  
+    h2 {
+      color: #3498db;
+      margin-bottom: 20px;
+    }
+  
+    .form-group {
+      margin-bottom: 20px;
+  
+      label {
+        display: block;
+        font-weight: bold;
+      }
+  
+      input[type="text"],
+      textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 16px;
+      }
+  
+      textarea {
+        height: 150px;
+      }
+  
+      input[type="file"] {
+        display: block;
+      }
+    }
+  
+    .form-buttons {
+      display: flex;
+      justify-content: space-between;
+  
+      button {
+        padding: 10px 20px;
+        font-size: 16px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+  
+      button[type="submit"] {
+        background-color: #3498db;
+        color: #fff;
+      }
+  
+      button[type="button"] {
+        background-color: #848484;
+      }
+      
+    }
+  }
+  
+  

@@ -1,0 +1,68 @@
+/* MentorProfilePage.scss */
+$primary-color: #3498db;
+$secondary-color: #616364;
+$avatar-size: 150px;
+
+.mentor-profile {
+  background-color: #ffffff;
+  padding: 20px;
+}
+
+.mentor-profile__header {
+  text-align: center;
+  margin-bottom: 20px;
+
+  h1 {
+    font-size: 28px;
+    color: $primary-color;
+    margin: 0;
+  }
+}
+
+.mentor-profile__content {
+  display: flex;
+  align-items: center;
+  border: 1px solid #3498db;
+  border-radius: 4px;
+  padding: 20px;
+
+  .mentor-profile__avatar {
+    width: $avatar-size;
+    height: $avatar-size;
+    border-radius: 50%;
+    background-color: $primary-color;
+    margin-right: 20px;
+  }
+
+  .mentor-profile__info {
+    flex: 1;
+
+    h2 {
+      font-size: 24px;
+      color: $primary-color;
+      margin-bottom: 10px;
+    }
+
+    p {
+      color: $secondary-color;
+      margin-bottom: 5px;
+    }
+  }
+
+  .mentor-profile__description {
+    flex: 1;
+
+    h3 {
+      font-size: 20px;
+      color: $primary-color;
+      margin-bottom: 10px;
+    }
+
+    p {
+      color: $secondary-color;
+    }
+  }
+  .edit-profile-btn{
+    border-radius: 4px;
+  }
+}

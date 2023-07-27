@@ -1,0 +1,49 @@
+/* mentorHome.scss */
+$primary-color: #3498db;
+
+.mentor-homepage {
+  background-color: $primary-color;
+  padding: 20px;
+  border-radius: 8px;
+  color: white;
+
+  .mentor-homepage__summary {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+
+    .mentor-homepage__summary-item {
+      text-align: center;
+  
+      h3 {
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+  
+      p {
+        font-size: 24px;
+        margin: 0;
+      }
+    }
+  }
+
+  .mentor-homepage__box {
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    color: $primary-color;
+    margin-bottom: 20px;
+
+    h3 {
+      font-size: 20px;
+      margin-bottom: 5px;
+    }
+
+    p {
+      font-size: 24px;
+      margin: 0;
+    }
+  }
+}

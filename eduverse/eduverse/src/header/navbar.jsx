@@ -14,19 +14,22 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
+import { setLoggoedUser } from "../useRedux/user";
+import { useDispatch, useSelector } from "react-redux";
 
 const pages = {
   user: ["Home", "Categories", "Cart"],
-  admin: ["Mentors", "Courses", "Users", "Coupon", "Reports"],
-  mentor: ["Home", "Earning", "Logout"],
+  admin: ["Mentors", "Courses", "Users", "Categories", "Reports"],
+  mentor: ["Home", "Earning", "Courses"],
 };
 
 const settings = ["Profile", "Logout"];
 
-function ResponsiveAppBar({ role }) {
+function ResponsiveAppBar({role,logoutUser }) {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const navigate = useNavigate();
+  const dispatch = useDispatch()
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -50,7 +53,7 @@ function ResponsiveAppBar({ role }) {
     } else if (role === "admin") {
       navigate("/admin/adminProfile");
     } else if (role === "mentor") {
-      navigate("/mentorProfile");
+      navigate("/mentor/mentorProfile");
     }
     handleCloseUserMenu();
   };
@@ -60,15 +63,26 @@ function ResponsiveAppBar({ role }) {
   //   handleCloseUserMenu();
   // };
 
+  const userDetails = useSelector(state => state.loggedUser.currentUser);
+  console.log(userDetails);
+
+
   const handleLogoutClick = () => {
     localStorage.removeItem("token");
+    dispatch(setLoggoedUser(null));
+    console.log(userDetails);
     navigate("/login");
     handleCloseUserMenu();
   };
 
+
   // const handlePageClick = (page) => {
-  //   if (role === "admin" && page === "Users") {
-  //     navigate("/admin/userManage");
+  //   if (role === "admin") {
+  //     if (page === "Users") {
+  //       navigate("/admin/userManage");
+  //     } else if (page === "Mentors") {
+  //       navigate("/admin/mentorManage");
+  //     }
   //     handleCloseNavMenu();
   //   }
   // };
@@ -77,8 +91,24 @@ function ResponsiveAppBar({ role }) {
     if (role === "admin") {
       if (page === "Users") {
         navigate("/admin/userManage");
-      } else if (page === "Mentors") {
+      }
+      if (page === "Courses") {
+        navigate("/admin/courseView");
+      }
+      if (page === "Categories") {
+        navigate("/admin/categoryList");
+      }
+      if (page === "Mentors") {
         navigate("/admin/mentorManage");
+      }
+      handleCloseNavMenu();
+    }
+    if(role==="mentor"){
+      if (page === "Home") {
+        navigate("/mentor/mentorHome");
+      }
+      if (page === "Courses") {
+        navigate("/mentor/courseManage");
       }
       handleCloseNavMenu();
     }

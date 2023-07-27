@@ -53,9 +53,13 @@ function userProfile() {
     console.log("revised", updatedProfile);
     try {
       const token = localStorage.getItem("token");
-      const response = await axios.post(
+      const formData = new FormData();
+      formData.append('image',updatedProfile.profileImage)
+      formData.append('name',updatedProfile.name)
+      formData.append('mobile',updatedProfile.mobile)
+           const response = await axios.post(
         "http://localhost:3001/updateUser",
-        updatedProfile,
+        formData,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -69,6 +73,10 @@ function userProfile() {
       throw error;
     }
   };
+
+  const logoutUser = ()=>{
+    console.log('Hi Sumaaaaaaaaa');
+  }
   
 
   const handleSaveProfile = async (updatedProfile) => {
@@ -89,7 +97,7 @@ function userProfile() {
 
   return (
     <section className="vh-100 section-user-profile light-grey-bg">
-      <ResponsiveAppBar role={"user"} />
+      <ResponsiveAppBar role={"user"} logoutUser={logoutUser} />
       <MDBContainer className="py-5 h-100">
         <MDBRow className="justify-content-center align-items-center h-100">
           <MDBCol lg="6" className="mb-4 mb-lg-0">
@@ -104,10 +112,10 @@ function userProfile() {
                   }}
                 >
                   <MDBCardImage
-                    src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
-                    alt="Avatar"
+                    src={`http://localhost:3001/images/${userDetails.profileImage}`}
+                    alt="Profile"
                     className="my-5"
-                    style={{ width: "80px" }}
+                    style={{ width: "100px" }}
                     fluid
                   />
                   <MDBTypography tag="h5">{userDetails.name}</MDBTypography>

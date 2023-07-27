@@ -51,7 +51,7 @@ function Login() {
           navigate("/admin/adminHome");
         } else if (role === "mentor") {
           console.log("redirected into mentor page");
-          navigate("/mentorHome");
+          navigate("/mentor/mentorHome");
         } else {
           console.log("entered into users home");
           navigate("/userHome");

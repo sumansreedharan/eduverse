@@ -29,7 +29,6 @@ const fetchTotalCounts = async ()=>{
   return (
     <div className="admin-dashboard">
         <ResponsiveAppBar role={'admin'}/>
-      
       <div className="dashboard-summary">
         <div className="summary-item">
           <h2>Total Users</h2>

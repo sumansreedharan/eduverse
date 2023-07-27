@@ -1,0 +1,54 @@
+
+.category-list-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; 
+  background-color: #c9c9c9; 
+
+  .box {
+    max-width: 800px; 
+    padding: 20px;
+    background-color: #fff; 
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+  }
+
+  .category-form-container {
+    margin-bottom: 30px;
+  }
+
+  .category-list-container {
+    h2 {
+      color: #3498db; /* Blue */
+      margin-bottom: 20px;
+    }
+
+    .category-scroll-container {
+      max-height: 300px; /* Set the maximum height for the container */
+      overflow-y: auto; /* Enable vertical scrollbar when content overflows */
+
+      .category-table {
+        width: 100%;
+        border-collapse: collapse;
+
+        th,
+        td {
+          border: 1px solid #dddddd; 
+          padding: 10px;
+          text-align: left;
+        }
+
+        th {
+          background-color: #646060; 
+        }
+
+        tr:nth-child(even) {
+          background-color: #f2f2f2; 
+        }
+      }
+    }
+  }
+}
+
+  
