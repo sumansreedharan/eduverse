@@ -11,5 +11,10 @@ adminRoute.get("/listUsers",adminController.listUser)
 adminRoute.get("/listMentors",adminController.listMentor)
 adminRoute.put("/blockUser/:id",adminAuth,adminController.blockUnblockUser)
 adminRoute.put("/blockMentor/:id",adminAuth,adminController.blockUnblockMentor)
+adminRoute.get("/getCategories",adminController.fetchCategories)
+adminRoute.post("/addCategories",adminController.addCategory)
+adminRoute.put("/editCategories/:id",adminController.editCategory)
+adminRoute.delete("/deleteCategory/:categoryId",adminController.deleteCategory)
+adminRoute.get("/viewCourses",adminController.courseView)
 
 module.exports = adminRoute

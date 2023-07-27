@@ -3,10 +3,12 @@ const userRoute = express()
 const cors = require("cors");
 const userController = require('../controller/userController')
 const userAuth = require('../middleware/userAuth')
-
-
-userRoute.post("/updateUser",userAuth,userController.updateProfile);
+const {upload} = require('../middleware/fileUpload')
 userRoute.use(cors())
+
+
+userRoute.post("/updateUser",userAuth,upload.single('image'),userController.updateProfile);
+userRoute.get("/listCourses",userController.listCourse)
 
 
 

@@ -33,6 +33,14 @@ const userSchema = new mongoose.Schema({
     otp:{
         type:String,
         default:''
+    },
+    specialization:{
+        type:String,
+        
+    },
+    subscription:{
+        type:Boolean,
+        default:false,
     }
     
 
