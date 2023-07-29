@@ -1,10 +1,56 @@
-/* UserHomePage.scss */
 
-.user-home-page {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    grid-gap: 20px;
-    padding: 20px;
-  }
+.carousel-container {
+  max-width: 65em; /* Set the maximum width of the carousel */
+  margin: 0 auto; /* Center the carousel horizontally */
+}
+
+.slick-slide {
+  padding: 0 10px; /* Add some spacing between slides */
+}
+
+/* Update the .course-card class in courseCard.scss */
+
+.course-card {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+  background-color: #fff;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  height: 220px; /* Reduced height for the card container */
+  overflow: hidden; /* Hide overflowing content */
+}
+
+img {
+  width: 100%;
+  height: 100px; /* Reduced height for the image */
+  object-fit: cover; /* Maintain aspect ratio and cover container */
+  border-radius: 5px 5px 0 0; /* Rounded corners for the top */
+}
+
+h3 {
+  font-size: 16px; /* Reduced font size for the title */
+  margin: 0.5em 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+p {
+  margin: 0.5em 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.course-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
 
   

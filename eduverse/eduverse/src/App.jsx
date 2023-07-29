@@ -13,6 +13,7 @@ import MentorProfile from "./mentorSide/mentorProfile/mentorProfile"
 import CourseManage from "./mentorSide/courseManage/courseManage"
 import CategoryList from "./adminSide/categoryManage/categoryList"
 import CourseView from "./adminSide/mentorManage/courseView"
+import CourseDetails from "./userSide/courseSide/courseDetails"
 
 const App = () => {
   return (
@@ -23,6 +24,7 @@ const App = () => {
          <Route path = "/sign" element={<Signup />} />
          <Route path = "/login" element={<Login />} />
          <Route path="/userHome" element={<UserHome />} />
+         <Route path="/courseDetails/:id" element={<CourseDetails />} />
          <Route path="/admin/adminHome" element={<AdminHome />} />
          <Route path="/admin/userManage" element={<UserManage />} />
          <Route path="/admin/mentorManage" element={<MentorManage />} />

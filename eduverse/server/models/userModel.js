@@ -41,7 +41,13 @@ const userSchema = new mongoose.Schema({
     subscription:{
         type:Boolean,
         default:false,
-    }
+    },
+    purchasedCourses: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Payment",
+        },
+      ],
     
 
 })

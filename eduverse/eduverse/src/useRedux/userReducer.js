@@ -71,11 +71,6 @@ const initialState = {
 const userReducer = createReducer(initialState, (builder) => {
   builder.addCase(setLoginDetails, (state, action) => {
     state.userInfo =  action.payload
-    // const { user, role } = action.payload;
-    // console.log('DetailsRedux:', user, role);
-    // console.log('Current state:', state);
-    // console.log('Updated state:', { ...state, [role]: user });
-    // return { ...state};
   });
 });
 

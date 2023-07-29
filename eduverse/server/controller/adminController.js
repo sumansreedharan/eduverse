@@ -119,8 +119,8 @@ const editCategory = async (req, res) => {
     const updatedCategory = await category.save();
     res.status(200).json(updatedCategory);
   } catch (error) {
-    console.error('Error editing category:', error);
-    res.status(500).json({ error: 'Failed to edit category' });
+    console.error("Error editing category:", error);
+    res.status(500).json({ error: "Failed to edit category" });
   }
 };
 
@@ -131,16 +131,15 @@ const deleteCategory = async (req, res) => {
     const deletedCategory = await Category.findByIdAndRemove(categoryId);
 
     if (!deletedCategory) {
-      return res.status(404).json({ error: 'Category not found' });
+      return res.status(404).json({ error: "Category not found" });
     }
 
     res.status(200).json(deletedCategory);
   } catch (error) {
-    console.error('Error deleting category:', error);
-    res.status(500).json({ error: 'Failed to delete category' });
+    console.error("Error deleting category:", error);
+    res.status(500).json({ error: "Failed to delete category" });
   }
 };
-
 
 // const courseView = async (req, res) => {
 //   try {
@@ -160,7 +159,6 @@ const courseView = async (req, res) => {
     res.status(500).json({ error: "Failed to fetch courses" });
   }
 };
-
 
 module.exports = {
   getCounts,

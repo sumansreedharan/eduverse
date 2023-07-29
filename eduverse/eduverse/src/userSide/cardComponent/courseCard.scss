@@ -1,4 +1,50 @@
 
+// .course-card {
+//   border: 1px solid #ddd;
+//   border-radius: 5px;
+//   padding: 10px;
+//   background-color: #fff;
+//   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+//   flex: 1 0 250px;
+//   margin: 10px;
+//   display: flex;
+//   flex-direction: column;
+// }
+
+// img {
+//   width: 100%;
+//   //  max-height: 200px;/* Set the maximum height of the image */
+//   object-fit: cover; /* Maintain aspect ratio and cover container */
+//   border-radius: 5px 5px 0 0; /* Rounded corners for the top */
+// }
+
+// h3 {
+//   font-size: 18px;
+//   margin: 0.5em 0;
+// }
+
+// p {
+//   margin: 0.5em 0;
+// }
+
+// .course-details {
+//   flex: 1; /* Allow the details to occupy remaining space */
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: space-between;
+// }
+
+// .course-name {
+//   font-weight: bold;
+// }
+
+// .course-price {
+//   color: #007bff;
+//   font-weight: bold;
+// }
+
+/* courseCard.scss */
+
 .course-card {
   border: 1px solid #ddd;
   border-radius: 5px;
@@ -9,11 +55,13 @@
   margin: 10px;
   display: flex;
   flex-direction: column;
+  height: 250px; /* Set a fixed height for the card container */
+  overflow: hidden; /* Hide overflowing content */
 }
 
 img {
   width: 100%;
-  //  max-height: 200px;/* Set the maximum height of the image */
+  height: 150px; /* Set a fixed height for the image */
   object-fit: cover; /* Maintain aspect ratio and cover container */
   border-radius: 5px 5px 0 0; /* Rounded corners for the top */
 }
@@ -21,10 +69,16 @@ img {
 h3 {
   font-size: 18px;
   margin: 0.5em 0;
+  white-space: nowrap; /* Prevent title from wrapping */
+  overflow: hidden; /* Hide overflowing title */
+  text-overflow: ellipsis; /* Add ellipsis when title overflows */
 }
 
 p {
   margin: 0.5em 0;
+  white-space: nowrap; /* Prevent content from wrapping */
+  overflow: hidden; /* Hide overflowing content */
+  text-overflow: ellipsis; /* Add ellipsis when content overflows */
 }
 
 .course-details {
@@ -34,14 +88,6 @@ p {
   justify-content: space-between;
 }
 
-.course-name {
-  font-weight: bold;
-}
-
-.course-price {
-  color: #007bff;
-  font-weight: bold;
-}
 
 
 

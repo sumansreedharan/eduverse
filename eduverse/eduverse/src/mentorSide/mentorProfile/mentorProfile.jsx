@@ -70,10 +70,7 @@ const MentorProfilePage = () => {
         <div className="mentor-profile__description">
           <h3>About Me</h3>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer
-            quis odio nec arcu consequat tincidunt. Proin efficitur eleifend
-            mauris, at semper nulla tincidunt ut. Sed pharetra mi a turpis
-            fringilla dignissim. Aliquam id ultricies mi.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
           </p>
           <button className="edit-profile-btn" onClick={handleEditProfile}>
             Edit Profile
