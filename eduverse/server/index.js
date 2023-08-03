@@ -14,7 +14,7 @@ app.use(express.json())
 app.use(express.static(path.join(__dirname,"public")))
 
 app.use('/',allRoutes)
-app.use('/',userRoute)
+app.use('/user',userRoute)
 app.use('/admin',adminRoute)
 app.use('/mentor',mentorRoute)
 
