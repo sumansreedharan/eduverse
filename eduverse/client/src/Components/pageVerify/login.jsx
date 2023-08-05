@@ -5,6 +5,7 @@ import "./login.scss";
 import { useNavigate } from "react-router-dom";
 import { setLoginDetails } from "../useRedux/userActions";
 import { useDispatch } from "react-redux";
+import {IS_ADMIN,IS_MENTOR,IS_USER} from '../../Constants/roles'
 import Logo from "../../assets/edu.png";
 import Demo from "../../assets/smart.png";
 
@@ -46,10 +47,10 @@ function Login() {
         dispatch(setLoggoedUser(response.data.user));
         console.log("dispatched details", user);
 
-        if (role === "admin") {
+        if (role === IS_ADMIN) {
           console.log("redirected to admin page");
           navigate("/admin/adminHome");
-        } else if (role === "mentor") {
+        } else if (role === IS_MENTOR) {
           console.log("redirected into mentor page");
           navigate("/mentor/mentorHome");
         } else {
@@ -68,7 +69,8 @@ function Login() {
   };
 
   return (
-    <MDBContainer fluid>
+    <div>
+      <MDBContainer fluid>
       <MDBRow className="d-flex justify-content-center align-items-center the-body">
         <MDBCol col="12" lg="6" className="quote-col">
           <div className="image-container">
@@ -132,6 +134,7 @@ function Login() {
         </MDBCol>
       </MDBRow>
     </MDBContainer>
+    </div>
   );
 }
 

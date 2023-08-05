@@ -7,10 +7,16 @@ const EditCategoryModal = ({ category, onClose, onUpdateCategory }) => {
 
   const handleUpdateCategory = async () => {
     try {
+      const token = localStorage.getItem("token");
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
       const updatedCategory = { ...category, name: updatedName.toUpperCase() };
       const response = await axios.put(
         `/admin/editCategories/${category._id}`,
-        updatedCategory
+        updatedCategory,config
       );
       onUpdateCategory(response.data);
       console.log(response.data,"cccccc");

@@ -2,6 +2,7 @@ import React, {useEffect,useState} from 'react';
 import axios from "../../../Config/axios"
 import ResponsiveAppBar from "../../header/navbar"
 import "./adminHome.scss"
+import api from '../../../Config/axios';
 
 function AdminHomePage() {
   const [totalUsers,setTotalUsers] = useState(0)
@@ -14,7 +15,7 @@ useEffect(()=>{
 
 const fetchTotalCounts = async ()=>{
   try {
-    const response = await axios.get('/admin/totalCounts');
+    const response = await api.get('/admin/totalCounts');
     console.log("admin home response",response);
     const { totalUsers,totalMentors} = response.data
     setTotalUsers(totalUsers)
@@ -27,8 +28,9 @@ const fetchTotalCounts = async ()=>{
 
 
   return (
-    <div className="admin-dashboard">
-        <ResponsiveAppBar role={'admin'}/>
+  <div>
+    <ResponsiveAppBar role={'admin'}/>
+      <div className="admin-dashboard">
       <div className="dashboard-summary">
         <div className="summary-item">
           <h2>Total Users</h2>
@@ -44,6 +46,7 @@ const fetchTotalCounts = async ()=>{
         </div>
       </div>
     </div>
+  </div>
   );
 }
 

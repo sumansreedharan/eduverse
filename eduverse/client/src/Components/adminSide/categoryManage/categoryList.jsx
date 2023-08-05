@@ -36,7 +36,13 @@ const CategoryListPage = () => {
 
   const handleDeleteCategory = async(categoryId)=>{
     try {
-      const response = await axios.delete(`/admin/deleteCategory/${categoryId}`)
+      const token = localStorage.getItem("token");
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      const response = await axios.delete(`/admin/deleteCategory/${categoryId}`,config)
       setCategories((prevCategories)=>[...prevCategories.filter((category)=>category._id !==categoryId)])
     } catch (error) {
       console.error('Error deleting category:', error);
@@ -78,8 +84,15 @@ const CategoryListPage = () => {
                       <td>
                         {/* Add edit and delete buttons here */}
                         {/* For example: */}
-                        <button  onClick={() => handleEditCategory(category)}>Edit</button>
-                        <button onClick={() => handleDeleteCategory(category._id)}>Delete</button>
+                        {/* <button  onClick={() => handleEditCategory(category)}>Edit</button>
+                        <button onClick={() => handleDeleteCategory(category._id)}>Delete</button> */}
+                        <button onClick={() => handleEditCategory(category)} className="custom-button">
+  Edit
+</button>
+<button onClick={() => handleDeleteCategory(category._id)} className="custom-button">
+  Delete
+</button>
+
                       </td>
                     </tr>
                   ))}

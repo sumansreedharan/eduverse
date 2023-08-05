@@ -3,11 +3,12 @@ const Category = require("../models/categoryModel");
 const Course = require("../models/courseModel");
 const jwt = require("jsonwebtoken");
 const mongoose = require("mongoose");
+const {IS_ADMIN,IS_MENTOR,IS_USER} = require('../Constants/roles')
 
 const getCounts = async (req, res) => {
   try {
-    const totalUsers = await User.countDocuments({ role: "user" });
-    const totalMentors = await User.countDocuments({ role: "mentor" });
+    const totalUsers = await User.countDocuments({ role: IS_USER });
+    const totalMentors = await User.countDocuments({ role: IS_MENTOR });
 
     return res.json({ totalMentors, totalUsers });
   } catch (error) {
@@ -17,7 +18,7 @@ const getCounts = async (req, res) => {
 
 const listUser = async (req, res) => {
   try {
-    const users = await User.find({ role: "user" });
+    const users = await User.find({ role: IS_USER });
     res.json(users);
   } catch (error) {
     console.log(error);
@@ -44,7 +45,7 @@ const blockUnblockUser = async (req, res) => {
 
 const listMentor = async (req, res) => {
   try {
-    const mentors = await User.find({ role: "mentor" });
+    const mentors = await User.find({ role: IS_MENTOR });
 
     res.json(mentors);
   } catch (error) {

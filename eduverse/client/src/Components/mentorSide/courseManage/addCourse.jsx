@@ -22,7 +22,7 @@ const CourseUploadForm = ({ onCourseAdded, onCancel }) => {
         "/mentor/getCategories"
       );
       setCategories(response.data);
-      console.log(response.data,"qwertyuio");
+      console.log(response.data);
     } catch (error) {
       console.log("error to get categories", error);
     }
@@ -39,7 +39,7 @@ const CourseUploadForm = ({ onCourseAdded, onCancel }) => {
   };
 
   const handleSubmit = async (event) => {
-    console.log(paid,'course pasishjfhjh');
+    console.log(paid);
     event.preventDefault();
 
     const formData = new FormData();

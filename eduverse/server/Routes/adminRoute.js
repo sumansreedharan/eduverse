@@ -13,8 +13,8 @@ adminRoute.put("/blockUser/:id",adminAuth,adminController.blockUnblockUser)
 adminRoute.put("/blockMentor/:id",adminAuth,adminController.blockUnblockMentor)
 adminRoute.get("/getCategories",adminController.fetchCategories)
 adminRoute.post("/addCategories",adminController.addCategory)
-adminRoute.put("/editCategories/:id",adminController.editCategory)
-adminRoute.delete("/deleteCategory/:categoryId",adminController.deleteCategory)
+adminRoute.put("/editCategories/:id",adminAuth,adminController.editCategory)
+adminRoute.delete("/deleteCategory/:categoryId",adminAuth,adminController.deleteCategory)
 adminRoute.get("/viewCourses",adminController.courseView)
 
 module.exports = adminRoute

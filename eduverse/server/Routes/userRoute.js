@@ -8,7 +8,7 @@ userRoute.use(cors())
 
 
 userRoute.post("/updateUser",userAuth,upload.single('image'),userController.updateProfile);
-userRoute.get("/listCourses",userController.listCourse)
+userRoute.get("/listCourses",userAuth,userController.listCourse)
 userRoute.get("/userCourseView/:id",userController.userCourseView)
 userRoute.post("/createOrder",userController.createOrder)
 userRoute.post('/orderSuccess',userController.OrderSuccess);

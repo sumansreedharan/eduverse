@@ -54,8 +54,9 @@ const MentorList = () =>{
       };
 
     return (
-        <div className="table-container">
-          <ResponsiveAppBar role={"admin"} />
+  <div>
+    <ResponsiveAppBar role={"admin"} />
+          <div className="table-container" style={{marginTop:'2em',backgroundColor:'#c7c7c7'}}>
           <br />
           <h1 className="user-management">MENTOR MANAGEMENT</h1>
           <table>
@@ -101,6 +102,7 @@ const MentorList = () =>{
             </tbody>
           </table>
         </div>
+  </div>
       );
 
 }

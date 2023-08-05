@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/userModel");
+const { IS_ADMIN } = require('../Constants/roles')
 
 async function AdminAuth(req, res, next) {
   try {
@@ -10,7 +11,7 @@ async function AdminAuth(req, res, next) {
     if (admin) {
       req.admin = admin;
       // Check if user is a regular user
-      if (admin.role === "admin") {
+      if (admin.role === IS_ADMIN) {
         next();
       } else {
         res.json({ status: "error", message: "Unauthorized" });

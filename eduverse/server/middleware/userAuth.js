@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/userModel");
+const {IS_USER} = require('../Constants/roles')
 
 async function UserAuth(req, res, next) {
   try {
@@ -11,7 +12,7 @@ async function UserAuth(req, res, next) {
     if (user) {
       req.user = user;
       // Check if user is a regular user
-      if (user.role === "user") {
+      if (user.role === IS_USER) {
         next();
       } else {
         res.json({ status: "error", message: "Unauthorized" });

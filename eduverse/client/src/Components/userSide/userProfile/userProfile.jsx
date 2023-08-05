@@ -75,7 +75,7 @@ function userProfile() {
   };
 
   const logoutUser = ()=>{
-    console.log('Hi Sumaaaaaaaaa');
+    console.log('logout');
   }
   
 

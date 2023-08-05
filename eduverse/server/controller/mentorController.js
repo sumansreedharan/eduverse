@@ -2,10 +2,11 @@ const User = require("../models/userModel");
 const Course = require("../models/courseModel")
 const Category = require("../models/categoryModel")
 const jwt = require("jsonwebtoken");
+const {IS_USER} = require('../Constants/roles')
 
 const getLearners = async(req,res)=>{
     try {
-        const totalLearners = await User.countDocuments({role:"user"})
+        const totalLearners = await User.countDocuments({role:IS_USER})
         return res.json({totalLearners})
     } catch (error) {
        console.log(error);

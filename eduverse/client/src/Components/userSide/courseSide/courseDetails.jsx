@@ -106,7 +106,6 @@ const CourseDetails = () => {
 
   const handleProceedToPay = async () => {
     try {
-      
       const response = await axios.post("/user/createOrder", {
         courseId: id,
         amount: course.price * 100,

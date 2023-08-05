@@ -16,7 +16,13 @@ const CourseListPage = () => {
 
   const fetchCourses = async () => {
     try {
-      const response = await axios.get('/mentor/getCourses');
+      const token = localStorage.getItem("token");
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      const response = await axios.get('/mentor/getCourses',config);
       setCourses(response.data);
       console.log(response.data,"etheerkaan surthukkale");
     } catch (error) {
@@ -37,7 +43,13 @@ const CourseListPage = () => {
 
   const handleDeleteCourse = async(courseId)=>{
     try {
-      const response = await axios.delete(`/mentor/deleteCourse/${courseId}`)
+      const token = localStorage.getItem("token");
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      const response = await axios.delete(`/mentor/deleteCourse/${courseId}`,config)
       setCourses((prevCourses)=>[...prevCourses.filter((course)=>course._id !==courseId)])
     } catch (error) {
       console.log("error deleting course",error);

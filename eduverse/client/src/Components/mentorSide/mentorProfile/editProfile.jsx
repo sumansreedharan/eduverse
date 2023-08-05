@@ -1,26 +1,30 @@
+import React, { useState } from "react";
+import "./editProfile.scss";
 
-import React, { useState } from 'react';
-import './editProfile.scss';
-
-const EditProfileModal = ({ handleCloseModal,isOpen,onSaveProfile,userDetails }) => {
+const EditProfileModal = ({
+  handleCloseModal,
+  isOpen,
+  onSaveProfile,
+  userDetails,
+}) => {
   const [name, setName] = useState(userDetails.name);
   const [email, setEmail] = useState(userDetails.email);
   const [contact, setContact] = useState(userDetails.mobile);
-  const [specialization,setSpecialization] = useState()
-  const [image,setImage] = useState(userDetails.profileImage)
+  const [specialization, setSpecialization] = useState();
+  const [image, setImage] = useState(userDetails.profileImage);
   // const [avatar, setAvatar] = useState('');
 
   const handleSaveChanges = () => {
     const updatedProfile = {
-      userId:userDetails._id,
+      userId: userDetails._id,
       name,
       email,
       contact,
       specialization,
-      profileImage:image,
-    }
+      profileImage: image,
+    };
     // handleCloseModal();
-    onSaveProfile(updatedProfile)
+    onSaveProfile(updatedProfile);
   };
 
   // const handleAvatarChange = (event) => {
@@ -42,7 +46,11 @@ const EditProfileModal = ({ handleCloseModal,isOpen,onSaveProfile,userDetails })
   };
 
   return (
-    <div show={isOpen.toString()} onHide={handleCloseModal} className="edit-profile-modal">
+    <div
+      show={isOpen.toString()}
+      onHide={handleCloseModal}
+      className="edit-profile-modal"
+    >
       <div className="edit-profile-modal__content">
         <h2>Edit Profile</h2>
         <form>
@@ -83,9 +91,9 @@ const EditProfileModal = ({ handleCloseModal,isOpen,onSaveProfile,userDetails })
             />
           </div>
           <div className="form-group">
-          <label htmlFor="image" className="form-label">
-          Profile Image
-        </label>
+            <label htmlFor="image" className="form-label">
+              Profile Image
+            </label>
             <input
               type="file"
               id="avatar"
@@ -95,10 +103,34 @@ const EditProfileModal = ({ handleCloseModal,isOpen,onSaveProfile,userDetails })
           </div>
         </form>
         <div className="edit-profile-modal__actions">
-          <button className="cancel-btn" onClick={handleCloseModal}>
+          <button
+            className="canceled-btn"
+            style={{
+              backgroundColor: "#3498db",
+              color: "#ffffff",
+              padding: "8px 12px",
+              borderRadius: "4px",
+              border: "none",
+              cursor: "pointer",
+              marginRight: "10px"
+            }}
+            onClick={handleCloseModal}
+          >
             Cancel
           </button>
-          <button className="save-btn" onClick={handleSaveChanges}>
+          <button
+            className="saved-btn"
+            style={{
+              backgroundColor: "#3498db",
+              color: "#ffffff",
+              padding: "8px 12px",
+              borderRadius: "4px",
+              border: "none",
+              cursor: "pointer",
+              marginRight: "10px"
+            }}
+            onClick={handleSaveChanges}
+          >
             Save Changes
           </button>
         </div>
@@ -108,4 +140,3 @@ const EditProfileModal = ({ handleCloseModal,isOpen,onSaveProfile,userDetails })
 };
 
 export default EditProfileModal;
-

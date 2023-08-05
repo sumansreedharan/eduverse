@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/userModel");
+const {IS_MENTOR} = require('../Constants/roles')
 
 async function MentorAuth(req, res, next) {
   try {
@@ -10,7 +11,7 @@ async function MentorAuth(req, res, next) {
     const user = await User.findById(id);
     if (user) {
       req.user = user;
-      if (user.role === "mentor") {
+      if (user.role === IS_MENTOR) {
         console.log("Mentor role");
         next();
       } else {

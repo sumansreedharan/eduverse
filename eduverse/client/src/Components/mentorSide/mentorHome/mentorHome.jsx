@@ -12,7 +12,13 @@ useEffect(()=>{
 
 const fetchTotalLearners = async ()=>{
   try {
-    const response = await axios.get('/mentor/getLearners');
+    const token = localStorage.getItem("token");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const response = await axios.get('/mentor/getLearners',config);
     const {totalLearners} = response.data
     setTotalLearners(totalLearners)
 

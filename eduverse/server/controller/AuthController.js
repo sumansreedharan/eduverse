@@ -2,6 +2,7 @@ const User = require("../models/userModel");
 const jwt = require("jsonwebtoken");
 // const otpGenerator = require('otp-generator');
 const nodemailer = require('nodemailer');
+const {IS_ADMIN,IS_MENTOR,IS_USER} = require('../Constants/roles')
 
 require('dotenv').config()
 
@@ -139,9 +140,9 @@ const methodLogin = async (req, res) => {
       const token = jwt.sign({ id: user._id },process.env.COMMON_SECRET_KEY);
       let role = "";
 
-      if (user.role === "admin") {
+      if (user.role === IS_ADMIN) {
         role = "admin";
-      } else if (user.role === "mentor") {
+      } else if (user.role === IS_MENTOR) {
         role = "mentor";
       } else {
         role = user;
