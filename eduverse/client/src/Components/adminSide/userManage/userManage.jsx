@@ -294,27 +294,44 @@ const UserList = () => {
     }
   };
 
-  const toggleBlock = async (id) => {
-    try {
-      const token = localStorage.getItem("token");
-      const config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      };
-      await axios.put(`/admin/blockUser/${id}`, null, config);
-      setUsers((prevUsers) =>
-        prevUsers.map((user) => {
-          if (user._id === id) {
-            return { ...user, blocked: !user.blocked };
-          }
-          return user;
-        })
-      );
-    } catch (error) {
-      console.log("Error toggling block", error);
-    }
-  };
+  // const toggleBlock = async (id) => {
+  //   try {
+  //     const token = localStorage.getItem("token");
+  //     const config = {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //     };
+  //     await axios.put(`/admin/blockUser/${id}`, null, config);
+  //     setUsers((prevUsers) =>
+  //       prevUsers.map((user) => {
+  //         if (user._id === id) {
+  //           return { ...user, blocked: !user.blocked };
+  //         }
+  //         return user;
+  //       })
+  //     );
+  //   } catch (error) {
+  //     console.log("Error toggling block", error);
+  //   }
+  // };
+
+  
+const toggleBlock = async (id) => {
+  try {
+    await axios.put(`/admin/blockUser/${id}`, null);
+    setUsers((prevUsers) =>
+      prevUsers.map((user) => {
+        if (user._id === id) {
+          return { ...user, blocked: !user.blocked };
+        }
+        return user;
+      })
+    );
+  } catch (error) {
+    console.log('Error toggling block', error);
+  }
+};
 
   const UserDetails = ({ user }) => {
     return (

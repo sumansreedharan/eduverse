@@ -1,51 +1,56 @@
 const User = require("../models/userModel");
-const Course = require("../models/courseModel")
-const Category = require("../models/categoryModel")
+const Course = require("../models/courseModel");
+const Category = require("../models/categoryModel");
+const Lesson = require("../models/lessonModel");
+const { uploadVideo } = require("../middleware/fileUpload");
 const jwt = require("jsonwebtoken");
-const {IS_USER} = require('../Constants/roles')
+const { IS_USER } = require("../Constants/roles");
 
-const getLearners = async(req,res)=>{
-    try {
-        const totalLearners = await User.countDocuments({role:IS_USER})
-        return res.json({totalLearners})
-    } catch (error) {
-       console.log(error);
+const getLearners = async (req, res) => {
+  try {
+    const totalLearners = await User.countDocuments({ role: IS_USER });
+    return res.json({ totalLearners });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const updateMentorProfile = async (req, res) => {
+  const { userId, name, email, contact, specialization, profileImage } =
+    req.body;
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
     }
-}
+    user.name = name;
+    user.email = email;
+    user.mobile = contact;
+    user.profileImage = profileImage;
+    user.specialization = specialization;
+    const updatedUser = await user.save();
+    res
+      .status(200)
+      .json({ message: "Mentor profile updated successfully", updatedUser });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "cant update the profile" });
+  }
+};
 
-const updateMentorProfile = async(req,res)=>{
-    const {userId,name,email,contact,specialization,profileImage} = req.body;
-    try {
-        const user = await User.findById(userId)
-        if (!user) {
-            return res.status(404).json({ error: "User not found" });
-          }
-          user.name = name;
-          user.email = email;
-          user.mobile = contact;
-          user.profileImage = profileImage
-          user.specialization = specialization
-          const updatedUser = await user.save()
-          res.status(200).json({message:"Mentor profile updated successfully",updatedUser})
-    } catch (error) {
-      console.log(error);
-      res.status(500).json({error: "cant update the profile"})  
-    }
-}
-
-const showCategories = async(req,res)=>{
+const showCategories = async (req, res) => {
   try {
     const categories = await Category.find();
     res.json(categories);
   } catch (error) {
-    console.error('Error fetching categories:', error);
-    res.status(500).json({ error: 'Error fetching categories' });
+    console.error("Error fetching categories:", error);
+    res.status(500).json({ error: "Error fetching categories" });
   }
-}
+};
 
-const createCourse = async(req,res)=>{
+const createCourse = async (req, res) => {
   try {
-    const { title, description, courseType, category, paid,price } = req.body;
+    const { title, description, courseType, category, paid, price } = req.body;
     const newCourse = new Course({
       title,
       description,
@@ -55,14 +60,13 @@ const createCourse = async(req,res)=>{
       price,
       imageUrl: req.file.filename,
     });
-    const savedCourse = await newCourse.save()
-    res.status(201).json(savedCourse)
+    const savedCourse = await newCourse.save();
+    res.status(201).json(savedCourse);
   } catch (error) {
-    console.error('Error adding course:', error);
-    res.status(500).json({ message: 'Failed to add course.' });
+    console.error("Error adding course:", error);
+    res.status(500).json({ message: "Failed to add course." });
   }
-}
-
+};
 
 // const getCourses = async(req,res)=>{
 //   try {
@@ -87,7 +91,7 @@ const getCourses = async (req, res) => {
         },
       },
       {
-        $unwind: "$categoryData", 
+        $unwind: "$categoryData",
       },
       {
         $project: {
@@ -95,7 +99,7 @@ const getCourses = async (req, res) => {
           title: 1,
           description: 1,
           paid: 1,
-          price:1,
+          price: 1,
           imageUrl: 1,
           usersBought: 1,
           createdAt: 1,
@@ -108,31 +112,94 @@ const getCourses = async (req, res) => {
 
     res.status(201).json(courses);
   } catch (error) {
-    console.error('Error fetching courses:', error);
-    res.status(500).json({ message: 'Failed to fetch courses.' });
+    console.error("Error fetching courses:", error);
+    res.status(500).json({ message: "Failed to fetch courses." });
   }
 };
 
-const deleteCourse = async (req,res)=>{
-  const {courseId} = req.params;
-  const deleted = await Course.findByIdAndRemove(courseId)
- try {
-  if(!deleted){
-    return res.status(404).json({ error: "course not found"})
+const deleteCourse = async (req, res) => {
+  const { courseId } = req.params;
+  const deleted = await Course.findByIdAndRemove(courseId);
+  try {
+    if (!deleted) {
+      return res.status(404).json({ error: "course not found" });
+    }
+    res.status(200).json(deleted);
+  } catch (error) {
+    console.log("error deleted category", error);
+    res.status(500).json({ error: "failed to delete category" });
   }
-  res.status(200).json(deleted)
- } catch (error) {
-  console.log("error deleted category",error);
-  res.status(500).json({error:"failed to delete category"})
- }
-}
+};
 
+// const uploadVideo = async(req,res)=>{
+//   try {
+//     const {title,part,description} = req.body
+//     const file = req.files.file
+//     const uploadResponse = await cloudinary.uploader.upload(file.tempFilepath,{
+//       folder: 'video-uploads', // Set your desired folder name
+//       resource_type: 'video',
+//     })
+
+//     const videoUrl = uploadResponse.secure_url
+//     const newLesson = new Lesson({
+//       title,
+//       part,
+//       description,
+//       videoUrl,
+//     });
+//     await newLesson.save()
+//     return res.status(200).json({ message: 'Video uploaded successfully' });
+//   } catch (error) {
+//     console.error('Error uploading video:', error);
+//     return res.status(500).json({ error: 'Error uploading video' });
+//   }
+// }
+
+const processVideo = async (req, res) => {
+  try {
+    const { courseId } = req.params;
+    const { title, part, description } = req.body;
+
+    // The uploaded video URL from the uploadVideoToCloud middleware
+    const videoUrl = req.url;
+
+    // Create a new lesson in the database with the Cloudinary URL
+    const newLesson = new Lesson({
+      title,
+      part,
+      description,
+      videoUrl,
+      course: courseId,
+    });
+    await newLesson.save();
+
+    return res.status(200).json({
+      message: "Video uploaded successfully",
+    });
+  } catch (error) {
+    console.error("Error uploading video:", error);
+    return res.status(500).json({ error: "Error uploading video" });
+  }
+};
+
+const fetchUploadedCourses = async (req, res) => {
+  const courseId = req.params.courseId;
+  try {
+    const courseDetails = await Lesson.find({ course: courseId });
+    res.json(courseDetails);
+  } catch (error) {
+    console.error("Error fetching videos:", error);
+    res.status(500).json({ error: "Error fetching videos" });
+  }
+};
 
 module.exports = {
- getLearners,
- updateMentorProfile,
- showCategories,
- createCourse,
- getCourses,
- deleteCourse,
-}
+  getLearners,
+  updateMentorProfile,
+  showCategories,
+  createCourse,
+  getCourses,
+  deleteCourse,
+  processVideo,
+  fetchUploadedCourses,
+};

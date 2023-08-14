@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
+import {useNavigate} from 'react-router-dom'
 import axios from '../../../Config/axios';
 import CourseUploadForm from './addCourse';
 import ResponsiveAppBar from "../../header/navbar";
@@ -9,6 +10,7 @@ const CourseListPage = () => {
   const [courses, setCourses] = useState([]);
   const [showUploadForm, setShowUploadForm] = useState(false);
   const [updated,setUpdated] = useState(false)
+  const navigate = useNavigate()
 
   useEffect(() => {
     fetchCourses();
@@ -16,13 +18,13 @@ const CourseListPage = () => {
 
   const fetchCourses = async () => {
     try {
-      const token = localStorage.getItem("token");
-      const config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      };
-      const response = await axios.get('/mentor/getCourses',config);
+      // const token = localStorage.getItem("token");
+      // const config = {
+      //   headers: {
+      //     Authorization: `Bearer ${token}`,
+      //   },
+      // };
+      const response = await axios.get('/mentor/getCourses',);
       setCourses(response.data);
       console.log(response.data,"etheerkaan surthukkale");
     } catch (error) {
@@ -41,15 +43,25 @@ const CourseListPage = () => {
     setShowUploadForm(false); // Hide the upload form when the "Cancel" button is clicked
   };
 
+  // const handleView = (courseId) =>{
+  //   navigate(`/mentor/videoUpload/${courseId}`)
+  // }
+
+  const handleView = (courseId) => {
+    console.log('Navigating to video upload page with Course ID:', courseId);
+    navigate(`/mentor/videoUpload/${courseId}`);
+  };
+  
+
   const handleDeleteCourse = async(courseId)=>{
     try {
-      const token = localStorage.getItem("token");
-      const config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      };
-      const response = await axios.delete(`/mentor/deleteCourse/${courseId}`,config)
+      // const token = localStorage.getItem("token");
+      // const config = {
+      //   headers: {
+      //     Authorization: `Bearer ${token}`,
+      //   },
+      // };
+      const response = await axios.delete(`/mentor/deleteCourse/${courseId}`,)
       setCourses((prevCourses)=>[...prevCourses.filter((course)=>course._id !==courseId)])
     } catch (error) {
       console.log("error deleting course",error);
@@ -92,7 +104,9 @@ const CourseListPage = () => {
                 {/* Add edit and delete buttons here */}
                 {/* For example: */}
                 {/* <button>Edit</button> */}
-                <button onClick={()=>handleDeleteCourse(course._id)}>Delete</button>
+                <button>Edit</button>
+                <button onClick={() => handleView(course._id)}>View</button>
+                <button onClick={()=>handleDeleteCourse(course._id)}>Erase</button>
               </td>
             </tr>
           ))}
@@ -104,8 +118,3 @@ const CourseListPage = () => {
 };
 
 export default CourseListPage;
-
-
-
-
-

@@ -57,6 +57,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import Swal from 'sweetalert2';
 import ResponsiveAppBar from "../../header/navbar";
 import axios from "../../../Config/axios"
 import "./courseDetails.scss";
@@ -84,13 +85,19 @@ const CourseDetails = () => {
 
   const handlePaymentSuccess = async (paymentResponse) => {
     try {
-      console.log(order);
       const res = await axios.post("/user/orderSuccess", {
         courseId: id,
         amount: course.price,
         order_id: order,
       });
-      console.log(res.data.status);
+
+      Swal.fire({
+        icon: 'success',
+        title: 'Payment Successful',
+        text: 'Course added to your list',
+        confirmButtonText: 'OK'
+      });
+
     } catch (error) {
       console.log("Payment successful:", paymentResponse);
     }
@@ -112,6 +119,7 @@ const CourseDetails = () => {
         currency: "INR",
       });
       if (response) {
+        console.log(order,"order vanne");
         setOrder(response.data.order.id);
       }
 
@@ -134,7 +142,7 @@ const CourseDetails = () => {
           address: "Customer Address", 
         },
         theme: {
-          color: "#F37254", 
+          color: "#3498db", 
         },
       };
 
@@ -164,14 +172,16 @@ const CourseDetails = () => {
         {/* <hr /> */}
         <div className="course-details-content">
         <h2>What you will learn</h2>
-          <div className="description-box">
-            <p className="course-description">{course.description}</p>
-          </div>
+        <div className="description-box" style={{ maxHeight: "200px", overflowY: "auto" }}>
+          <p className="course-description" style={{ whiteSpace: "pre-wrap" }}>
+            {course.description}
+          </p>
+        </div>
           <p className="course-category">
             This course specified to: {course.category.name}
           </p>
           <p className="course-price">Price: ₹ {course.price}</p>
-          <button onClick={handleProceedToPay}>Proceed to pay</button>
+          <button style={{backgroundColor:'#3498db'}} onClick={handleProceedToPay}>Proceed to pay</button>
         </div>
       </div>
     </div>

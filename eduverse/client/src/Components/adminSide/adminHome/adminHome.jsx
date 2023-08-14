@@ -15,7 +15,7 @@ useEffect(()=>{
 
 const fetchTotalCounts = async ()=>{
   try {
-    const response = await api.get('/admin/totalCounts');
+    const response = await axios.get('/admin/totalCounts');
     console.log("admin home response",response);
     const { totalUsers,totalMentors} = response.data
     setTotalUsers(totalUsers)

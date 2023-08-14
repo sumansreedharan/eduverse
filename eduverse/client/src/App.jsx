@@ -11,9 +11,9 @@ const App = () => {
       <Router>
         <Routes>
           <Route path="/*" element={<AuthRoute />} />
-          <Route path="/user*" element={<UserRoute />} />
-          <Route path="/admin*" element={<AdminRoute />} />
-          <Route path="/mentor*" element={<MentorRoute />} />
+          <Route path="/user/*" element={<UserRoute />} />
+          <Route path="/admin/*" element={<AdminRoute />} />
+          <Route path="/mentor/*" element={<MentorRoute />} />
         </Routes>
       </Router>
     </div>

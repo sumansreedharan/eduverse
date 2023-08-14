@@ -1,4 +1,3 @@
-
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
@@ -18,18 +17,18 @@ import { setLoggoedUser } from "../useRedux/user";
 import { useDispatch, useSelector } from "react-redux";
 
 const pages = {
-  user: ["Home", "Categories", "Cart"],
+  user: ["Home", "Categories", " My courses"],
   admin: ["Mentors", "Courses", "Users", "Categories", "Reports"],
   mentor: ["Home", "Earning", "Courses"],
 };
 
 const settings = ["Profile", "Logout"];
 
-function ResponsiveAppBar({role,logoutUser }) {
+function ResponsiveAppBar({ role, logoutUser }) {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const navigate = useNavigate();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -63,9 +62,8 @@ function ResponsiveAppBar({role,logoutUser }) {
   //   handleCloseUserMenu();
   // };
 
-  const userDetails = useSelector(state => state.loggedUser.currentUser);
+  const userDetails = useSelector((state) => state.loggedUser.currentUser);
   console.log(userDetails);
-
 
   const handleLogoutClick = () => {
     localStorage.removeItem("token");
@@ -74,7 +72,6 @@ function ResponsiveAppBar({role,logoutUser }) {
     navigate("/login");
     handleCloseUserMenu();
   };
-
 
   // const handlePageClick = (page) => {
   //   if (role === "admin") {
@@ -103,7 +100,7 @@ function ResponsiveAppBar({role,logoutUser }) {
       }
       handleCloseNavMenu();
     }
-    if(role==="mentor"){
+    if (role === "mentor") {
       if (page === "Home") {
         navigate("/mentor/mentorHome");
       }
@@ -112,8 +109,14 @@ function ResponsiveAppBar({role,logoutUser }) {
       }
       handleCloseNavMenu();
     }
+
+    if (role === "user") {
+      if (page === "Home") {
+        navigate("/user/userHome");
+      }
+      handleCloseNavMenu();
+    }
   };
-  
 
   const navbarLinks = pages[role] || [];
 
@@ -234,7 +237,9 @@ function ResponsiveAppBar({role,logoutUser }) {
                 <MenuItem
                   key={setting}
                   onClick={
-                    setting === "Profile" ? handleProfileClick : handleLogoutClick
+                    setting === "Profile"
+                      ? handleProfileClick
+                      : handleLogoutClick
                   }
                 >
                   <Typography textAlign="center">{setting}</Typography>
@@ -249,4 +254,3 @@ function ResponsiveAppBar({role,logoutUser }) {
 }
 
 export default ResponsiveAppBar;
-

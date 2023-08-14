@@ -99,13 +99,13 @@ function UserHomePage() {
 
   const fetchCourses = async () => {
     try {
-      const token = localStorage.getItem("token");
-      const config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      };
-      const response = await axios.get("/user/listCourses",config);
+      // const token = localStorage.getItem("token");
+      // const config = {
+      //   headers: {
+      //     Authorization: `Bearer ${token}`,
+      //   },
+      // };
+      const response = await axios.get("/user/listCourses",);
       setCourses(response.data);
     } catch (error) {
       console.error("Error fetching courses:", error);

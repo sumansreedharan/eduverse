@@ -3,16 +3,15 @@ const Course = require("../models/courseModel");
 const Razorpay = require("razorpay");
 const Payment = require("../models/paymentModel");
 const jwt = require("jsonwebtoken");
+require('dotenv').config()
 
 const razorpay = new Razorpay({
-  key_id: "rzp_test_pChQvCOnHtlSse",
-  key_secret: "FpXGRTbRaNxnzz9kh7xgiO3T",
+  key_id: process.env.RAZOR_PAY_ID,
+  key_secret: process.env.RAZOR_PAY_KEY_SECRET,
 });
 
 const updateProfile = async (req, res) => {
   try {
-    console.log(req.file);
-
     const { name, mobile } = req.body;
 
     const user = await User.findById(req.user._id);
@@ -89,6 +88,7 @@ const OrderSuccess = async (req, res) => {
       courseId: courseId,
       paymentDate: new Date(),
     });
+    // console.log(payment);
     await payment.save().then(() => {
       res.json({ status: "ok" });
     });
