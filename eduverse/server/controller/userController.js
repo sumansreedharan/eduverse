@@ -2,8 +2,9 @@ const User = require("../models/userModel");
 const Course = require("../models/courseModel");
 const Razorpay = require("razorpay");
 const Payment = require("../models/paymentModel");
+const Lesson = require("../models/lessonModel");
 const jwt = require("jsonwebtoken");
-require('dotenv').config()
+require("dotenv").config();
 
 const razorpay = new Razorpay({
   key_id: process.env.RAZOR_PAY_ID,
@@ -53,7 +54,10 @@ const userCourseView = async (req, res) => {
   try {
     const { id } = req.params;
     const courseInfo = await Course.findOne({ _id: id }).populate("category");
-    res.json(courseInfo);
+    const mentorDetails = await User.findOne({ _id: courseInfo.mentorId });
+    const lessonDetails = await Lesson.find({course:id}).count()
+    // res.json(courseInfo);
+    res.json({ courseInfo, mentorDetails,lessonDetails });
   } catch (error) {
     console.log("error fetching details");
     res.status(500).json({ error: "failed to fetch cours details" });
@@ -82,10 +86,13 @@ const createOrder = async (req, res) => {
 const OrderSuccess = async (req, res) => {
   try {
     const { amount, order_id, courseId } = req.body;
+    const idInfo = req.userId.id;
+    console.log(idInfo);
     const payment = new Payment({
       amount: amount,
       paymentId: order_id,
       courseId: courseId,
+      userId: idInfo,
       paymentDate: new Date(),
     });
     // console.log(payment);
@@ -98,10 +105,82 @@ const OrderSuccess = async (req, res) => {
   }
 };
 
+const fetchYourCourses = async (req, res) => {
+  try {
+    // console.log('njn backil yathi');
+    const userId = req.params.userId;
+
+    // Fetch purchased courses for the user from the database
+    const purchasedCourses = await Payment.find({ userId: userId }).populate(
+      "courseId"
+    ); // Assuming you have a reference to the Course model in the Purchase schema
+    // .exec();
+
+    res.status(200).json(purchasedCourses);
+  } catch (error) {
+    console.error("Error fetching purchased courses:", error);
+    res.status(500).json({ error: "Failed to fetch purchased courses" });
+  }
+};
+
+// const getCourseDetailsWithVideos = async (req, res) => {
+//   try {
+//     const courseId = req.params.courseId;
+//     const course = await Lesson.find({courseId:course});
+//     console.log(course);
+
+//     if (!course) {
+//       return res.status(404).json({ error: "Course not found" });
+//     }
+
+//     const videos = await UploadedVideo.find({ course: courseId }); // Fetch uploaded videos for the course
+
+//     const courseDetailsWithVideos = {
+//       _id: course._id,
+//       part: course.part,
+//       title: course.title,
+//       description: course.description,
+//       videos: videos, // Attach the videos array to the course details
+//     };
+
+//     res.json(courseDetailsWithVideos);
+//   } catch (error) {
+//     console.error("Error fetching course details:", error);
+//     res.status(500).json({ error: "Failed to fetch course details" });
+//   }
+// };
+
+const getCourseDetailsWithVideos = async (req, res) => {
+  try {
+    const courseId = req.params.courseId;
+
+    const courseDetails = await Lesson.find({ course: courseId });
+    console.log(courseDetails);
+
+    if (!courseDetails) {
+      return res.status(404).json({ error: "Course not found" });
+    }
+    // const courseDetails = {
+    //   _id: course._id,
+    //   part: course.part,
+    //   title: course.title,
+    //   description: course.description,
+    //   videoUrl: course.videoUrl, // Include videoUrl here if you want to
+    // };
+
+    res.status(200).json(courseDetails);
+  } catch (error) {
+    console.error("Error fetching course details:", error);
+    res.status(500).json({ error: "Failed to fetch course details" });
+  }
+};
+
 module.exports = {
   updateProfile,
   listCourse,
   userCourseView,
   createOrder,
   OrderSuccess,
+  fetchYourCourses,
+  getCourseDetailsWithVideos,
 };

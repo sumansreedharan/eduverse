@@ -16,8 +16,9 @@ import AdbIcon from "@mui/icons-material/Adb";
 import { setLoggoedUser } from "../useRedux/user";
 import { useDispatch, useSelector } from "react-redux";
 
+
 const pages = {
-  user: ["Home", "Categories", " My courses"],
+  user: ["Home", "Categories", "Courses"],
   admin: ["Mentors", "Courses", "Users", "Categories", "Reports"],
   mentor: ["Home", "Earning", "Courses"],
 };
@@ -113,6 +114,9 @@ function ResponsiveAppBar({ role, logoutUser }) {
     if (role === "user") {
       if (page === "Home") {
         navigate("/user/userHome");
+      }
+      if(page === "Courses"){
+        navigate(`/user/yourCourses/${userDetails._id}`)
       }
       handleCloseNavMenu();
     }

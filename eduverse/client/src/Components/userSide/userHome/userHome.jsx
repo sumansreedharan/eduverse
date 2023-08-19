@@ -1,4 +1,3 @@
-
 // import React, { useEffect, useState } from "react";
 // import ResponsiveAppBar from "../../header/navbar";
 // import Banner from "../../assets/bannerudemy.png";
@@ -78,11 +77,10 @@
 
 // export default UserHomePage;
 
-
 import React, { useEffect, useState } from "react";
 import ResponsiveAppBar from "../../header/navbar";
 import Banner from "../../../assets/bannerudemy.png";
-import axios from "../../../Config/axios"
+import axios from "../../../Config/axios";
 import { Link } from "react-router-dom";
 import CourseCard from "../cardComponent/courseCard";
 import "./userHome.scss"; // Import the SCSS file for this component
@@ -105,7 +103,7 @@ function UserHomePage() {
       //     Authorization: `Bearer ${token}`,
       //   },
       // };
-      const response = await axios.get("/user/listCourses",);
+      const response = await axios.get("/user/listCourses");
       setCourses(response.data);
     } catch (error) {
       console.error("Error fetching courses:", error);
@@ -158,12 +156,32 @@ function UserHomePage() {
     <div>
       <ResponsiveAppBar role={"user"} />
       <br />
-      <img src={Banner} alt="E-learning Banner" style={{ width: "100%", height: "auto" }} />
+      <img
+        src={Banner}
+        alt="E-learning Banner"
+        style={{ width: "100%", height: "auto" }}
+      />
+
+      {/* <div className="carousel-container">
+        <Slider {...sliderSettings}>
+          {courses.map((course) => (
+            <Link to={`/user/courseDetails/${course._id}`} key={course._id}>
+              <div style={{ width: `${cardWidth}px` }}>
+                <CourseCard course={course} />
+              </div>
+            </Link>
+          ))}
+        </Slider>
+      </div> */}
 
       <div className="carousel-container">
         <Slider {...sliderSettings}>
           {courses.map((course) => (
-            <Link to={`/user/courseDetails/${course._id}`} key={course._id}>
+            <Link
+              to={`/user/courseDetails/${course._id}`}
+              key={course._id}
+              className="course-link"
+            >
               <div style={{ width: `${cardWidth}px` }}>
                 <CourseCard course={course} />
               </div>

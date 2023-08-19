@@ -51,6 +51,7 @@ const showCategories = async (req, res) => {
 const createCourse = async (req, res) => {
   try {
     const { title, description, courseType, category, paid, price } = req.body;
+    const idInfo = req.mentorId.id; // Assuming req.mentorId contains the token
     const newCourse = new Course({
       title,
       description,
@@ -58,6 +59,7 @@ const createCourse = async (req, res) => {
       category,
       paid,
       price,
+      mentorId: idInfo,
       imageUrl: req.file.filename,
     });
     const savedCourse = await newCourse.save();
@@ -193,6 +195,28 @@ const fetchUploadedCourses = async (req, res) => {
   }
 };
 
+const updateCourse = async (req, res) => {
+  const courseId = req.params.id;
+  const updatedCourseData = req.body;
+
+  try {
+    const updatedCourse = await Course.findByIdAndUpdate(
+      courseId,
+      updatedCourseData,
+      { new: true } // Return the updated document
+    );
+
+    if (!updatedCourse) {
+      return res.status(404).json({ message: "Course not found" });
+    }
+
+    return res.json(updatedCourse);
+  } catch (error) {
+    console.error("Error updating course:", error);
+    return res.status(500).json({ message: "Server error" });
+  }
+};
+
 module.exports = {
   getLearners,
   updateMentorProfile,
@@ -202,4 +226,5 @@ module.exports = {
   deleteCourse,
   processVideo,
   fetchUploadedCourses,
+  updateCourse,
 };

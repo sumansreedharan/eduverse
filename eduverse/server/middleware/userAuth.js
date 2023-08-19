@@ -13,6 +13,7 @@ async function UserAuth(req, res, next) {
       req.user = user;
       // Check if user is a regular user
       if (user.role === IS_USER) {
+        req.userId = decoded
         next();
       } else {
         res.json({ status: "error", message: "Unauthorized" });

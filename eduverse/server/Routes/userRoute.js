@@ -8,10 +8,12 @@ userRoute.use(cors())
 
 
 userRoute.post("/updateUser",userAuth,upload.single('image'),userController.updateProfile);
-userRoute.get("/listCourses",userAuth,userController.listCourse)
-userRoute.get("/userCourseView/:id",userController.userCourseView)
-userRoute.post("/createOrder",userAuth,userController.createOrder)
-userRoute.post('/orderSuccess',userController.OrderSuccess);
+userRoute.get("/listCourses",userAuth,userController.listCourse);
+userRoute.get("/userCourseView/:id",userController.userCourseView);
+userRoute.post("/createOrder",userAuth,userController.createOrder);
+userRoute.post('/orderSuccess',userAuth,userController.OrderSuccess);
+userRoute.get('/yourCourses/:userId',userController.fetchYourCourses);
+userRoute.get('/courseVideoDetails/:courseId',userController.getCourseDetailsWithVideos);
 
 
 module.exports = userRoute;

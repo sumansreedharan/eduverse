@@ -7,6 +7,7 @@ const adminRoute = require('./Routes/adminRoute')
 const userRoute = require('./Routes/userRoute')
 const mentorRoute = require('./Routes/mentorRoute')
 const path = require("path")
+require("dotenv").config();
 
 
 app.use(cors())
@@ -20,7 +21,7 @@ app.use('/mentor',mentorRoute)
 
 
 
-mongoose.connect("mongodb://127.0.0.1:27017/eduverse")
+mongoose.connect(process.env.MONGO_URL)
 app.listen(3001, () => {
     console.log("server on port 3001");
   });

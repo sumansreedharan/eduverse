@@ -136,7 +136,6 @@ import { useParams } from "react-router-dom";
 
 function UploadVideoForm() {
   const { courseId } = useParams();
-  console.log("Received Course ID:", courseId);
   const [videoTitle, setVideoTitle] = useState("");
   const [part, setPart] = useState("");
   const [videoDescription, setVideoDescription] = useState("");
@@ -151,6 +150,7 @@ function UploadVideoForm() {
     try {
       const response = await axios.get(`/mentor/uploadedCourses/${courseId}`);
       setCourses(response.data);
+      console.log(courses,"wooo");
     } catch (error) {
       console.log("error to fetch courses");
     }
@@ -178,7 +178,6 @@ function UploadVideoForm() {
         }
       );
       // .then(async(res)=>setCourses((await axios.get(`/mentor/uploadedCourses/${courseId}`)).data ))
-      console.log("video response", response);
 
       if (response.status === 200) {
         console.log("Video uploaded successfully");
@@ -291,7 +290,7 @@ function UploadVideoForm() {
                       Edit
                     </button>
                     <button
-                      style={{ backgroundColor: "red" }}
+                      style={{ backgroundColor: "#c74040" }}
                       onClick={() => handleDeleteCourse(course._id)}
                     >
                       Delete

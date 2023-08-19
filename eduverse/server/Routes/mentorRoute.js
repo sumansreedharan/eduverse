@@ -12,7 +12,7 @@ const uploadVideoTocloudinary = require('../cloudinary/uploadToCloudinary').uplo
 mentorRoute.get("/getLearners",mentorAuth,mentorController.getLearners)
 mentorRoute.post("/updateMentor",upload.single('profileImage'),mentorController.updateMentorProfile)
 mentorRoute.get('/getCategories',mentorController.showCategories)
-mentorRoute.post('/createCourse',upload.single('thumbnail'),mentorController.createCourse)
+mentorRoute.post('/createCourse',upload.single('thumbnail'),mentorAuth,mentorController.createCourse)
 mentorRoute.get('/getCourses',mentorController.getCourses)
 mentorRoute.delete("/deleteCourse/:courseId",mentorAuth,mentorController.deleteCourse)
 mentorRoute.post(
@@ -27,6 +27,7 @@ mentorRoute.post(
    mentorController.processVideo
  );
  mentorRoute.get('/uploadedCourses/:courseId',mentorController.fetchUploadedCourses)
+ mentorRoute.put('/editCourses/:id',mentorController.updateCourse)
 
 
 module.exports = mentorRoute

@@ -3,12 +3,16 @@ import React, { useState, useEffect } from 'react';
 import {useNavigate} from 'react-router-dom'
 import axios from '../../../Config/axios';
 import CourseUploadForm from './addCourse';
+import EditCourseModal from './editCourseModal';
+import Modal from 'react-modal';
 import ResponsiveAppBar from "../../header/navbar";
 import './courseManage.scss';
 
 const CourseListPage = () => {
   const [courses, setCourses] = useState([]);
   const [showUploadForm, setShowUploadForm] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [selectedCourse, setSelectedCourse] = useState(null);
   const [updated,setUpdated] = useState(false)
   const navigate = useNavigate()
 
@@ -55,18 +59,17 @@ const CourseListPage = () => {
 
   const handleDeleteCourse = async(courseId)=>{
     try {
-      // const token = localStorage.getItem("token");
-      // const config = {
-      //   headers: {
-      //     Authorization: `Bearer ${token}`,
-      //   },
-      // };
       const response = await axios.delete(`/mentor/deleteCourse/${courseId}`,)
       setCourses((prevCourses)=>[...prevCourses.filter((course)=>course._id !==courseId)])
     } catch (error) {
       console.log("error deleting course",error);
     }
   }
+
+  const handleEditCourse = (course) => {
+    setSelectedCourse(course);
+    setShowEditModal(true);
+  };
 
   return (
   <div>
@@ -101,10 +104,7 @@ const CourseListPage = () => {
               <td>{course.paid ? 'Paid' : 'Free'}</td>
               <td>{course.price}</td>
               <td>
-                {/* Add edit and delete buttons here */}
-                {/* For example: */}
-                {/* <button>Edit</button> */}
-                <button>Edit</button>
+              <button onClick={() => handleEditCourse(course)}>Edit</button>
                 <button onClick={() => handleView(course._id)}>View</button>
                 <button onClick={()=>handleDeleteCourse(course._id)}>Erase</button>
               </td>
@@ -112,6 +112,15 @@ const CourseListPage = () => {
           ))}
         </tbody>
       </table>
+      <Modal isOpen={showEditModal} onRequestClose={() => setShowEditModal(false)}>
+          {selectedCourse && (
+            <EditCourseModal
+              course={selectedCourse}
+              onSave={() => setUpdated(!updated)}
+              onClose={() => setShowEditModal(false)}
+            />
+          )}
+        </Modal>
     </div>
   </div>
   );

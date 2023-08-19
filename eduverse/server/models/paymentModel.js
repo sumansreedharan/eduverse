@@ -10,11 +10,9 @@ const paymentSchema = new mongoose.Schema({
     ref: "Course",
     required: true,
   },
-  // userId: {
-  //   type: mongoose.Schema.Types.ObjectId,
-  //   ref: "User",
-  //   required: true,
-  // },
+  userId: {
+    type:String,
+  },
   amount: {
     type: Number,
     required: true,

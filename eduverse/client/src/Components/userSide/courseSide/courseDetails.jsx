@@ -67,6 +67,9 @@ const CourseDetails = () => {
   const { id } = useParams();
   const [order, setOrder] = useState("");
   const [course, setCourse] = useState(null);
+  const [mentor,setMentor] = useState(null)
+  const [lessonCount,setLessonCount] = useState(null)
+ 
 
   useEffect(() => {
     fetchCourseDetails();
@@ -77,7 +80,9 @@ const CourseDetails = () => {
       const response = await axios.get(
         `/user/userCourseView/${id}`
       );
-      setCourse(response.data);
+      setCourse(response.data.courseInfo);
+      setMentor(response.data.mentorDetails);
+      setLessonCount(response.data.lessonDetails)
     } catch (error) {
       console.error("Error fetching course details:", error);
     }
@@ -178,7 +183,13 @@ const CourseDetails = () => {
           </p>
         </div>
           <p className="course-category">
-            This course specified to: {course.category.name}
+            This course specified to: <strong>{course.category.name}</strong>
+          </p>
+          <p className="course-mentor">
+            Course uploaded by: <strong>{mentor.name}</strong>
+          </p>
+          <p className="course-mentor">
+            This course contain: <strong>{lessonCount}</strong> Lesson
           </p>
           <p className="course-price">Price: ₹ {course.price}</p>
           <button style={{backgroundColor:'#3498db'}} onClick={handleProceedToPay}>Proceed to pay</button>

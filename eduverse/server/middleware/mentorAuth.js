@@ -12,7 +12,7 @@ async function MentorAuth(req, res, next) {
     if (user) {
       req.user = user;
       if (user.role === IS_MENTOR) {
-        console.log("Mentor role");
+        req.mentorId = decoded
         next();
       } else {
         res.json({ status: "error", message: "Unauthorized" });

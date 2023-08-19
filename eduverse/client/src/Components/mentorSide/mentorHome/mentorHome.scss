@@ -1,49 +1,82 @@
+// /* mentorHome.scss */
+// $primary-color: #3498db;
+
+// .mentor-homepage {
+//   background-color: $primary-color;
+//   padding: 20px;
+//   border-radius: 8px;
+//   color: white;
+
+//   .mentor-homepage__summary {
+//     display: flex;
+//     justify-content: space-around;
+//     margin-bottom: 20px;
+
+//     .mentor-homepage__summary-item {
+//       text-align: center;
+  
+//       h3 {
+//         font-size: 20px;
+//         font-weight: bold;
+//         margin-bottom: 5px;
+//       }
+  
+//       p {
+//         font-size: 24px;
+//         margin: 0;
+//       }
+//     }
+//   }
+
+//   .mentor-homepage__box {
+//     background-color: white;
+//     border-radius: 8px;
+//     padding: 20px;
+//     text-align: center;
+//     color: $primary-color;
+//     margin-bottom: 20px;
+
+//     h3 {
+//       font-size: 20px;
+//       margin-bottom: 5px;
+//     }
+
+//     p {
+//       font-size: 24px;
+//       margin: 0;
+//     }
+//   }
+// }
+
+
 /* mentorHome.scss */
-$primary-color: #3498db;
+$primary-color: #3498db; // New primary color
 
 .mentor-homepage {
-  background-color: $primary-color;
-  padding: 20px;
-  border-radius: 8px;
-  color: white;
-
-  .mentor-homepage__summary {
-    display: flex;
-    justify-content: space-around;
-    margin-bottom: 20px;
-
-    .mentor-homepage__summary-item {
-      text-align: center;
-  
-      h3 {
-        font-size: 20px;
-        font-weight: bold;
-        margin-bottom: 5px;
-      }
-  
-      p {
-        font-size: 24px;
-        margin: 0;
-      }
-    }
-  }
+  background-color: #f0f0f0; // Light gray background
+  padding: 40px; // Increased padding
+  border-radius: 12px; // Slightly increased border radius
+  color: #333; // Dark text color
 
   .mentor-homepage__box {
-    background-color: white;
-    border-radius: 8px;
-    padding: 20px;
+    background-color: #cacaca;
+    border-radius: 12px;
+    padding: 30px; // Increased padding
     text-align: center;
-    color: $primary-color;
-    margin-bottom: 20px;
+    margin-bottom: 30px; // Increased margin
 
     h3 {
-      font-size: 20px;
-      margin-bottom: 5px;
+      font-size: 24px; // Larger font size
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: $primary-color; // Use primary color for heading
     }
 
     p {
-      font-size: 24px;
+      font-size: 32px; // Larger font size
       margin: 0;
+      color: #555; // Darker text color
     }
   }
 }
+
