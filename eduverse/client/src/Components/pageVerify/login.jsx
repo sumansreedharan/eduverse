@@ -1,11 +1,10 @@
-
 import React, { useState } from "react";
 import axios from "axios";
 import "./login.scss";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,Link } from "react-router-dom";
 import { setLoginDetails } from "../useRedux/userActions";
 import { useDispatch } from "react-redux";
-import {IS_ADMIN,IS_MENTOR,IS_USER} from '../../Constants/roles'
+import { IS_ADMIN, IS_MENTOR, IS_USER } from "../../Constants/roles";
 import Logo from "../../assets/edu.png";
 import Demo from "../../assets/smart.png";
 
@@ -71,69 +70,73 @@ function Login() {
   return (
     <div>
       <MDBContainer fluid>
-      <MDBRow className="d-flex justify-content-center align-items-center the-body">
-        <MDBCol col="12" lg="6" className="quote-col">
-          <div className="image-container">
-            <img src={Demo} alt="Education" className="education-image" />
-          </div>
-        </MDBCol>
-        <MDBCol col="12" lg="6">
-          <MDBCard
-            className="bg-white my-5 mx-auto"
-            style={{ borderRadius: "1rem", maxWidth: "500px" }}
-          >
-            <MDBCardBody className="p-5 w-100 d-flex flex-column">
-              <div className="logo-container">
-                <img src={Logo} alt="Logo" className="logo" />
-              </div>
-              <h2 className="fw-bold mb-2 text-center">Log in</h2>
-              <form onSubmit={handleLogin}>
-                {errorMessage && (
-                  <p className="error-message">{errorMessage}</p>
-                )}
-
-                {blockedMessage && (
-                  <p className="error-message">{blockedMessage}</p>
-                )}
-
-                <div className="mb-4 w-100">
-                  <label htmlFor="email" className="form-label">
-                    Email address
-                  </label>
-                  <MDBInput
-                    wrapperClass="w-100"
-                    id="email"
-                    type="email"
-                    size="lg"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
+        <MDBRow className="d-flex justify-content-center align-items-center the-body">
+          <MDBCol col="12" lg="6" className="quote-col">
+            <div className="image-container">
+              <img src={Demo} alt="Education" className="education-image" />
+            </div>
+          </MDBCol>
+          <MDBCol col="12" lg="6">
+            <MDBCard
+              className="bg-white my-5 mx-auto"
+              style={{ borderRadius: "1rem", maxWidth: "500px" }}
+            >
+              <MDBCardBody className="p-5 w-100 d-flex flex-column">
+                <div className="logo-container">
+                  <img src={Logo} alt="Logo" className="logo" />
                 </div>
+                <h2 className="fw-bold mb-2 text-center">Log in</h2>
+                <form onSubmit={handleLogin}>
+                  {errorMessage && (
+                    <p className="error-message">{errorMessage}</p>
+                  )}
 
-                <div className="mb-4 w-100">
-                  <label htmlFor="password" className="form-label">
-                    Password
-                  </label>
-                  <MDBInput
-                    wrapperClass="w-100"
-                    id="password"
-                    type="password"
-                    size="lg"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
-                </div>
+                  {blockedMessage && (
+                    <p className="error-message">{blockedMessage}</p>
+                  )}
 
-                <MDBBtn className="login-button" size="lg" type="submit">
-                  Login
-                </MDBBtn>
-              </form>
-              <hr className="my-4" />
-            </MDBCardBody>
-          </MDBCard>
-        </MDBCol>
-      </MDBRow>
-    </MDBContainer>
+                  <div className="mb-4 w-100">
+                    <label htmlFor="email" className="form-label">
+                      Email address
+                    </label>
+                    <MDBInput
+                      wrapperClass="w-100"
+                      id="email"
+                      type="email"
+                      size="lg"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                    />
+                  </div>
+
+                  <div className="mb-4 w-100">
+                    <label htmlFor="password" className="form-label">
+                      Password
+                    </label>
+                    <MDBInput
+                      wrapperClass="w-100"
+                      id="password"
+                      type="password"
+                      size="lg"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
+                  </div>
+
+                  <MDBBtn className="login-button" size="lg" type="submit">
+                    Login
+                  </MDBBtn>
+                </form>
+                <hr className="my-4" />
+                <p className="text-center">
+                  Don't have an account?{" "}
+                  <Link to="/sign">Click here to sign up</Link>
+                </p>
+              </MDBCardBody>
+            </MDBCard>
+          </MDBCol>
+        </MDBRow>
+      </MDBContainer>
     </div>
   );
 }

@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,Link } from "react-router-dom";
 import "./sign.scss";
 import Sample from "../../assets/regImage.png";
 import Logo from "../../assets/edu.png";
@@ -235,8 +235,11 @@ function Signup() {
                   {showOTP ? "Verify OTP" : "Register"}
                 </MDBBtn>
               </form>
-
               <hr className="my-4" />
+              <p className="text-center">
+                  Already have an account?{" "}
+                  <Link to="/login">Click here to login</Link>
+                </p>
             </MDBCardBody>
           </MDBCard>
         </MDBCol>

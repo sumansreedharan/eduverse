@@ -10,16 +10,23 @@ useEffect(()=>{
   fetchTotalLearners()
 },[])
 
-const fetchTotalLearners = async ()=>{
-  try {
-    const response = await axios.get('/mentor/getLearners',);
-    const {totalLearners} = response.data
-    setTotalLearners(totalLearners)
+// const fetchTotalLearners = async ()=>{
+//   try {
+//     const response = await axios.get('/mentor/getLearners',);
+//     const {totalLearners} = response.data
+//     setTotalLearners(totalLearners)
 
-  } catch (error) {
-    console.log(error);
-  }
-}
+//   } catch (error) {
+//     console.log(error);
+//   }
+// }
+
+const fetchTotalLearners = async () => {
+  // No need for try-catch block here
+  const response = await axios.get('/mentor/getLearners');
+  const { totalLearners } = response.data;
+  setTotalLearners(totalLearners);
+};
 
   return (
   <div>

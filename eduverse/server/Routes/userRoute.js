@@ -14,6 +14,8 @@ userRoute.post("/createOrder",userAuth,userController.createOrder);
 userRoute.post('/orderSuccess',userAuth,userController.OrderSuccess);
 userRoute.get('/yourCourses/:userId',userController.fetchYourCourses);
 userRoute.get('/courseVideoDetails/:courseId',userController.getCourseDetailsWithVideos);
+userRoute.get('/searchCourses',userController.searchCourses)
+userRoute.get('/getAllCategories',userController.getAllCategories)
 
 
 module.exports = userRoute;

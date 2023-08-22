@@ -3,6 +3,7 @@ const Course = require("../models/courseModel");
 const Razorpay = require("razorpay");
 const Payment = require("../models/paymentModel");
 const Lesson = require("../models/lessonModel");
+const Category = require("../models/categoryModel")
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
@@ -175,6 +176,33 @@ const getCourseDetailsWithVideos = async (req, res) => {
   }
 };
 
+
+const searchCourses = async (req, res) => {
+  const searchQuery = req.query.q;
+
+  try {
+    const regex = new RegExp(searchQuery, "i");
+    const filteredCourses = await Course.find({
+      title: { $regex: regex },
+    });
+    console.log("Filtered courses:", filteredCourses);
+    res.json(filteredCourses);
+  } catch (error) {
+    console.error("Error searching for courses:", error);
+    res.status(500).json({ error: "An error occurred while searching for courses." });
+  }
+};
+
+const getAllCategories = async(req,res) =>{
+  try {
+    const categories = await Category.find({}, 'name'); // Retrieve only the "name" field
+    res.json(categories);
+  } catch (error) {
+    console.error("Error fetching categories:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+}
+
 module.exports = {
   updateProfile,
   listCourse,
@@ -183,4 +211,6 @@ module.exports = {
   OrderSuccess,
   fetchYourCourses,
   getCourseDetailsWithVideos,
+  searchCourses,
+  getAllCategories
 };

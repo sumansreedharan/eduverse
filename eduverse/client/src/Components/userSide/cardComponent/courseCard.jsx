@@ -32,7 +32,7 @@ const CourseCard = ({ course }) => {
         {isCourseFree ? ( // Use a ternary operator to conditionally render the price or "Free"
           <p className="course-price">Free</p>
         ) : (
-          <p className="course-price">₹{course.price}</p>
+          <p className="course-price"><strong>₹{course.price}</strong></p>
         )}
       </div>
     </div>

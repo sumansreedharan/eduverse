@@ -1,6 +1,7 @@
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
+import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
@@ -15,6 +16,8 @@ import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import { setLoggoedUser } from "../useRedux/user";
 import { useDispatch, useSelector } from "react-redux";
+import CategoryList from '../userSide/categoryComponent/categoryModal'
+import axios from '../../Config/axios'
 
 
 const pages = {
@@ -28,6 +31,8 @@ const settings = ["Profile", "Logout"];
 function ResponsiveAppBar({ role, logoutUser }) {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [showCategoryModal, setShowCategoryModal] = React.useState(false);
+  const [fetchedCategories, setFetchedCategories] = React.useState([]);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -58,10 +63,6 @@ function ResponsiveAppBar({ role, logoutUser }) {
     handleCloseUserMenu();
   };
 
-  // const handleLogoutClick = () => {
-  //   navigate("/login");
-  //   handleCloseUserMenu();
-  // };
 
   const userDetails = useSelector((state) => state.loggedUser.currentUser);
   console.log(userDetails);
@@ -74,18 +75,18 @@ function ResponsiveAppBar({ role, logoutUser }) {
     handleCloseUserMenu();
   };
 
-  // const handlePageClick = (page) => {
-  //   if (role === "admin") {
-  //     if (page === "Users") {
-  //       navigate("/admin/userManage");
-  //     } else if (page === "Mentors") {
-  //       navigate("/admin/mentorManage");
-  //     }
-  //     handleCloseNavMenu();
-  //   }
-  // };
+  const fetchCategories = async () => {
+    try {
+      const response = await axios.get("/user/getAllCategories"); // Adjust the API endpoint URL
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+      return [];
+    }
+  };
 
-  const handlePageClick = (page) => {
+
+  const handlePageClick = async (page) => {
     if (role === "admin") {
       if (page === "Users") {
         navigate("/admin/userManage");
@@ -117,6 +118,16 @@ function ResponsiveAppBar({ role, logoutUser }) {
       }
       if(page === "Courses"){
         navigate(`/user/yourCourses/${userDetails._id}`)
+      }
+      if(page==="Categories"){
+        try {
+          const categories = await fetchCategories(); // Use the API request function
+          setFetchedCategories(categories);
+          setShowCategoryModal(true);
+          handleCloseNavMenu();
+        } catch (error) {
+          console.log(error);
+        }
       }
       handleCloseNavMenu();
     }
@@ -183,6 +194,26 @@ function ResponsiveAppBar({ role, logoutUser }) {
               ))}
             </Menu>
           </Box>
+             <Modal
+          open={showCategoryModal}
+          onClose={() => setShowCategoryModal(false)}
+          aria-labelledby="modal-title"
+          aria-describedby="modal-description"
+        >
+          <Box
+            sx={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              bgcolor: "background.paper",
+              boxShadow: 24,
+              p: 4,
+            }}
+          >
+            <CategoryList categories={fetchedCategories} /> {/* Pass your category data here */}
+          </Box>
+        </Modal>
           <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
           <Typography
             variant="h5"

@@ -104,9 +104,9 @@ const CourseListPage = () => {
               <td>{course.paid ? 'Paid' : 'Free'}</td>
               <td>{course.price}</td>
               <td>
-              <button onClick={() => handleEditCourse(course)}>Edit</button>
+              <button style={{marginRight:'3px'}} onClick={() => handleEditCourse(course)}>Edit</button>
                 <button onClick={() => handleView(course._id)}>View</button>
-                <button onClick={()=>handleDeleteCourse(course._id)}>Erase</button>
+                <button style={{marginLeft:'3px'}} onClick={()=>handleDeleteCourse(course._id)}>Erase</button>
               </td>
             </tr>
           ))}

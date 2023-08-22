@@ -32,7 +32,7 @@ navigate(`/user/courseVideoDetails/${courseId}`)
     <div>
       <ResponsiveAppBar role={"user"} />
       <div className="your-courses-container1">
-        <h2>Your Courses</h2>
+        <h2>My Courses</h2>
         <hr />
         <div className="course-listing">
           {yourCourses.map((course) => (

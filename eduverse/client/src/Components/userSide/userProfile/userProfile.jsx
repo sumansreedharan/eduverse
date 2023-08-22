@@ -12,7 +12,7 @@ import {
 } from "mdb-react-ui-kit";
 import "./userProfile.scss"; // Import the SCSS file
 import { useEffect, useState } from "react";
-import axios from "axios";
+import axios from "../../../Config/axios";
 import ResponsiveAppBar from "../../header/navbar";
 import EditProfilePopup from "./editUserPopUp";
 import { useSelector, useDispatch } from "react-redux";
@@ -34,14 +34,25 @@ function userProfile() {
     setIsEditProfileOpen(false);
   };
 
+
   // const updateUserProfileInBackend = async (updatedProfile) => {
   //   console.log("revised", updatedProfile);
   //   try {
-  //     const response = await axios.post(
-  //       "http://localhost:3001/updateUser",
-  //       updatedProfile
+  //     const token = localStorage.getItem("token");
+  //     const formData = new FormData();
+  //     formData.append('image',updatedProfile.profileImage)
+  //     formData.append('name',updatedProfile.name)
+  //     formData.append('mobile',updatedProfile.mobile)
+  //          const response = await axios.post(
+  //       "http://localhost:3001/user/updateUser",
+  //       formData,
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //       }
   //     );
-  //     console.log(response.data,"from backend");
+  //     console.log(response.data, "from backend");
   //     dispatch(setLoggoedUser(response.data.updatedUser));
   //     return response.data;
   //   } catch (error) {
@@ -51,28 +62,28 @@ function userProfile() {
 
   const updateUserProfileInBackend = async (updatedProfile) => {
     console.log("revised", updatedProfile);
-    try {
-      const token = localStorage.getItem("token");
-      const formData = new FormData();
-      formData.append('image',updatedProfile.profileImage)
-      formData.append('name',updatedProfile.name)
-      formData.append('mobile',updatedProfile.mobile)
-           const response = await axios.post(
-        "http://localhost:3001/user/updateUser",
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      console.log(response.data, "from backend");
-      dispatch(setLoggoedUser(response.data.updatedUser));
-      return response.data;
-    } catch (error) {
-      throw error;
-    }
+  
+    const token = localStorage.getItem("token");
+    const formData = new FormData();
+    formData.append('image', updatedProfile.profileImage);
+    formData.append('name', updatedProfile.name);
+    formData.append('mobile', updatedProfile.mobile);
+  
+    const response = await axios.post(
+      "/user/updateUser",
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+  
+    console.log(response.data, "from backend");
+    dispatch(setLoggoedUser(response.data.updatedUser));
+    return response.data;
   };
+  
 
   const logoutUser = ()=>{
     console.log('logout');

@@ -5,25 +5,31 @@ import './editCategory.scss';
 const EditCategoryModal = ({ category, onClose, onUpdateCategory }) => {
   const [updatedName, setUpdatedName] = useState();
 
+  // const handleUpdateCategory = async () => {
+  //   try {
+  //     const updatedCategory = { ...category, name: updatedName.toUpperCase() };
+  //     const response = await axios.put(
+  //       `/admin/editCategories/${category._id}`,
+  //       updatedCategory,
+  //     );
+  //     onUpdateCategory(response.data);
+  //     console.log(response.data,"cccccc");
+  //   } catch (error) {
+  //     console.error('Error updating category:', error);
+  //   }
+  // };
+
   const handleUpdateCategory = async () => {
-    try {
-      // const token = localStorage.getItem("token");
-      // const config = {
-      //   headers: {
-      //     Authorization: `Bearer ${token}`,
-      //   },
-      // };
-      const updatedCategory = { ...category, name: updatedName.toUpperCase() };
-      const response = await axios.put(
-        `/admin/editCategories/${category._id}`,
-        updatedCategory,
-      );
-      onUpdateCategory(response.data);
-      console.log(response.data,"cccccc");
-    } catch (error) {
-      console.error('Error updating category:', error);
-    }
+    const updatedCategory = { ...category, name: updatedName.toUpperCase() };
+  
+    const response = await axios.put(
+      `/admin/editCategories/${category._id}`,
+      updatedCategory
+    );
+  
+    onUpdateCategory(response.data);
   };
+  
 
   return (
     <div className="edit-category-modal">
