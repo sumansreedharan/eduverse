@@ -3,7 +3,7 @@ const Course = require("../models/courseModel");
 const Razorpay = require("razorpay");
 const Payment = require("../models/paymentModel");
 const Lesson = require("../models/lessonModel");
-const Category = require("../models/categoryModel")
+const Category = require("../models/categoryModel");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
@@ -56,9 +56,9 @@ const userCourseView = async (req, res) => {
     const { id } = req.params;
     const courseInfo = await Course.findOne({ _id: id }).populate("category");
     const mentorDetails = await User.findOne({ _id: courseInfo.mentorId });
-    const lessonDetails = await Lesson.find({course:id}).count()
+    const lessonDetails = await Lesson.find({ course: id }).count();
     // res.json(courseInfo);
-    res.json({ courseInfo, mentorDetails,lessonDetails });
+    res.json({ courseInfo, mentorDetails, lessonDetails });
   } catch (error) {
     console.log("error fetching details");
     res.status(500).json({ error: "failed to fetch cours details" });
@@ -88,7 +88,7 @@ const OrderSuccess = async (req, res) => {
   try {
     const { amount, order_id, courseId } = req.body;
     const idInfo = req.userId.id;
-    console.log(idInfo);
+
     const payment = new Payment({
       amount: amount,
       paymentId: order_id,
@@ -96,7 +96,6 @@ const OrderSuccess = async (req, res) => {
       userId: idInfo,
       paymentDate: new Date(),
     });
-    // console.log(payment);
     await payment.save().then(() => {
       res.json({ status: "ok" });
     });
@@ -176,7 +175,6 @@ const getCourseDetailsWithVideos = async (req, res) => {
   }
 };
 
-
 const searchCourses = async (req, res) => {
   const searchQuery = req.query.q;
 
@@ -189,19 +187,21 @@ const searchCourses = async (req, res) => {
     res.json(filteredCourses);
   } catch (error) {
     console.error("Error searching for courses:", error);
-    res.status(500).json({ error: "An error occurred while searching for courses." });
+    res
+      .status(500)
+      .json({ error: "An error occurred while searching for courses." });
   }
 };
 
-const getAllCategories = async(req,res) =>{
+const getAllCategories = async (req, res) => {
   try {
-    const categories = await Category.find({}, 'name'); // Retrieve only the "name" field
+    const categories = await Category.find({}, "name"); // Retrieve only the "name" field
     res.json(categories);
   } catch (error) {
     console.error("Error fetching categories:", error);
     res.status(500).json({ error: "Internal server error" });
   }
-}
+};
 
 module.exports = {
   updateProfile,
@@ -212,5 +212,5 @@ module.exports = {
   fetchYourCourses,
   getCourseDetailsWithVideos,
   searchCourses,
-  getAllCategories
+  getAllCategories,
 };

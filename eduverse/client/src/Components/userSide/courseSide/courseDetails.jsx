@@ -61,6 +61,7 @@ import Swal from "sweetalert2";
 import ResponsiveAppBar from "../../header/navbar";
 import axios from "../../../Config/axios";
 import "./courseDetails.scss";
+import { useSelector } from "react-redux";
 
 const CourseDetails = () => {
   const { id } = useParams();

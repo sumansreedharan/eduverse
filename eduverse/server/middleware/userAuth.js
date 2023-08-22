@@ -9,6 +9,9 @@ async function UserAuth(req, res, next) {
 
     const { id } = decoded;
     const user = await User.findById(id);
+    if(user.blocked===true){
+      return res.status(403).json({message:"user is blocked"})
+    }
     if (user) {
       req.user = user;
       // Check if user is a regular user

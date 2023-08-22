@@ -22,7 +22,7 @@ const paymentSchema = new mongoose.Schema({
   },
   paymentDate: {
     type: Date,
-  },
+  }
 });
 
 const Payment = mongoose.model("Payment", paymentSchema);

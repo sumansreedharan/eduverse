@@ -51,6 +51,9 @@ api.interceptors.request.use(addAuthorizationHeader);
 api.interceptors.response.use(
   (response) => response,
   (error) => {
+    if(error.response.status===403){
+      localStorage.removeItem('token')
+    }
     console.error('Request error:', error);
     const errorMessage = error.response?.data?.message || 'An error occurred';
     Swal.fire({
