@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import axios from "../../../Config/axios";
 import ResponsiveAppBar from "../../header/navbar";
@@ -15,12 +14,8 @@ const DetailedCourseView = () => {
   }, [courseId]);
 
   const fetchVideoDetails = async () => {
-    try {
-      const response = await axios.get(`/user/courseVideoDetails/${courseId}`);
-      setCourseDetails(response.data);
-    } catch (error) {
-      console.error("Error fetching course details:", error);
-    }
+    const response = await axios.get(`/user/courseVideoDetails/${courseId}`);
+    setCourseDetails(response.data);
   };
 
   const handleVideoSelect = (video) => {
@@ -43,12 +38,7 @@ const DetailedCourseView = () => {
       <div className="detailed-course-view">
         <div className="course-container">
           <div className="video-player-container">
-            <video
-              id="videoPlayer"
-              width="100%"
-              height="auto"
-              controls
-            >
+            <video id="videoPlayer" width="100%" height="auto" controls>
               <source
                 src={
                   selectedVideo
@@ -85,10 +75,12 @@ const DetailedCourseView = () => {
               >
                 <h3>{course.title}</h3>
                 <p>{course.description}</p>
-                <video width="100%" height="180" controls> {/* Adjust the height as needed */}
-                 <source src={course.videoUrl} type="video/mp4" />
-                 Your browser does not support the video tag.
-              </video>
+                <video width="100%" height="180" controls>
+                  {" "}
+                  {/* Adjust the height as needed */}
+                  <source src={course.videoUrl} type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
               </div>
             ))}
           </div>
@@ -99,8 +91,3 @@ const DetailedCourseView = () => {
 };
 
 export default DetailedCourseView;
-
-
-
-
-

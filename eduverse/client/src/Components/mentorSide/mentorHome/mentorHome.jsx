@@ -22,7 +22,6 @@ useEffect(()=>{
 // }
 
 const fetchTotalLearners = async () => {
-  // No need for try-catch block here
   const response = await axios.get('/mentor/getLearners');
   const { totalLearners } = response.data;
   setTotalLearners(totalLearners);

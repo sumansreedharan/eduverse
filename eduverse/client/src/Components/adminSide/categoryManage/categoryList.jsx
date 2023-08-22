@@ -24,18 +24,13 @@ const CategoryListPage = () => {
     }
   };
 
-  const handleAddCategory = async (newCategory) => {
-    try {
+  const handleAddCategory = async (newCategory) => { 
       const response = await axios.post('/admin/addCategories', newCategory);
       console.log('Response:', response.data); 
       setCategories((prevCategories) => [...prevCategories, response.data]);
-    } catch (error) {
-      console.error('Error adding category:', error);
-    }
   };
 
   const handleDeleteCategory = async(categoryId)=>{
-    try {
       const token = localStorage.getItem("token");
       const config = {
         headers: {
@@ -44,9 +39,6 @@ const CategoryListPage = () => {
       };
       const response = await axios.delete(`/admin/deleteCategory/${categoryId}`,config)
       setCategories((prevCategories)=>[...prevCategories.filter((category)=>category._id !==categoryId)])
-    } catch (error) {
-      console.error('Error deleting category:', error);
-    }
   }
 
   const handleEditCategory = (category) =>{

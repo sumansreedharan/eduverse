@@ -28,6 +28,7 @@ const EditCategoryModal = ({ category, onClose, onUpdateCategory }) => {
     );
   
     onUpdateCategory(response.data);
+    console.log(response.data.message);
   };
   
 

@@ -12,12 +12,8 @@ const AdminCourseList = () => {
   }, []);
 
   const fetchCourses = async () => {
-    try {
       const response = await axios.get("/admin/viewCourses");
       setCourses(response.data);
-    } catch (error) {
-      console.error("Error fetching courses:", error);
-    }
   };
 
   return (

@@ -57,55 +57,42 @@
 
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 import ResponsiveAppBar from "../../header/navbar";
-import axios from "../../../Config/axios"
+import axios from "../../../Config/axios";
 import "./courseDetails.scss";
-
 
 const CourseDetails = () => {
   const { id } = useParams();
   const [order, setOrder] = useState("");
   const [course, setCourse] = useState(null);
-  const [mentor,setMentor] = useState(null)
-  const [lessonCount,setLessonCount] = useState(null)
- 
+  const [mentor, setMentor] = useState(null);
+  const [lessonCount, setLessonCount] = useState(null);
 
   useEffect(() => {
     fetchCourseDetails();
   }, [id]);
 
   const fetchCourseDetails = async () => {
-    try {
-      const response = await axios.get(
-        `/user/userCourseView/${id}`
-      );
-      setCourse(response.data.courseInfo);
-      setMentor(response.data.mentorDetails);
-      setLessonCount(response.data.lessonDetails)
-    } catch (error) {
-      console.error("Error fetching course details:", error);
-    }
+    const response = await axios.get(`/user/userCourseView/${id}`);
+    setCourse(response.data.courseInfo);
+    setMentor(response.data.mentorDetails);
+    setLessonCount(response.data.lessonDetails);
   };
 
   const handlePaymentSuccess = async (paymentResponse) => {
-    try {
-      const res = await axios.post("/user/orderSuccess", {
-        courseId: id,
-        amount: course.price,
-        order_id: order,
-      });
+    const res = await axios.post("/user/orderSuccess", {
+      courseId: id,
+      amount: course.price,
+      order_id: order,
+    });
 
-      Swal.fire({
-        icon: 'success',
-        title: 'Payment Successful',
-        text: 'Course added to your list',
-        confirmButtonText: 'OK'
-      });
-
-    } catch (error) {
-      console.log("Payment successful:", paymentResponse);
-    }
+    Swal.fire({
+      icon: "success",
+      title: "Payment Successful",
+      text: "Course added to your list",
+      confirmButtonText: "OK",
+    });
   };
 
   const handlePaymentError = (error) => {
@@ -124,7 +111,7 @@ const CourseDetails = () => {
         currency: "INR",
       });
       if (response) {
-        console.log(order,"order vanne");
+        console.log(order, "order vanne");
         setOrder(response.data.order.id);
       }
 
@@ -139,15 +126,15 @@ const CourseDetails = () => {
         image: "your_logo_url",
         handler: handlePaymentSuccess,
         prefill: {
-          name: "John Doe", 
-          email: "john@example.com", 
-          contact: "9876543210", 
+          name: "John Doe",
+          email: "john@example.com",
+          contact: "9876543210",
         },
         notes: {
-          address: "Customer Address", 
+          address: "Customer Address",
         },
         theme: {
-          color: "#3498db", 
+          color: "#3498db",
         },
       };
 
@@ -163,7 +150,7 @@ const CourseDetails = () => {
   }
 
   return (
-    <div style={{backgroundColor:'#c7c7c7',minHeight:'100vh'}}>
+    <div style={{ backgroundColor: "#c7c7c7", minHeight: "100vh" }}>
       <ResponsiveAppBar role={"user"} />
       <br />
       <div className="course-details-container">
@@ -176,12 +163,18 @@ const CourseDetails = () => {
         </div>
         {/* <hr /> */}
         <div className="course-details-content">
-        <h2>What you will learn</h2>
-        <div className="description-box" style={{ maxHeight: "200px", overflowY: "auto" }}>
-          <p className="course-description" style={{ whiteSpace: "pre-wrap" }}>
-            {course.description}
-          </p>
-        </div>
+          <h2>What you will learn</h2>
+          <div
+            className="description-box"
+            style={{ maxHeight: "200px", overflowY: "auto" }}
+          >
+            <p
+              className="course-description"
+              style={{ whiteSpace: "pre-wrap" }}
+            >
+              {course.description}
+            </p>
+          </div>
           <p className="course-category">
             This course specified to: <strong>{course.category.name}</strong>
           </p>
@@ -192,7 +185,12 @@ const CourseDetails = () => {
             This course contain: <strong>{lessonCount}</strong> Lesson
           </p>
           <p className="course-price">Price: ₹ {course.price}</p>
-          <button style={{backgroundColor:'#3498db'}} onClick={handleProceedToPay}>Proceed to pay</button>
+          <button
+            style={{ backgroundColor: "#3498db" }}
+            onClick={handleProceedToPay}
+          >
+            Proceed to pay
+          </button>
         </div>
       </div>
     </div>

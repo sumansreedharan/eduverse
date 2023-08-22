@@ -28,6 +28,7 @@
 
 
 import axios from 'axios';
+import Swal from "sweetalert2"
 
 const api = axios.create({
   baseURL: "http://localhost:3001/",
@@ -51,6 +52,12 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     console.error('Request error:', error);
+    const errorMessage = error.response?.data?.message || 'An error occurred';
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: errorMessage,
+    });
     return Promise.reject(error);
   }
 );

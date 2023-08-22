@@ -1,21 +1,3 @@
-// // CategoryList.js
-// import React from "react";
-
-// function CategoryList({ categories }) {
-//   return (
-//     <div>
-//       <h2>All Categories</h2>
-//       <ul>
-//         {categories.map((category) => (
-//           <li key={category.id}>{category.name}</li>
-//         ))}
-//       </ul>
-//     </div>
-//   );
-// }
-
-// export default CategoryList;
-
 
 import React from "react";
 import "./categoryList.scss";

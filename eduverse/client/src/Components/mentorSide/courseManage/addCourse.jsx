@@ -9,18 +9,16 @@ const CourseUploadForm = ({ onCourseAdded, onCancel }) => {
   const [courseType, setCourseType] = useState("");
   const [category, setCategory] = useState("");
   const [paid, setPaid] = useState(false);
-  const [price,setPrice] = useState("")
+  const [price, setPrice] = useState("");
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
     fetchCategories();
-  },[]);
+  }, []);
 
   const fetchCategories = async () => {
     try {
-      const response = await axios.get(
-        "/mentor/getCategories"
-      );
+      const response = await axios.get("/mentor/getCategories");
       setCategories(response.data);
       console.log(response.data);
     } catch (error) {
@@ -49,29 +47,21 @@ const CourseUploadForm = ({ onCourseAdded, onCancel }) => {
     formData.append("courseType", courseType);
     formData.append("category", category);
     formData.append("paid", paid);
-    formData.append("price",price)
+    formData.append("price", price);
 
-    try {
-      const response = await axios.post(
-        "/mentor/createCourse",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-      onCourseAdded(response.data);
-      setThumbnail(null);
-      setCourseName("");
-      setDescription("");
-      setCourseType("");
-      setCategory("");
-      setPaid("");
-      setPrice("")
-    } catch (error) {
-      console.error("Error adding course:", error);
-    }
+    const response = await axios.post("/mentor/createCourse", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    onCourseAdded(response.data);
+    setThumbnail(null);
+    setCourseName("");
+    setDescription("");
+    setCourseType("");
+    setCategory("");
+    setPaid("");
+    setPrice("");
   };
 
   return (
@@ -135,7 +125,7 @@ const CourseUploadForm = ({ onCourseAdded, onCancel }) => {
           ))}
         </select>
       </div>
-      {paid === "true" && (  // Show the "amount" field only when paid is selected
+      {paid === "true" && ( // Show the "amount" field only when paid is selected
         <div className="form-group">
           <label htmlFor="courseName">Amount</label>
           <input

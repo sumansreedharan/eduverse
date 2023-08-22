@@ -1,32 +1,26 @@
-
 import React, { useEffect, useState } from "react";
 import axios from "../../../Config/axios";
-import { useParams,useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import ResponsiveAppBar from "../../header/navbar";
-import './purchaseCourses.scss';
+import "./purchaseCourses.scss";
 
 const YourCourses = () => {
   const { userId } = useParams();
   const [yourCourses, setYourCourses] = useState([]);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchYourCourses();
   }, [userId]);
 
   const fetchYourCourses = async () => {
-    try {
-      const response = await axios.get(`/user/yourCourses/${userId}`);
-      console.log(response.data,"lllllll");
-      setYourCourses(response.data);
-    } catch (error) {
-      console.error("Error fetching your courses:", error);
-    }
+    const response = await axios.get(`/user/yourCourses/${userId}`);
+    setYourCourses(response.data);
   };
 
- const  handleStartCourse =  (courseId)=>{
-navigate(`/user/courseVideoDetails/${courseId}`)
- }
+  const handleStartCourse = (courseId) => {
+    navigate(`/user/courseVideoDetails/${courseId}`);
+  };
 
   return (
     <div>
@@ -49,7 +43,7 @@ navigate(`/user/courseVideoDetails/${courseId}`)
                   className="start-course-button1"
                   onClick={() => handleStartCourse(course.courseId._id)}
                 >
-                  Start Course
+                  Enroll now
                 </button>
               </div>
             </div>
@@ -61,4 +55,3 @@ navigate(`/user/courseVideoDetails/${courseId}`)
 };
 
 export default YourCourses;
-
