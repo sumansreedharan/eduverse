@@ -14,6 +14,10 @@ const LessonSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  note: {
+    type: String,
+    required: true,
+  },
   videoUrl: {
     type: String,
     required: true,

@@ -1,10 +1,10 @@
 const User = require("../models/userModel");
 const jwt = require("jsonwebtoken");
 // const otpGenerator = require('otp-generator');
-const nodemailer = require('nodemailer');
-const {IS_ADMIN,IS_MENTOR,IS_USER} = require('../Constants/roles')
+const nodemailer = require("nodemailer");
+const { IS_ADMIN, IS_MENTOR, IS_USER } = require("../Constants/roles");
 
-require('dotenv').config()
+require("dotenv").config();
 
 const Register = async (req, res) => {
   try {
@@ -26,8 +26,8 @@ const Register = async (req, res) => {
         res.status(200).json({ message: "Your registration is successful" });
       })
       .catch((error) => {
-        console.error('Failed to send OTP:', error);
-        res.status(500).json({ error: 'Failed to send OTP' });
+        console.error("Failed to send OTP:", error);
+        res.status(500).json({ error: "Failed to send OTP" });
       });
   } catch (error) {
     console.log(error.message);
@@ -36,9 +36,8 @@ const Register = async (req, res) => {
 };
 
 async function sendOTPByEmail(email, otp) {
-
   const transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
+    host: "smtp.gmail.com",
     port: 587,
     secure: false,
     auth: {
@@ -47,11 +46,10 @@ async function sendOTPByEmail(email, otp) {
     },
   });
 
-  
   const mailOptions = {
     from: process.env.SECRET_EMAIL,
     to: email,
-    subject: 'OTP Verification',
+    subject: "OTP Verification",
     text: `Your OTP is: ${otp}`,
   };
 
@@ -60,8 +58,8 @@ async function sendOTPByEmail(email, otp) {
 }
 
 function generateNumericOTP(length) {
-  const digits = '0123456789';
-  let otp = '';
+  const digits = "0123456789";
+  let otp = "";
 
   for (let i = 0; i < length; i++) {
     const randomIndex = Math.floor(Math.random() * digits.length);
@@ -90,11 +88,11 @@ const VerifyOTP = async (req, res) => {
     res.json({ token });
   } catch (error) {
     console.log(error.message);
-    res.status(500).json({ error: "An error occurred during OTP verification" });
+    res
+      .status(500)
+      .json({ error: "An error occurred during OTP verification" });
   }
-}
-
-
+};
 
 // const methodLogin = async (req,res) => {
 //   try {
@@ -117,7 +115,7 @@ const VerifyOTP = async (req, res) => {
 //       }
 //       return res.json({ status: "ok", token, role,user });
 //     } else {
-//       return res.json({ status: "error", user: false });  
+//       return res.json({ status: "error", user: false });
 
 //     }
 //   } catch (error) {
@@ -133,19 +131,21 @@ const methodLogin = async (req, res) => {
 
     if (user) {
       if (user.blocked) {
-        
-        return res.json({ status: "blocked", message: "You are temporarily blocked by the admin." });
+        return res.json({
+          status: "blocked",
+          message: "You are temporarily blocked by the admin.",
+        });
       }
 
-      const token = jwt.sign({ id: user._id },process.env.COMMON_SECRET_KEY);
+      const token = jwt.sign({ id: user._id }, process.env.COMMON_SECRET_KEY);
       let role = "";
 
       if (user.role === IS_ADMIN) {
         role = "admin";
-      } else if (user.role === IS_MENTOR) {
+      }  if (user.role === IS_MENTOR) {
         role = "mentor";
-      } else {
-        role = user;
+      } if(user.role===IS_USER) {
+        role = "user";
       }
 
       return res.json({ status: "ok", token, role, user });
@@ -158,14 +158,8 @@ const methodLogin = async (req, res) => {
   }
 };
 
-
 module.exports = {
   Register,
   VerifyOTP,
   methodLogin,
 };
-
-
-
-
-

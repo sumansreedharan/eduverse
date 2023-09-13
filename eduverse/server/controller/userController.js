@@ -19,7 +19,7 @@ const updateProfile = async (req, res) => {
     const user = await User.findById(req.user._id);
 
     if (!user) {
-      return res.status(404).json({ error: "User not found" });
+      return res.status(404).json({ message: "User not found" });
     }
 
     user.name = name;
@@ -37,7 +37,7 @@ const updateProfile = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: "Could not update profile" });
+    res.status(500).json({ message: "Could not update profile" });
   }
 };
 
@@ -47,7 +47,7 @@ const listCourse = async (req, res) => {
     res.json(courseDetails);
   } catch (error) {
     console.log("error fetching courseDetails");
-    res.status(500).json({ error: "failed to fetch cours details" });
+    res.status(500).json({ message: "failed to fetch cours details" });
   }
 };
 
@@ -61,7 +61,7 @@ const userCourseView = async (req, res) => {
     res.json({ courseInfo, mentorDetails, lessonDetails });
   } catch (error) {
     console.log("error fetching details");
-    res.status(500).json({ error: "failed to fetch cours details" });
+    res.status(500).json({ message: "failed to fetch cours details" });
   }
 };
 
@@ -80,7 +80,7 @@ const createOrder = async (req, res) => {
     res.json({ order });
   } catch (error) {
     console.log("error creating order", error);
-    res.status(500).json({ error: "failed to create razorpay order" });
+    res.status(500).json({ message: "failed to create razorpay order" });
   }
 };
 
@@ -101,13 +101,12 @@ const OrderSuccess = async (req, res) => {
     });
   } catch (error) {
     console.log("error creating order", error);
-    res.status(500).json({ error: "failed to create razorpay order" });
+    res.status(500).json({ message: "failed to create razorpay order" });
   }
 };
 
 const fetchYourCourses = async (req, res) => {
   try {
-    // console.log('njn backil yathi');
     const userId = req.params.userId;
 
     // Fetch purchased courses for the user from the database
@@ -119,46 +118,18 @@ const fetchYourCourses = async (req, res) => {
     res.status(200).json(purchasedCourses);
   } catch (error) {
     console.error("Error fetching purchased courses:", error);
-    res.status(500).json({ error: "Failed to fetch purchased courses" });
+    res.status(500).json({ message: "Failed to fetch purchased courses" });
   }
 };
-
-// const getCourseDetailsWithVideos = async (req, res) => {
-//   try {
-//     const courseId = req.params.courseId;
-//     const course = await Lesson.find({courseId:course});
-//     console.log(course);
-
-//     if (!course) {
-//       return res.status(404).json({ error: "Course not found" });
-//     }
-
-//     const videos = await UploadedVideo.find({ course: courseId }); // Fetch uploaded videos for the course
-
-//     const courseDetailsWithVideos = {
-//       _id: course._id,
-//       part: course.part,
-//       title: course.title,
-//       description: course.description,
-//       videos: videos, // Attach the videos array to the course details
-//     };
-
-//     res.json(courseDetailsWithVideos);
-//   } catch (error) {
-//     console.error("Error fetching course details:", error);
-//     res.status(500).json({ error: "Failed to fetch course details" });
-//   }
-// };
 
 const getCourseDetailsWithVideos = async (req, res) => {
   try {
     const courseId = req.params.courseId;
 
     const courseDetails = await Lesson.find({ course: courseId });
-    console.log(courseDetails);
 
     if (!courseDetails) {
-      return res.status(404).json({ error: "Course not found" });
+      return res.status(404).json({ message: "Course not found" });
     }
     // const courseDetails = {
     //   _id: course._id,
@@ -171,7 +142,7 @@ const getCourseDetailsWithVideos = async (req, res) => {
     res.status(200).json(courseDetails);
   } catch (error) {
     console.error("Error fetching course details:", error);
-    res.status(500).json({ error: "Failed to fetch course details" });
+    res.status(500).json({ message: "Failed to fetch course details" });
   }
 };
 
@@ -189,7 +160,7 @@ const searchCourses = async (req, res) => {
     console.error("Error searching for courses:", error);
     res
       .status(500)
-      .json({ error: "An error occurred while searching for courses." });
+      .json({ message: "An error occurred while searching for courses." });
   }
 };
 
@@ -199,9 +170,138 @@ const getAllCategories = async (req, res) => {
     res.json(categories);
   } catch (error) {
     console.error("Error fetching categories:", error);
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).json({ message: "Internal server error" });
   }
 };
+
+// const completedLessons = async (req, res) => {
+//   const { userId, lessonId } = req.params;
+//   try {
+//     const user = await User.findById(userId);
+
+//     if (!user) {
+//       return res.status(404).json({ message: "User not found" });
+//     }
+//     if (!user.completedLessons.includes(lessonId)) {
+//       user.completedLessons.push(lessonId);
+//       await user.save();
+//     }
+//     res.json({ message: "Lesson marked as completed" });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ message: "Server error" });
+//   }
+// };
+
+// const getUserProgress = async (req, res) => {
+//   const { userId } = req.params;
+//   try {
+//     const user = await User.findById(userId);
+//     if (!user) {
+//       return res.status(404).json({ message: "User not found" });
+//     }
+//     res.json({ completedLessons: user.completedLessons });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ message: "Server error" });
+//   }
+// };
+
+const completedLessons = async (req, res) => {
+  const { userId, lessonId } = req.params;
+  try {
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    if (!user.completedLessons.includes(lessonId)) {
+      user.completedLessons.push(lessonId);
+      await user.save();
+    }
+
+    // Return the updated list of completed lessons
+    res.json({ completedLessons: user.completedLessons });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+const getUserProgress = async (req, res) => {
+  const { userId } = req.params;
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.json({ completedLessons: user.completedLessons });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+const postUserReviews = async(req,res)=>{
+  try {
+    const { courseId } = req.params;
+    const {text} = req.body;
+    const userId = req.params.userId
+    const course = await Course.findById(courseId)
+    if (!course) {
+      return res.status(404).json({ error: 'Course not found' });
+    }
+    const newReview = {
+      user: userId,
+      text,
+      date: new Date(),
+    };
+
+    console.log(newReview);
+
+    course.reviews.push(newReview);
+    await course.save();
+
+    res.status(201).json({ message: 'Review posted successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Server error' });
+  }
+}
+
+const getUserReviews = async(req,res)=>{
+  try {
+    const { courseId } = req.params;
+    const course = await Course.findById(courseId).populate('reviews.user').exec()
+    if (!course) {
+      return res.status(404).json({ error: 'Course not found' });
+    }
+    res.status(200).json(course.reviews);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Server error' });
+  }
+}
+
+const postUserRating = async (req,res)=>{
+  try {
+    const { courseId } = req.params;
+    const { rating } = req.body;
+
+    const course = await Course.findById(courseId);
+
+    if (!course) {
+      return res.status(404).json({ error: 'Course not found' });
+    }
+    course.ratings.push(rating);
+    await course.save();
+    res.status(201).json({ message: 'Rating submitted successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Server error' });
+  }
+}
 
 module.exports = {
   updateProfile,
@@ -213,4 +313,9 @@ module.exports = {
   getCourseDetailsWithVideos,
   searchCourses,
   getAllCategories,
+  completedLessons,
+  getUserProgress,
+  postUserReviews,
+  getUserReviews,
+  postUserRating,
 };

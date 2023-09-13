@@ -32,7 +32,7 @@ import Swal from "sweetalert2"
 
 const api = axios.create({
   baseURL: "http://localhost:3001/",
-  timeout: 2000,
+  timeout: 4000,
 });
 
 // Function to add the Authorization header to the request

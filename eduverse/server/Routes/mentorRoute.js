@@ -22,12 +22,14 @@ mentorRoute.post(
      { name: 'title', maxCount: 1 },
      { name: 'part', maxCount: 1 },
      { name: 'description', maxCount: 1 },
+     { name: 'note', maxCount: 1 },
    ]),
    uploadVideoTocloudinary,
    mentorController.processVideo
  );
  mentorRoute.get('/uploadedCourses/:courseId',mentorController.fetchUploadedCourses)
  mentorRoute.put('/editCourses/:id',mentorController.updateCourse)
+ mentorRoute.get('/purchaseDetails',mentorController.getPurchaseList)
 
 
 module.exports = mentorRoute

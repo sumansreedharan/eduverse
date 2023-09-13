@@ -4,6 +4,7 @@ import MentorHome from "../Components/mentorSide/mentorHome/mentorHome";
 import MentorProfile from "../Components//mentorSide/mentorProfile/mentorProfile";
 import CourseManage from "../Components/mentorSide/courseManage/courseManage";
 import UploadVideoForm from "../Components/mentorSide/courseManage/videoUpload";
+import MentorPurchaseHistory from "../Components/mentorSide/purchaseDetails/purchaseDetails";
 import MentorAuth from "../Auth/MentorAuth";
 
 function MentorRoute() {
@@ -16,6 +17,7 @@ function MentorRoute() {
         <Route path="/mentorProfile" element={<MentorProfile />} />
         <Route path="/courseManage" element={<CourseManage />} />
         <Route path="/videoUpload/:courseId" element={<UploadVideoForm />} />
+        <Route path="/purchaseDetails" element={<MentorPurchaseHistory />} />
         </Route>
       </Routes>
     </>

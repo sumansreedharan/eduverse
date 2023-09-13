@@ -2,6 +2,7 @@ const User = require("../models/userModel");
 const Course = require("../models/courseModel");
 const Category = require("../models/categoryModel");
 const Lesson = require("../models/lessonModel");
+const Payment = require("../models/paymentModel")
 const { uploadVideo } = require("../middleware/fileUpload");
 const jwt = require("jsonwebtoken");
 const { IS_USER } = require("../Constants/roles");
@@ -160,7 +161,7 @@ const deleteCourse = async (req, res) => {
 const processVideo = async (req, res) => {
   try {
     const { courseId } = req.params;
-    const { title, part, description } = req.body;
+    const { title, part, description,note } = req.body;
 
     // The uploaded video URL from the uploadVideoToCloud middleware
     const videoUrl = req.url;
@@ -171,6 +172,7 @@ const processVideo = async (req, res) => {
       part,
       description,
       videoUrl,
+      note,
       course: courseId,
     });
     await newLesson.save();
@@ -217,6 +219,19 @@ const updateCourse = async (req, res) => {
   }
 };
 
+const getPurchaseList = async(req,res)=>{
+  try {
+    const purchaseDetails = await Payment.find()
+    .populate('courseId','title')
+    .populate('userId','name')
+    res.status(200).json(purchaseDetails)
+    console.log(purchaseDetails);
+  } catch (error) {
+    console.error('Error fetching payment history:', error);
+    res.status(500).json({ error: 'Server error' });
+  }
+}
+
 module.exports = {
   getLearners,
   updateMentorProfile,
@@ -227,4 +242,5 @@ module.exports = {
   processVideo,
   fetchUploadedCourses,
   updateCourse,
+  getPurchaseList,
 };

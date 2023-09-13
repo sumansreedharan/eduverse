@@ -50,7 +50,7 @@ const listMentor = async (req, res) => {
     res.json(mentors);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: "cannot send the data" });
+    res.status(500).json({ message: "cannot send the data" });
   }
 };
 
@@ -67,7 +67,7 @@ const blockUnblockMentor = async (req, res) => {
     res.json(mentor);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: "failed to block/unblock mentor" });
+    res.status(500).json({ message: "failed to block/unblock mentor" });
   }
 };
 
@@ -77,7 +77,7 @@ const fetchCategories = async (req, res) => {
     res.json(categories);
   } catch (error) {
     console.log("error fetching categories");
-    res.status(500).json({ error: "failed to fetch categories" });
+    res.status(500).json({ message: "failed to fetch categories" });
   }
 };
 
@@ -138,7 +138,7 @@ const deleteCategory = async (req, res) => {
     res.status(200).json(deletedCategory);
   } catch (error) {
     console.error("Error deleting category:", error);
-    res.status(500).json({ error: "Failed to delete category" });
+    res.status(500).json({ message: "Failed to delete category" });
   }
 };
 
@@ -157,7 +157,7 @@ const courseView = async (req, res) => {
     res.json(courses);
   } catch (error) {
     console.log("Error fetching courses:", error);
-    res.status(500).json({ error: "Failed to fetch courses" });
+    res.status(500).json({ message: "Failed to fetch courses" });
   }
 };
 

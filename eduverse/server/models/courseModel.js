@@ -48,6 +48,14 @@ const courseSchema = new mongoose.Schema(
       ref: "Category",
       required: true,
     },
+    ratings: [{ type: Number }], // Store ratings from users
+  reviews: [
+    {
+      user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+      text: String,
+      date: { type: Date, default: Date.now }
+    },
+  ],
     imageUrl: {
       type: String,
       required: true,

@@ -10,6 +10,7 @@ function UploadVideoForm() {
   const [videoTitle, setVideoTitle] = useState("");
   const [part, setPart] = useState("");
   const [videoDescription, setVideoDescription] = useState("");
+  const [note,setNote] = useState("")
   const [videoFile, setVideoFile] = useState("");
   const [courses, setCourses] = useState([]);
 
@@ -31,6 +32,7 @@ function UploadVideoForm() {
     formData.append("title", videoTitle);
     formData.append("part", part);
     formData.append("description", videoDescription);
+    formData.append("note",note);
 
     try {
       const response = await axios.post(
@@ -51,6 +53,7 @@ function UploadVideoForm() {
         setVideoTitle("");
         setPart("");
         setVideoDescription("");
+        setNote("")
         setVideoFile("");
 
         fetchUploadedCourse();
@@ -109,6 +112,16 @@ function UploadVideoForm() {
               id="videoDescription"
               value={videoDescription}
               onChange={(e) => setVideoDescription(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="note">Short note</label>
+            <textarea
+              id="note"
+              value={note}
+              onChange={(e) => setNote(e.target.value)}
               required
             />
           </div>

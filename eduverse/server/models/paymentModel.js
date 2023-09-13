@@ -12,6 +12,7 @@ const paymentSchema = new mongoose.Schema({
   },
   userId: {
     type:String,
+    ref: "User",
   },
   amount: {
     type: Number,

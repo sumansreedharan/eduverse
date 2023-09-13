@@ -23,7 +23,7 @@ import axios from '../../Config/axios'
 const pages = {
   user: ["Home", "Categories", "Courses"],
   admin: ["Mentors", "Courses", "Users", "Categories", "Reports"],
-  mentor: ["Home", "Earning", "Courses"],
+  mentor: ["Home", "Earning", "Courses", "Purchase List"],
 };
 
 const settings = ["Profile", "Logout"];
@@ -108,6 +108,9 @@ function ResponsiveAppBar({ role, logoutUser }) {
       }
       if (page === "Courses") {
         navigate("/mentor/courseManage");
+      }
+      if (page === "Purchase List") {
+        navigate("/mentor/purchaseDetails");
       }
       handleCloseNavMenu();
     }

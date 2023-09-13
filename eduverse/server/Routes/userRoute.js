@@ -16,6 +16,10 @@ userRoute.get('/yourCourses/:userId',userController.fetchYourCourses);
 userRoute.get('/courseVideoDetails/:courseId',userController.getCourseDetailsWithVideos);
 userRoute.get('/searchCourses',userController.searchCourses)
 userRoute.get('/getAllCategories',userController.getAllCategories)
-
+userRoute.put('/getCompletedLessons/:userId/:lessonId',userController.completedLessons)
+userRoute.get('/userProgress/:userId',userController.getUserProgress)
+userRoute.post('/userReviews/:courseId/:userId',userController.postUserReviews)
+userRoute.get('/reviews/:courseId',userController.getUserReviews)
+userRoute.post('/userRatings/:courseId',userController.postUserRating)
 
 module.exports = userRoute;
