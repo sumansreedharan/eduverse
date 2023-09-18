@@ -22,7 +22,7 @@ import axios from '../../Config/axios'
 
 const pages = {
   user: ["Home", "Categories", "Courses"],
-  admin: ["Mentors", "Courses", "Users", "Categories", "Reports"],
+  admin: ["Mentors", "Courses", "Users", "Categories", "Reports","Revenue"],
   mentor: ["Home", "Earning", "Courses", "Purchase List"],
 };
 
@@ -99,6 +99,12 @@ function ResponsiveAppBar({ role, logoutUser }) {
       }
       if (page === "Mentors") {
         navigate("/admin/mentorManage");
+      }
+      if (page === "Reports") {
+        navigate("/admin/reports");
+      }
+      if (page === "Revenue") {
+        navigate("/admin/chartInfo");
       }
       handleCloseNavMenu();
     }

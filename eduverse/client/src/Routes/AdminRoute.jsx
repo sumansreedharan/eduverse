@@ -5,6 +5,8 @@ import UserManage from "../Components/adminSide/userManage/userManage";
 import MentorManage from "../Components/adminSide/mentorManage/mentorManage";
 import CategoryList from "../Components/adminSide/categoryManage/categoryList";
 import CourseView from "../Components/adminSide/mentorManage/courseView";
+import AdminPaymentReport from "../Components/adminSide/reports/paymentReports"
+import MonthlySalesChart from "../Components/adminSide/charts/chartReports"
 import AdminAuth from "../Auth/AdminAuth";
 
 function AdminRoute() {
@@ -17,6 +19,8 @@ function AdminRoute() {
         <Route path="/mentorManage" element={<MentorManage />} />
         <Route path="/categoryList" element={<CategoryList />} />
         <Route path="/courseView" element={<CourseView />} />
+        <Route path="/reports" element={<AdminPaymentReport />} />
+        <Route path="/chartInfo" element={<MonthlySalesChart />} />
         </Route>
       </Routes>
     </>

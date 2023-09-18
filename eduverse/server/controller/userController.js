@@ -96,6 +96,15 @@ const OrderSuccess = async (req, res) => {
       userId: idInfo,
       paymentDate: new Date(),
     });
+    // const paymentSave = await payment.save()
+    // if(paymentSave){
+    //   const getCourse = await Course.findById(courseId)
+    //   const mentorData = getCourse.mentorId
+    //   const mentorUpdate = await User.findByIdAndUpdate(idInfo,{mentorId:mentorData})
+    //   if(mentorUpdate){
+    //     res.json({ status: "ok" });
+    //   }
+    // }
     await payment.save().then(() => {
       res.json({ status: "ok" });
     });

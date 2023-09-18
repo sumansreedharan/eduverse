@@ -10,17 +10,6 @@ useEffect(()=>{
   fetchTotalLearners()
 },[])
 
-// const fetchTotalLearners = async ()=>{
-//   try {
-//     const response = await axios.get('/mentor/getLearners',);
-//     const {totalLearners} = response.data
-//     setTotalLearners(totalLearners)
-
-//   } catch (error) {
-//     console.log(error);
-//   }
-// }
-
 const fetchTotalLearners = async () => {
   const response = await axios.get('/mentor/getLearners');
   const { totalLearners } = response.data;

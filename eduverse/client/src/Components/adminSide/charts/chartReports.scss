@@ -1,0 +1,33 @@
+// MonthlySalesChart.scss
+
+// Style the chart container
+#monthlySalesChart {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  // Style the chart title
+  h2 {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  // Style the chart canvas
+  canvas {
+    width: 100%;
+    height: auto;
+    margin: 20px 0;
+  }
+  
+  // Add responsive styles
+  @media (max-width: 768px) {
+    // Adjust styles for smaller screens
+    #monthlySalesChart {
+      max-width: 100%;
+      margin: 0;
+    }
+  }
+  

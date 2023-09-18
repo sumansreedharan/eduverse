@@ -5,11 +5,14 @@ const Lesson = require("../models/lessonModel");
 const Payment = require("../models/paymentModel")
 const { uploadVideo } = require("../middleware/fileUpload");
 const jwt = require("jsonwebtoken");
+const mongoose = require('mongoose');
 const { IS_USER } = require("../Constants/roles");
 
 const getLearners = async (req, res) => {
+  const mentorId = req.mentorId.id
+  console.log(mentorId);
   try {
-    const totalLearners = await User.countDocuments({ role: IS_USER });
+    const totalLearners = await User.countDocuments({role: IS_USER });
     return res.json({ totalLearners });
   } catch (error) {
     console.log(error);

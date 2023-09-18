@@ -1,6 +1,7 @@
 const User = require("../models/userModel");
 const Category = require("../models/categoryModel");
 const Course = require("../models/courseModel");
+const Payment = require("../models/paymentModel")
 const jwt = require("jsonwebtoken");
 const mongoose = require("mongoose");
 const {IS_ADMIN,IS_MENTOR,IS_USER} = require('../Constants/roles')
@@ -161,6 +162,43 @@ const courseView = async (req, res) => {
   }
 };
 
+const adminPaymentReports = async (req,res) =>{
+  try {
+    const paymentReports = await Payment.find();
+    res.status(200).json(paymentReports)
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+const getMonthlySales = async(req,res)=>{
+  try {
+    const monthlySales = await Payment.aggregate([
+      {
+        $match: {
+          // Add any filters you need (e.g., specific date range)
+        },
+      },
+      {
+        $group: {
+          _id: {
+            $dateToString: { format: '%Y-%m', date: '$paymentDate' },
+          },
+          totalAmount: { $sum: '$amount' },
+        },
+      },
+      {
+        $sort: { _id: 1 }, // Sort by month in ascending order
+      },
+    ]);
+
+    res.json(monthlySales);
+  } catch (error) {
+    console.error('Error fetching monthly sales:', error);
+    res.status(500).json({ error: 'Server error' });
+  }
+}
+
 module.exports = {
   getCounts,
   listUser,
@@ -172,4 +210,6 @@ module.exports = {
   editCategory,
   deleteCategory,
   courseView,
+  adminPaymentReports,
+  getMonthlySales,
 };

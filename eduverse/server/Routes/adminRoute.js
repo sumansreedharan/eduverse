@@ -16,5 +16,7 @@ adminRoute.post("/addCategories",adminController.addCategory)
 adminRoute.put("/editCategories/:id",adminAuth,adminController.editCategory)
 adminRoute.delete("/deleteCategory/:categoryId",adminAuth,adminController.deleteCategory)
 adminRoute.get("/viewCourses",adminController.courseView)
+adminRoute.get("/getPaymentReports",adminController.adminPaymentReports)
+adminRoute.get("/getMonthlySales",adminController.getMonthlySales)
 
 module.exports = adminRoute
