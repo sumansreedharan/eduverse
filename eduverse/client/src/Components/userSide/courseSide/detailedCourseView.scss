@@ -1,175 +1,324 @@
 
-/* detailedCourseView.scss */
+// /* detailedCourseView.scss */
+
+// .course-view-container {
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   padding: 20px;
+// }
+
+// .detailed-course-view {
+//   display: flex;
+//   flex-direction: row;
+//   width: 100%;
+// }
+
+// .course-content {
+//   flex: 1;
+//   padding: 10px;
+// }
+
+// .video-list {
+//   display: flex;
+//   flex-direction: column;
+//   gap: 10px;
+// }
+
+// .video-list-item {
+//   cursor: pointer;
+//   padding: 10px;
+//   background-color: #f0f0f0;
+//   border: 1px solid #ddd;
+//   border-radius: 4px;
+//   transition: background-color 0.3s ease;
+
+//   &:hover {
+//     background-color: #e0e0e0;
+//   }
+
+//   &.completed {
+//     background-color: #3498db;
+//     color: white;
+
+//     &:hover {
+//       background-color: #3498db;
+//     }
+//   }
+// }
+
+// .mark-completed-button {
+//   background-color: #3498db;
+//   color: white;
+//   border: none;
+//   border-radius: 4px;
+//   cursor: pointer;
+//   transition: background-color 0.3s ease;
+
+//   &:hover {
+//     background-color: #31b0d5;
+//   }
+// }
+
+// .completed-label {
+//   background-color: #3498db;
+//   color: white;
+//   padding: 5px 10px;
+//   border-radius: 4px;
+// }
+
+// .video-player-container {
+//   flex: 2;
+//   padding: 10px;
+// }
+
+// .video-player-container video {
+//   max-width: 100%;
+//   height: auto;
+//   border: 1px solid #ddd;
+//   border-radius: 4px;
+// }
+
+// .video-details h4 {
+//   font-size: 24px;
+//   margin: 0;
+// }
+
+// .description {
+//   max-height: 100px; /* Adjust the maximum height as needed */
+//   overflow-y: visible;
+//   white-space: pre-line; /* Preserves line breaks in the description */
+//   margin-top: 10px; /* Add some spacing */
+//   font-size: 21px;
+//   /* Add any other desired styles */
+// }
+
+
+// .video-details h3 {
+//   font-size: 20px;
+//   margin-top: 10px;
+// }
+
+// .video-details p {
+//   font-size: 16px;
+//   margin: 10px 0;
+// }
+
+// /* Add this to your CSS/SCSS file */
+
+// .bbutton {
+//   display: inline-block;
+//   padding: 10px 20px;
+//   background-color: #007BFF; /* Blue color */
+//   color: #fff; /* White text color */
+//   border: none;
+//   border-radius: 4px;
+//   cursor: pointer;
+//   font-size: 16px;
+//   text-align: center;
+//   text-decoration: none;
+//   transition: background-color 0.3s ease;
+
+//   &:hover {
+//     background-color: #0056b3; /* Darker blue color on hover */
+//   }
+// }
+
+// /* Pagination Styles */
+// .pagination {
+//   display: flex;
+//   justify-content: center;
+//   margin-top: 20px;
+// }
+
+// .page-button {
+//   background: #f0f0f0;
+//   border: 1px solid #ddd;
+//   padding: 5px 10px;
+//   margin: 0 5px;
+//   cursor: pointer;
+//   transition: background-color 0.2s ease-in-out;
+//   color: #333;
+//   font-weight: bold;
+//   border-radius: 4px;
+
+//   &:hover {
+//     background: #ddd;
+//   }
+// }
+
+// .page-button.active {
+//   background: #007bff;
+//   color: #fff;
+//   border: 1px solid #007bff;
+// }
+
+
+// /* Add a border to the review content */
+// .review-item {
+//   border: 1px solid #818080;
+//   padding: 10px;
+//   margin-bottom: 10px;
+// }
+
+// /* Style the individual review items */
+// .review-item strong {
+//   font-weight: bold;
+// }
+
+// .review-item p {
+//   margin: 5px 0;
+// }
+
+// .review-item small {
+//   color: #4b4a4a;
+// }
+
+
+
+// detailedCourseView.scss
 
 .course-view-container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-}
+  justify-content: space-between;
+  margin: 20px;
 
-.detailed-course-view {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-}
+  .detailed-course-view {
+    display: flex;
+    width: 100%;
 
-.course-content {
-  flex: 1;
-  padding: 10px;
-}
+    .course-content {
+      flex: 1;
+      padding: 20px;
+      border: 1px solid #e0e0e0;
+      background-color: #f8f8f8;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 
-.video-list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
+      h4 {
+        text-align: center;
+        font-size: 20px;
+        margin-bottom: 15px;
+      }
 
-.video-list-item {
-  cursor: pointer;
-  padding: 10px;
-  background-color: #f0f0f0;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  transition: background-color 0.3s ease;
+      .video-list {
+        .video-list-item {
+          display: flex;
+          flex-direction: column;
+          padding: 10px;
+          margin-bottom: 10px;
+          background-color: #fff;
+          border: 1px solid #e0e0e0;
+          cursor: pointer;
 
-  &:hover {
-    background-color: #e0e0e0;
-  }
+          &.completed {
+            background-color: #e0ffe0;
+          }
 
-  &.completed {
-    background-color: #3498db;
-    color: white;
+          h3 {
+            font-size: 18px;
+            margin: 0;
+          }
 
-    &:hover {
-      background-color: #3498db;
+          p {
+            font-size: 14px;
+            margin: 5px 0;
+
+            &.completed-label {
+              color: #008000;
+              font-weight: bold;
+            }
+          }
+
+          button.mark-completed-button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+
+            &:hover {
+              background-color: #0056b3;
+            }
+          }
+        }
+      }
+    }
+
+    .video-player-container {
+      flex: 3;
+      padding: 20px;
+      border: 1px solid #e0e0e0;
+      background-color: #fff;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+
+      #videoPlayer {
+        width: 100%;
+        height: auto;
+      }
+
+      .video-details {
+        h4 {
+          font-size: 24px;
+          margin: 0;
+        }
+
+        h3 {
+          font-size: 20px;
+          margin-top: 10px;
+        }
+
+        hr {
+          border: 1px solid #e0e0e0;
+          margin: 10px 0;
+        }
+
+        .description {
+          font-size: 16px;
+        }
+      }
+
+      .bbutton {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        margin-top: 20px;
+        transition: background-color 0.3s ease;
+
+        &.hide-button {
+          background-color: #dc3545;
+        }
+
+        &:hover {
+          background-color: #0056b3;
+        }
+      }
+
+      .pagination {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+
+        .page-button {
+          background-color: #007bff;
+          color: #fff;
+          border: none;
+          padding: 5px 10px;
+          cursor: pointer;
+          margin: 0 5px;
+          transition: background-color 0.3s ease;
+
+          &.active {
+            background-color: #0056b3;
+          }
+
+          &:hover {
+            background-color: #0056b3;
+          }
+        }
+      }
     }
   }
-}
-
-.mark-completed-button {
-  background-color: #3498db;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-
-  &:hover {
-    background-color: #31b0d5;
-  }
-}
-
-.completed-label {
-  background-color: #3498db;
-  color: white;
-  padding: 5px 10px;
-  border-radius: 4px;
-}
-
-.video-player-container {
-  flex: 2;
-  padding: 10px;
-}
-
-.video-player-container video {
-  max-width: 100%;
-  height: auto;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-}
-
-.video-details h4 {
-  font-size: 24px;
-  margin: 0;
-}
-
-.description {
-  max-height: 100px; /* Adjust the maximum height as needed */
-  overflow-y: visible;
-  white-space: pre-line; /* Preserves line breaks in the description */
-  margin-top: 10px; /* Add some spacing */
-  font-size: 21px;
-  /* Add any other desired styles */
-}
-
-
-.video-details h3 {
-  font-size: 20px;
-  margin-top: 10px;
-}
-
-.video-details p {
-  font-size: 16px;
-  margin: 10px 0;
-}
-
-/* Add this to your CSS/SCSS file */
-
-.bbutton {
-  display: inline-block;
-  padding: 10px 20px;
-  background-color: #007BFF; /* Blue color */
-  color: #fff; /* White text color */
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
-  text-align: center;
-  text-decoration: none;
-  transition: background-color 0.3s ease;
-
-  &:hover {
-    background-color: #0056b3; /* Darker blue color on hover */
-  }
-}
-
-/* Pagination Styles */
-.pagination {
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-}
-
-.page-button {
-  background: #f0f0f0;
-  border: 1px solid #ddd;
-  padding: 5px 10px;
-  margin: 0 5px;
-  cursor: pointer;
-  transition: background-color 0.2s ease-in-out;
-  color: #333;
-  font-weight: bold;
-  border-radius: 4px;
-
-  &:hover {
-    background: #ddd;
-  }
-}
-
-.page-button.active {
-  background: #007bff;
-  color: #fff;
-  border: 1px solid #007bff;
-}
-
-
-/* Add a border to the review content */
-.review-item {
-  border: 1px solid #818080;
-  padding: 10px;
-  margin-bottom: 10px;
-}
-
-/* Style the individual review items */
-.review-item strong {
-  font-weight: bold;
-}
-
-.review-item p {
-  margin: 5px 0;
-}
-
-.review-item small {
-  color: #4b4a4a;
 }

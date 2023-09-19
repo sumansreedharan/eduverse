@@ -21,5 +21,6 @@ userRoute.get('/userProgress/:userId',userController.getUserProgress)
 userRoute.post('/userReviews/:courseId/:userId',userController.postUserReviews)
 userRoute.get('/reviews/:courseId',userController.getUserReviews)
 userRoute.post('/userRatings/:courseId',userController.postUserRating)
+userRoute.get('/checkPurchase/:courseId/:userId',userController.isUserPurchased)
 
 module.exports = userRoute;

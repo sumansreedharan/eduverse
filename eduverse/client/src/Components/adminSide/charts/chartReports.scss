@@ -1,33 +1,61 @@
-// MonthlySalesChart.scss
+// /* MonthlySalesChart.scss */
 
-// Style the chart container
-#monthlySalesChart {
-    max-width: 800px;
-    margin: 0 auto;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  // Style the chart title
-  h2 {
-    text-align: center;
-    margin-top: 20px;
-  }
-  
-  // Style the chart canvas
-  canvas {
-    width: 100%;
-    height: auto;
-    margin: 20px 0;
-  }
-  
-  // Add responsive styles
-  @media (max-width: 768px) {
-    // Adjust styles for smaller screens
-    #monthlySalesChart {
-      max-width: 100%;
-      margin: 0;
-    }
-  }
-  
+// // Define styles for the container of the chart
+// .chart-container {
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   padding: 20px;
+//   background-color: #dbdbdb; // Replace with your desired background color
+//   border-radius: 8px;
+//   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+//   margin: 20px;
+// }
+
+// // Style the chart title
+// .chart-title {
+//   font-size: 24px;
+//   margin-bottom: 10px;
+//   color: #333; // Replace with your desired text color
+// }
+
+// // Style the canvas element containing the chart
+// #monthlySalesChart {
+//   width: 100%;
+//   max-width: 800px; // Adjust the max width as needed
+//   height: auto;
+//   margin-top: 20px;
+//   border: 1px solid #ddd; // Add a border to the chart canvas
+//   border-radius: 8px;
+//   background-color: #fff; // Chart background color
+// }
+
+
+/* components/chartReports.scss */
+
+/* Common styles for chart containers */
+.chart-container {
+  margin: 20px;
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Title styles */
+.chart-title {
+  font-size: 24px;
+  margin-bottom: 16px;
+}
+
+/* Chart canvas styles */
+.chart-canvas {
+  max-width: 100%; /* Ensures the chart fits within its container */
+  width: 80%; /* Adjust the width as needed */
+  height: auto; /* Allows the chart to scale vertically */
+}
+

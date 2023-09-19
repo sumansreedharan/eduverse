@@ -18,5 +18,5 @@ adminRoute.delete("/deleteCategory/:categoryId",adminAuth,adminController.delete
 adminRoute.get("/viewCourses",adminController.courseView)
 adminRoute.get("/getPaymentReports",adminController.adminPaymentReports)
 adminRoute.get("/getMonthlySales",adminController.getMonthlySales)
-
+adminRoute.get("/getTotalPayments",adminController.getTotalPayments)
 module.exports = adminRoute

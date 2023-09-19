@@ -1,10 +1,10 @@
 const User = require("../models/userModel");
 const Category = require("../models/categoryModel");
 const Course = require("../models/courseModel");
-const Payment = require("../models/paymentModel")
+const Payment = require("../models/paymentModel");
 const jwt = require("jsonwebtoken");
 const mongoose = require("mongoose");
-const {IS_ADMIN,IS_MENTOR,IS_USER} = require('../Constants/roles')
+const { IS_ADMIN, IS_MENTOR, IS_USER } = require("../Constants/roles");
 
 const getCounts = async (req, res) => {
   try {
@@ -143,15 +143,6 @@ const deleteCategory = async (req, res) => {
   }
 };
 
-// const courseView = async (req, res) => {
-//   try {
-//     const courses = await Course.find();
-//     res.json(courses);
-//   } catch (error) {
-//     console.log("error fetching courses");
-//     res.status(500).json({ error: "failed to fetch courses" });
-//   }
-// };
 const courseView = async (req, res) => {
   try {
     const courses = await Course.find().populate("category");
@@ -162,16 +153,16 @@ const courseView = async (req, res) => {
   }
 };
 
-const adminPaymentReports = async (req,res) =>{
+const adminPaymentReports = async (req, res) => {
   try {
     const paymentReports = await Payment.find();
-    res.status(200).json(paymentReports)
+    res.status(200).json(paymentReports);
   } catch (error) {
     console.log(error);
   }
-}
+};
 
-const getMonthlySales = async(req,res)=>{
+const getMonthlySales = async (req, res) => {
   try {
     const monthlySales = await Payment.aggregate([
       {
@@ -182,9 +173,9 @@ const getMonthlySales = async(req,res)=>{
       {
         $group: {
           _id: {
-            $dateToString: { format: '%Y-%m', date: '$paymentDate' },
+            $dateToString: { format: "%Y-%m", date: "$paymentDate" },
           },
-          totalAmount: { $sum: '$amount' },
+          totalAmount: { $sum: "$amount" },
         },
       },
       {
@@ -194,10 +185,45 @@ const getMonthlySales = async(req,res)=>{
 
     res.json(monthlySales);
   } catch (error) {
-    console.error('Error fetching monthly sales:', error);
-    res.status(500).json({ error: 'Server error' });
+    console.error("Error fetching monthly sales:", error);
+    res.status(500).json({ error: "Server error" });
   }
-}
+};
+
+const getTotalPayments = async (req, res) => {
+  try {
+    const totalPayments = await Payment.aggregate([
+      {
+        $group: {
+          _id: "$courseId",
+          totalAmount: { $sum: "$amount" },
+        },
+      },
+      {
+        $lookup: {
+          from: "courses", // Use the name of the Course collection
+          localField: "_id",
+          foreignField: "_id",
+          as: "course",
+        },
+      },
+      {
+        $unwind: "$course", // Unwind the course array created by the lookup
+      },
+      {
+        $project: {
+          courseName: "$course.title", // Use the desired field from the Course model
+          totalAmount: 1, // Include totalAmount in the result
+        },
+      },
+    ]);
+
+    res.json(totalPayments);
+  } catch (error) {
+    console.error("Error fetching total payments:", error);
+    res.status(500).json({ error: "Server error" });
+  }
+};
 
 module.exports = {
   getCounts,
@@ -212,4 +238,5 @@ module.exports = {
   courseView,
   adminPaymentReports,
   getMonthlySales,
+  getTotalPayments,
 };

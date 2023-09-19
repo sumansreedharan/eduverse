@@ -252,14 +252,14 @@ const getUserProgress = async (req, res) => {
   }
 };
 
-const postUserReviews = async(req,res)=>{
+const postUserReviews = async (req, res) => {
   try {
     const { courseId } = req.params;
-    const {text} = req.body;
-    const userId = req.params.userId
-    const course = await Course.findById(courseId)
+    const { text } = req.body;
+    const userId = req.params.userId;
+    const course = await Course.findById(courseId);
     if (!course) {
-      return res.status(404).json({ error: 'Course not found' });
+      return res.status(404).json({ error: "Course not found" });
     }
     const newReview = {
       user: userId,
@@ -272,28 +272,30 @@ const postUserReviews = async(req,res)=>{
     course.reviews.push(newReview);
     await course.save();
 
-    res.status(201).json({ message: 'Review posted successfully' });
+    res.status(201).json({ message: "Review posted successfully" });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Server error' });
+    res.status(500).json({ error: "Server error" });
   }
-}
+};
 
-const getUserReviews = async(req,res)=>{
+const getUserReviews = async (req, res) => {
   try {
     const { courseId } = req.params;
-    const course = await Course.findById(courseId).populate('reviews.user').exec()
+    const course = await Course.findById(courseId)
+      .populate("reviews.user")
+      .exec();
     if (!course) {
-      return res.status(404).json({ error: 'Course not found' });
+      return res.status(404).json({ error: "Course not found" });
     }
     res.status(200).json(course.reviews);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Server error' });
+    res.status(500).json({ error: "Server error" });
   }
-}
+};
 
-const postUserRating = async (req,res)=>{
+const postUserRating = async (req, res) => {
   try {
     const { courseId } = req.params;
     const { rating } = req.body;
@@ -301,16 +303,34 @@ const postUserRating = async (req,res)=>{
     const course = await Course.findById(courseId);
 
     if (!course) {
-      return res.status(404).json({ error: 'Course not found' });
+      return res.status(404).json({ error: "Course not found" });
     }
     course.ratings.push(rating);
     await course.save();
-    res.status(201).json({ message: 'Rating submitted successfully' });
+    res.status(201).json({ message: "Rating submitted successfully" });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Server error' });
+    res.status(500).json({ error: "Server error" });
   }
-}
+};
+
+const isUserPurchased = async (req, res) => {
+  const { courseId, userId } = req.params;
+  try {
+    const payment = await Payment.findOne({ userId, courseId });
+
+    if (payment) {
+      // User has purchased the course
+      res.json({ hasPurchased: true });
+    } else {
+      // User has not purchased the course
+      res.json({ hasPurchased: false });
+    }
+  } catch (error) {
+    console.error("Error checking course purchase:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
 
 module.exports = {
   updateProfile,
@@ -327,4 +347,5 @@ module.exports = {
   postUserReviews,
   getUserReviews,
   postUserRating,
+  isUserPurchased,
 };
