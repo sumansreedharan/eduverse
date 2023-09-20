@@ -30,6 +30,7 @@ mentorRoute.post(
  mentorRoute.get('/uploadedCourses/:courseId',mentorController.fetchUploadedCourses)
  mentorRoute.put('/editCourses/:id',mentorController.updateCourse)
  mentorRoute.get('/purchaseDetails',mentorController.getPurchaseList)
+ mentorRoute.delete("/deleteLesson/:lessonId",mentorController.deleteLessons)
 
 
 module.exports = mentorRoute

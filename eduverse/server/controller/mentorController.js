@@ -235,6 +235,16 @@ const getPurchaseList = async(req,res)=>{
   }
 }
 
+const deleteLessons = async(req,res) =>{
+  const lessonId = req.params.lessonId;
+  try {
+    await Lesson.findByIdAndDelete(lessonId);
+    res.status(200).json({ message: "Lesson deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ error: "An error occurred while deleting the lesson" });
+  }
+}
+
 module.exports = {
   getLearners,
   updateMentorProfile,
@@ -246,4 +256,5 @@ module.exports = {
   fetchUploadedCourses,
   updateCourse,
   getPurchaseList,
+  deleteLessons
 };
