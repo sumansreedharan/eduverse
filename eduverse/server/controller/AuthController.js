@@ -1,4 +1,5 @@
 const User = require("../models/userModel");
+const Course = require("../models/courseModel")
 const jwt = require("jsonwebtoken");
 // const otpGenerator = require('otp-generator');
 const nodemailer = require("nodemailer");
@@ -158,8 +159,38 @@ const methodLogin = async (req, res) => {
   }
 };
 
+const searchCourses = async (req, res) => {
+  const searchQuery = req.query.q;
+
+  try {
+    const regex = new RegExp(searchQuery, "i");
+    const filteredCourses = await Course.find({
+      title: { $regex: regex },
+    });
+    console.log("Filtered courses:", filteredCourses);
+    res.json(filteredCourses);
+  } catch (error) {
+    console.error("Error searching for courses:", error);
+    res
+      .status(500)
+      .json({ message: "An error occurred while searching for courses." });
+  }
+};
+
+const listCourse = async (req, res) => {
+  try {
+    const courseDetails = await Course.find().populate("category");
+    res.json(courseDetails);
+  } catch (error) {
+    console.log("error fetching courseDetails");
+    res.status(500).json({ message: "failed to fetch cours details" });
+  }
+};
+
 module.exports = {
   Register,
   VerifyOTP,
   methodLogin,
+  searchCourses,
+  listCourse
 };
