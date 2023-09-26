@@ -332,6 +332,25 @@ const isUserPurchased = async (req, res) => {
   }
 };
 
+const getUserRatingsForCourse = async (req, res) => {
+  const courseId = req.params.courseId;
+
+  try {
+    const course = await Course.findById(courseId);
+
+    if (!course) {
+      return res.status(404).json({ error: "Course not found" });
+    }
+    const ratingsArray = course.ratings || [];
+
+    res.status(200).json(ratingsArray);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ error: "An error occurred while fetching user ratings" });
+  }
+};
+
 module.exports = {
   updateProfile,
   listCourse,
@@ -348,4 +367,5 @@ module.exports = {
   getUserReviews,
   postUserRating,
   isUserPurchased,
+  getUserRatingsForCourse,
 };

@@ -18,9 +18,10 @@ userRoute.get('/searchCourses',userController.searchCourses)
 userRoute.get('/getAllCategories',userController.getAllCategories)
 userRoute.put('/getCompletedLessons/:userId/:lessonId',userController.completedLessons)
 userRoute.get('/userProgress/:userId',userController.getUserProgress)
-userRoute.post('/userReviews/:courseId/:userId',userController.postUserReviews)
+userRoute.post('/userReviews/:courseId/:userId',userAuth,userController.postUserReviews)
 userRoute.get('/reviews/:courseId',userController.getUserReviews)
 userRoute.post('/userRatings/:courseId',userController.postUserRating)
-userRoute.get('/checkPurchase/:courseId/:userId',userController.isUserPurchased)
+userRoute.get('/checkPurchase/:courseId/:userId',userAuth,userController.isUserPurchased)
+userRoute.get('/averageRating/:courseId',userAuth,userController.getUserRatingsForCourse)
 
 module.exports = userRoute;

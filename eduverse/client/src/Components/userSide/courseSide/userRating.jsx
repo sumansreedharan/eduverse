@@ -1,38 +1,3 @@
-// import React, { useState } from 'react';
-// import './rating.scss'
-
-// const Rating = ({ onRatingSubmit }) => {
-//   const [rating, setRating] = useState(0);
-
-//   const handleRatingChange = (event) => {
-//     setRating(event.target.value);
-//   };
-
-//   const handleSubmit = () => {
-//     onRatingSubmit(rating);
-//     // Optionally, you can update the UI to reflect the new rating
-//   };
-
-//   return (
-//     <div className="rating-component">
-//       <h3>Rate this course:</h3>
-//       <div className="rating-input">
-//         <input
-//           type="number"
-//           min="1"
-//           max="5"
-//           value={rating}
-//           onChange={handleRatingChange}
-//         />
-//         <button onClick={handleSubmit}>Submit Rating</button>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Rating;
-
-
 
 import React, { useState } from 'react';
 import './rating.scss';
