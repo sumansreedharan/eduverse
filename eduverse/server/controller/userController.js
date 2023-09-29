@@ -351,6 +351,17 @@ const getUserRatingsForCourse = async (req, res) => {
   }
 };
 
+const listByCategories = async(req,res)=>{
+  const categoryId = req.params.categoryId;
+  try {
+    const courses = await Course.find({ category:categoryId})
+    res.status(200).json(courses)
+  } catch (error) {
+    console.log(error,"error to list category wise");
+    res.status(500).json({error:"internal server error"})
+  }
+}
+
 module.exports = {
   updateProfile,
   listCourse,
@@ -368,4 +379,5 @@ module.exports = {
   postUserRating,
   isUserPurchased,
   getUserRatingsForCourse,
+  listByCategories,
 };

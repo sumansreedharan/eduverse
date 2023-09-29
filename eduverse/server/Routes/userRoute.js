@@ -23,5 +23,6 @@ userRoute.get('/reviews/:courseId',userController.getUserReviews)
 userRoute.post('/userRatings/:courseId',userController.postUserRating)
 userRoute.get('/checkPurchase/:courseId/:userId',userAuth,userController.isUserPurchased)
 userRoute.get('/averageRating/:courseId',userAuth,userController.getUserRatingsForCourse)
+userRoute.get('/listBycategories/:categoryId',userController.listByCategories)
 
 module.exports = userRoute;

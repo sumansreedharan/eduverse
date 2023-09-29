@@ -5,6 +5,7 @@ import CourseDetails from "../Components/userSide/courseSide/courseDetails";
 import UserProfile from "../Components/userSide/userProfile/userProfile";
 import YourCourses from '../Components/userSide/courseSide/purchasedCourses';
 import DetailedCourseView from "../Components/userSide/courseSide/detailedCourseView"
+import CategoryCourses from "../Components/userSide/categoryComponent/listByCategories";
 import UserAuth from "../Auth/UserAuth";
 
 function UserRoute() {
@@ -17,6 +18,7 @@ function UserRoute() {
         <Route path="userProfile" element={<UserProfile />} />
         <Route path="yourCourses/:userId" element={<YourCourses />} />
         <Route path="courseVideoDetails/:courseId" element={<DetailedCourseView/>} />
+        <Route path="listBycategory/:categoryId" element={<CategoryCourses/>} />
         </Route>
       </Routes>
     </>
