@@ -362,6 +362,18 @@ const listByCategories = async(req,res)=>{
   }
 }
 
+const getMentorForChat = async(req,res)=>{
+  const courseId = req.params.courseId;
+  console.log(courseId);
+  try {
+    const courses = await Course.findById(courseId)
+    res.status(200).json(courses.mentorId)
+    console.log('summmm',courses);
+  } catch (error) {
+    
+  }
+}
+
 module.exports = {
   updateProfile,
   listCourse,
@@ -380,4 +392,5 @@ module.exports = {
   isUserPurchased,
   getUserRatingsForCourse,
   listByCategories,
+  getMentorForChat
 };

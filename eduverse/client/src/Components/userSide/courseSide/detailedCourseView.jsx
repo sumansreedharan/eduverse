@@ -267,20 +267,17 @@
 
 // export default DetailedCourseView;
 
-
-
-
-
 import React, { useEffect, useState } from "react";
 import axios from "../../../Config/axios";
 import ResponsiveAppBar from "../../header/navbar";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Rating from "../courseSide/userRating";
 import Review from "../courseSide/userReview";
 import RatingPopup from "./ratingSuccess";
 import StarRating from "../courseSide/avgStar";
 import "./detailedCourseView.scss";
+import { useSocket } from "../../../context/socketProvider";
 
 const DetailedCourseView = () => {
   const { courseId } = useParams();
@@ -295,12 +292,15 @@ const DetailedCourseView = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const reviewsPerPage = 4;
   const [userRatings, setUserRatings] = useState([]);
+  const userDetailsForChat = useSelector(
+    (state) => state.loggedUser.currentUser
+  );
+  let mentorId;
 
   const fetchVideoDetails = async () => {
     try {
       const response = await axios.get(`/user/courseVideoDetails/${courseId}`);
       const videoData = response.data;
-
       if (videoData.length > 0) {
         setCourseDetails(videoData);
         setSelectedVideo(videoData[0]); // Set the first video as the default
@@ -318,10 +318,11 @@ const DetailedCourseView = () => {
       const reviewsData = reviewsResponse.data;
       setReviews(reviewsData);
 
-      const userRatingsResponse = await axios.get(`/user/averageRating/${courseId}`);
+      const userRatingsResponse = await axios.get(
+        `/user/averageRating/${courseId}`
+      );
       const userRatingsData = userRatingsResponse.data;
       setUserRatings(userRatingsData);
-
     } catch (error) {
       console.error(error);
     }
@@ -330,8 +331,9 @@ const DetailedCourseView = () => {
   useEffect(() => {
     fetchVideoDetails();
     fetchReviews();
+    socket.emit("setup", userDetailsForChat);
+    console.log(userDetailsForChat);
   }, [courseId]);
-
 
   const calculateAverageRating = () => {
     if (userRatings.length === 0) {
@@ -423,6 +425,27 @@ const DetailedCourseView = () => {
     pageNumber.push(i);
   }
 
+  const socket = useSocket();
+  const navigate = useNavigate();
+  const [getmentorId, setgetMentorId] = useState();
+  const handleChat = async () => {
+    try {
+      const response = await axios.get(`/user/getMentorForChat/${courseId}`);
+      console.log(userDetailsForChat, courseId, response.data, "the chat data");
+      if (response.data && userDetailsForChat && courseId) {
+        socket.emit("join-chat", courseId, userDetailsForChat, response.data);
+        const roomJoin = () => {
+          navigate(`/user/chat/${response.data}`);
+        };
+        socket.on("chat-connected", roomJoin);
+      } else {
+        alert("no data");
+      }
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
+
   return (
     <div>
       <ResponsiveAppBar role={"user"} />
@@ -481,7 +504,17 @@ const DetailedCourseView = () => {
                   </div>
                   <br />
                 </div>
-                <h5>Average Rating:{userRatings.length > 0 ? <StarRating rating={calculateAverageRating()} totalRatings={userRatings.length} /> : "No ratings available"}</h5>
+                <h5>
+                  Average Rating:
+                  {userRatings.length > 0 ? (
+                    <StarRating
+                      rating={calculateAverageRating()}
+                      totalRatings={userRatings.length}
+                    />
+                  ) : (
+                    "No ratings available"
+                  )}
+                </h5>
                 {showRatingPopup && (
                   <RatingPopup
                     message={ratingPopupMessage}
@@ -497,9 +530,10 @@ const DetailedCourseView = () => {
                 >
                   {showAllReviews ? "Hide Reviews" : "View All Reviews"}
                 </button>
+                <button onClick={handleChat}>chat</button>
                 {showAllReviews && (
                   <div>
-                     <br />
+                    <br />
                     <h3>All Reviews:</h3>
                     <ul>
                       {currentReviews.map((review) => (
@@ -557,5 +591,3 @@ const DetailedCourseView = () => {
 };
 
 export default DetailedCourseView;
-
-

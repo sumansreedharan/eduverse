@@ -5,9 +5,11 @@ import MentorProfile from "../Components//mentorSide/mentorProfile/mentorProfile
 import CourseManage from "../Components/mentorSide/courseManage/courseManage";
 import UploadVideoForm from "../Components/mentorSide/courseManage/videoUpload";
 import MentorPurchaseHistory from "../Components/mentorSide/purchaseDetails/purchaseDetails";
+import Chat from "../Components/commonChat/chat"
 import MentorAuth from "../Auth/MentorAuth";
 
 function MentorRoute() {
+  const mentor = 'mentor'
   return (
     <>
       <Routes>
@@ -18,6 +20,7 @@ function MentorRoute() {
         <Route path="/courseManage" element={<CourseManage />} />
         <Route path="/videoUpload/:courseId" element={<UploadVideoForm />} />
         <Route path="/purchaseDetails" element={<MentorPurchaseHistory />} />
+        <Route path="/chat/:chatId" element={<Chat mentor={mentor}/>} />
         </Route>
       </Routes>
     </>

@@ -6,9 +6,11 @@ import UserProfile from "../Components/userSide/userProfile/userProfile";
 import YourCourses from '../Components/userSide/courseSide/purchasedCourses';
 import DetailedCourseView from "../Components/userSide/courseSide/detailedCourseView"
 import CategoryCourses from "../Components/userSide/categoryComponent/listByCategories";
+import Chat from "../Components/commonChat/chat"
 import UserAuth from "../Auth/UserAuth";
 
 function UserRoute() {
+  const user = 'user'
   return (
     <>
       <Routes>
@@ -19,6 +21,7 @@ function UserRoute() {
         <Route path="yourCourses/:userId" element={<YourCourses />} />
         <Route path="courseVideoDetails/:courseId" element={<DetailedCourseView/>} />
         <Route path="listBycategory/:categoryId" element={<CategoryCourses/>} />
+        <Route path="chat/:chatId" element={<Chat user={user}/>} />
         </Route>
       </Routes>
     </>

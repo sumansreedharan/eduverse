@@ -24,5 +24,6 @@ userRoute.post('/userRatings/:courseId',userController.postUserRating)
 userRoute.get('/checkPurchase/:courseId/:userId',userAuth,userController.isUserPurchased)
 userRoute.get('/averageRating/:courseId',userAuth,userController.getUserRatingsForCourse)
 userRoute.get('/listBycategories/:categoryId',userController.listByCategories)
+userRoute.get('/getMentorForChat/:courseId',userController.getMentorForChat)
 
 module.exports = userRoute;

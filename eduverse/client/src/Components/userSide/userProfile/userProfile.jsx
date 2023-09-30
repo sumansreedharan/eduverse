@@ -19,12 +19,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { setLoginDetails } from "../../useRedux/userActions";
 import { setLoggoedUser } from "../../useRedux/user";
 
-
 function userProfile() {
   const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
-  const userDetails = useSelector(state => state.loggedUser.currentUser);
+  const userDetails = useSelector((state) => state.loggedUser.currentUser);
   const dispatch = useDispatch();
-  
 
   const handleEditProfile = () => {
     setIsEditProfileOpen(true);
@@ -33,7 +31,6 @@ function userProfile() {
   const handleCloseEditProfile = () => {
     setIsEditProfileOpen(false);
   };
-
 
   // const updateUserProfileInBackend = async (updatedProfile) => {
   //   console.log("revised", updatedProfile);
@@ -62,33 +59,27 @@ function userProfile() {
 
   const updateUserProfileInBackend = async (updatedProfile) => {
     console.log("revised", updatedProfile);
-  
+
     const token = localStorage.getItem("token");
     const formData = new FormData();
-    formData.append('image', updatedProfile.profileImage);
-    formData.append('name', updatedProfile.name);
-    formData.append('mobile', updatedProfile.mobile);
-  
-    const response = await axios.post(
-      "/user/updateUser",
-      formData,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-  
+    formData.append("image", updatedProfile.profileImage);
+    formData.append("name", updatedProfile.name);
+    formData.append("mobile", updatedProfile.mobile);
+
+    const response = await axios.post("/user/updateUser", formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
     console.log(response.data, "from backend");
     dispatch(setLoggoedUser(response.data.updatedUser));
     return response.data;
   };
-  
 
-  const logoutUser = ()=>{
-    console.log('logout');
-  }
-  
+  const logoutUser = () => {
+    console.log("logout");
+  };
 
   const handleSaveProfile = async (updatedProfile) => {
     try {
@@ -101,10 +92,6 @@ function userProfile() {
       console.log("Error:", error);
     }
   };
-
-
- 
-
 
   return (
     <section className="vh-100 section-user-profile light-grey-bg">
