@@ -15,15 +15,22 @@
   }
   
   .message {
+    padding: 10px;
     margin-bottom: 10px;
-    &.in{
-      background-color: #0056b3;
-      color: gold;
-    }
-    &.out{
-      background-color: aquamarine;
-      color: green;
-    }
+    border-radius: 5px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .message.in {
+    align-self: flex-start;
+    background-color: #e2e2e2;
+  }
+  
+  .message.out {
+    align-self: flex-end;
+    background-color: #3073ba;
+    color: #ffffff;
   }
   
   .message-form {
@@ -55,4 +62,5 @@
       }
     }
   }
-  
+
+

@@ -1,0 +1,39 @@
+// .gradient-custom {
+//     /* fallback for old browsers */
+//     background: #f6d365;
+  
+//     /* Chrome 10-25, Safari 5.1-6 */
+//     background: -webkit-linear-gradient(to right bottom, rgba(246, 211, 101, 1), rgba(253, 160, 133, 1));
+  
+//     /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+//     background: linear-gradient(to right bottom, rgba(246, 211, 101, 1), rgba(253, 160, 133, 1));
+//   }
+
+
+.certificate {
+    background-color: white;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  
+    h1 {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+  
+    h2 {
+      font-size: 36px;
+      margin-bottom: 20px;
+    }
+  
+    h3 {
+      font-size: 28px;
+    }
+  
+    p {
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+  }
+  
+  

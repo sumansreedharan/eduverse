@@ -155,7 +155,9 @@ const courseView = async (req, res) => {
 
 const adminPaymentReports = async (req, res) => {
   try {
-    const paymentReports = await Payment.find();
+    const paymentReports = await Payment.find()
+      .populate("userId")
+      .populate("courseId");
     res.status(200).json(paymentReports);
   } catch (error) {
     console.log(error);
@@ -182,7 +184,6 @@ const getMonthlySales = async (req, res) => {
         $sort: { _id: 1 }, // Sort by month in ascending order
       },
     ]);
-
     res.json(monthlySales);
   } catch (error) {
     console.error("Error fetching monthly sales:", error);
@@ -217,11 +218,50 @@ const getTotalPayments = async (req, res) => {
         },
       },
     ]);
-
     res.json(totalPayments);
   } catch (error) {
     console.error("Error fetching total payments:", error);
     res.status(500).json({ error: "Server error" });
+  }
+};
+
+const getCategoryWiseSales = async (req, res) => {
+  try {
+    const categorySales = await Payment.aggregate([
+      {
+        $lookup: {
+          from: "courses", // Collection name for courses
+          localField: "courseId",
+          foreignField: "_id",
+          as: "course",
+        },
+      },
+      {
+        $unwind: "$course",
+      },
+      {
+        $lookup: {
+          from: "categories", // Collection name for categories
+          localField: "course.category",
+          foreignField: "_id",
+          as: "category",
+        },
+      },
+      {
+        $unwind: "$category",
+      },
+      {
+        $group: {
+          _id: "$category.name", // Group by category name
+          sales: { $sum: "$amount" }, // Sum the total amount for each category
+        },
+      },
+    ]);
+
+    res.status(200).json(categorySales);
+  } catch (error) {
+    console.error("Error fetching category-wise sales:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
@@ -239,4 +279,5 @@ module.exports = {
   adminPaymentReports,
   getMonthlySales,
   getTotalPayments,
+  getCategoryWiseSales,
 };

@@ -497,6 +497,8 @@ const DetailedCourseView = () => {
                     {selectedVideo ? selectedVideo.part : ""}
                   </h4>
                   <br />
+                  <button className="chat-button" onClick={handleChat}>Connect with mentor</button>
+                  <br />
                   <h3>What you will learn</h3>
                   <hr />
                   <div className="description">
@@ -530,7 +532,7 @@ const DetailedCourseView = () => {
                 >
                   {showAllReviews ? "Hide Reviews" : "View All Reviews"}
                 </button>
-                <button onClick={handleChat}>chat</button>
+                {/* <button onClick={handleChat}>chat</button> */}
                 {showAllReviews && (
                   <div>
                     <br />

@@ -19,4 +19,5 @@ adminRoute.get("/viewCourses",adminController.courseView)
 adminRoute.get("/getPaymentReports",adminController.adminPaymentReports)
 adminRoute.get("/getMonthlySales",adminController.getMonthlySales)
 adminRoute.get("/getTotalPayments",adminController.getTotalPayments)
+adminRoute.get("/getCategorySales",adminController.getCategoryWiseSales)
 module.exports = adminRoute

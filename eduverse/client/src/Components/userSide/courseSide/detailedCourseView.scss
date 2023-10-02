@@ -246,6 +246,26 @@
       }
     }
 
+    .chat-button {
+      background-color: #48ba42;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      font-size: 16px;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+      float: right;
+    
+      &:hover {
+        background-color: #0056b3;
+      }
+    
+      &:focus {
+        outline: none;
+      }
+    }
+
     .video-player-container {
       flex: 3;
       padding: 20px;
