@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import axios from "../../../Config/axios";
 import ResponsiveAppBar from "../../header/navbar";
 import "./adminHome.scss";
-import api from "../../../Config/axios";
 
 function AdminHomePage() {
   const [totalUsers, setTotalUsers] = useState(0);
