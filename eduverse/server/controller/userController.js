@@ -374,6 +374,22 @@ const getMentorForChat = async(req,res)=>{
   }
 }
 
+const getCourseDetailsForCertificate = async(req,res)=>{
+  const courseId = req.params.courseId;
+
+  try {
+    const course = await Course.findById(courseId);
+
+    if (!course) {
+      return res.status(404).json({ error: 'Course not found' });
+    }
+    res.status(200).json(course);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+}
+
 module.exports = {
   updateProfile,
   listCourse,
@@ -392,5 +408,6 @@ module.exports = {
   isUserPurchased,
   getUserRatingsForCourse,
   listByCategories,
-  getMentorForChat
+  getMentorForChat,
+  getCourseDetailsForCertificate
 };

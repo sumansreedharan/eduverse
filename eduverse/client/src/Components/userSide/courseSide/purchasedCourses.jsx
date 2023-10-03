@@ -43,7 +43,7 @@ const YourCourses = () => {
                   className="start-course-button1"
                   onClick={() => handleStartCourse(course.courseId._id)}
                 >
-                  Enroll now
+                  Start course
                 </button>
               </div>
             </div>
