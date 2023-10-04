@@ -390,6 +390,64 @@ const getCourseDetailsForCertificate = async(req,res)=>{
   }
 }
 
+// const getCourseCompleted = async(req,res)=>{
+//   const { userId, courseId } = req.params;
+
+//   try {
+//     const user = await User.findById(userId).populate('completedLessons');
+//     const course = await Course.findById(courseId).populate('lessons');
+
+//     if (!user || !course) {
+//       return res.status(404).json({ error: 'User or course not found' });
+//     }
+
+//     // Get lesson IDs of the course
+//     const courseLessonIds = course.lessons.map(lesson => lesson._id.toString());
+
+//     // Check if all lessons of the course are completed by the user
+//     const allCourseLessonsCompleted = courseLessonIds.every(courseLessonId =>
+//       user.completedLessons.some(completedLesson =>
+//         completedLesson._id.toString() === courseLessonId
+//       )
+//     );
+
+//     // return res.json({ allCourseLessonsCompleted });
+//     res.status(200).json(allCourseLessonsCompleted)
+//   } catch (error) {
+//     console.error(error);
+//     return res.status(500).json({ error: 'Internal Server Error' });
+//   }
+// }
+
+const getCourseCompleted = async (req, res) => {
+  const { userId, courseId } = req.params;
+
+  try {
+    const user = await User.findById(userId).populate('completedLessons');
+    
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    // Get lesson IDs associated with the specified course
+    const courseLessonIds = await Lesson.find({ course: courseId }, '_id').lean();
+
+    // Check if all lessons of the course are completed by the user
+    const allCourseLessonsCompleted = courseLessonIds.every(courseLesson =>
+      user.completedLessons.some(completedLesson =>
+        completedLesson._id.toString() === courseLesson._id.toString()
+      )
+    );
+    console.log(allCourseLessonsCompleted);
+
+    res.status(200).json(allCourseLessonsCompleted);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+
 module.exports = {
   updateProfile,
   listCourse,
@@ -409,5 +467,6 @@ module.exports = {
   getUserRatingsForCourse,
   listByCategories,
   getMentorForChat,
-  getCourseDetailsForCertificate
+  getCourseDetailsForCertificate,
+  getCourseCompleted
 };

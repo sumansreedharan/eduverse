@@ -26,5 +26,6 @@ userRoute.get('/averageRating/:courseId',userAuth,userController.getUserRatingsF
 userRoute.get('/listBycategories/:categoryId',userController.listByCategories)
 userRoute.get('/getMentorForChat/:courseId',userController.getMentorForChat)
 userRoute.get('/getCourseDetailsForCertificate/:courseId',userController.getCourseDetailsForCertificate)
+userRoute.get('/isCourseCompleted/:userId/:courseId',userController.getCourseCompleted)
 
 module.exports = userRoute;

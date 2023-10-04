@@ -46,7 +46,6 @@ const Chat = ({ user }) => {
       {loggedRole === "mentor" && <ResponsiveAppBar role={"mentor"} />}
 
       <div className="chat-container">
-        <h1>hello</h1>
         <div className="chat-messages">
           {messages.map((msg, index) => {
             const out = !msg.send;

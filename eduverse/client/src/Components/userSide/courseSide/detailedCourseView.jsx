@@ -325,7 +325,7 @@
 
 // export default DetailedCourseView;
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useRef } from "react";
 import axios from "../../../Config/axios";
 import ResponsiveAppBar from "../../header/navbar";
 import { useNavigate, useParams } from "react-router-dom";
@@ -354,7 +354,7 @@ const DetailedCourseView = () => {
     (state) => state.loggedUser.currentUser
   );
   let mentorId;
-  const [isAllLessonsCompleted, setIsAllLessonsCompleted] = useState(false);
+  const [isCourseCompleted, setIsCourseCompleted] = useState(false);
 
   const fetchVideoDetails = async () => {
     try {
@@ -393,16 +393,22 @@ const DetailedCourseView = () => {
     socket.emit("setup", userDetailsForChat);
   }, [courseId]);
 
+
   useEffect(() => {
-    // Check if all lessons are completed
-    setIsAllLessonsCompleted(
-      userProgress.length === courseDetails.length &&
-        userProgress.every((lessonId) =>
-          courseDetails.some((lesson) => lesson._id === lessonId)
-        )
-    );
-    console.log(isAllLessonsCompleted, "bbbbbbb");
-  }, [userProgress, courseDetails]);
+    // Make the API request to check if all lessons of the course are completed by the user
+    axios
+      .get(`/user/isCourseCompleted/${userId}/${courseId}`)
+      .then((response) => {
+        const  isCourseCompleted  = response.data;
+        setIsCourseCompleted(isCourseCompleted);
+        
+      })
+      .catch((error) => {
+        console.error("Error checking course completion:", error);
+      });
+  }, []);
+
+
 
   const calculateAverageRating = () => {
     if (userRatings.length === 0) {
@@ -516,7 +522,7 @@ const DetailedCourseView = () => {
   };
 
   const generateCertificate = () => {
-   navigate(`/user/certificate/${courseId}`)
+    navigate(`/user/certificate/${courseId}`);
   };
 
   return (
@@ -570,14 +576,17 @@ const DetailedCourseView = () => {
                     {selectedVideo ? selectedVideo.part : ""}
                   </h4>
                   <br />
-                  {isAllLessonsCompleted && (
-                    <button
-                      className="generate-certificate-button"
-                      onClick={generateCertificate}
-                    >
+                  {isCourseCompleted ? (
+                    <button className="generate-certificate-button" onClick={generateCertificate}>
                       Generate Certificate
                     </button>
+                  ) : (
+                    <p>
+                      You need to complete all lessons to generate a
+                      certificate.
+                    </p>
                   )}
+
                   <button className="chat-button" onClick={handleChat}>
                     Connect with mentor
                   </button>
