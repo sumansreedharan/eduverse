@@ -27,5 +27,7 @@ userRoute.get('/listBycategories/:categoryId',userController.listByCategories)
 userRoute.get('/getMentorForChat/:courseId',userController.getMentorForChat)
 userRoute.get('/getCourseDetailsForCertificate/:courseId',userController.getCourseDetailsForCertificate)
 userRoute.get('/isCourseCompleted/:userId/:courseId',userController.getCourseCompleted)
+userRoute.post('/sendMessage',userController.sendMessage)
+userRoute.get('/getMessage/:chatId',userController.getMessage)
 
 module.exports = userRoute;

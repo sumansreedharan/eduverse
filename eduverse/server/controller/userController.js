@@ -4,6 +4,7 @@ const Razorpay = require("razorpay");
 const Payment = require("../models/paymentModel");
 const Lesson = require("../models/lessonModel");
 const Category = require("../models/categoryModel");
+const Message = require("../models/chatModel")
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
@@ -390,34 +391,6 @@ const getCourseDetailsForCertificate = async(req,res)=>{
   }
 }
 
-// const getCourseCompleted = async(req,res)=>{
-//   const { userId, courseId } = req.params;
-
-//   try {
-//     const user = await User.findById(userId).populate('completedLessons');
-//     const course = await Course.findById(courseId).populate('lessons');
-
-//     if (!user || !course) {
-//       return res.status(404).json({ error: 'User or course not found' });
-//     }
-
-//     // Get lesson IDs of the course
-//     const courseLessonIds = course.lessons.map(lesson => lesson._id.toString());
-
-//     // Check if all lessons of the course are completed by the user
-//     const allCourseLessonsCompleted = courseLessonIds.every(courseLessonId =>
-//       user.completedLessons.some(completedLesson =>
-//         completedLesson._id.toString() === courseLessonId
-//       )
-//     );
-
-//     // return res.json({ allCourseLessonsCompleted });
-//     res.status(200).json(allCourseLessonsCompleted)
-//   } catch (error) {
-//     console.error(error);
-//     return res.status(500).json({ error: 'Internal Server Error' });
-//   }
-// }
 
 const getCourseCompleted = async (req, res) => {
   const { userId, courseId } = req.params;
@@ -447,6 +420,32 @@ const getCourseCompleted = async (req, res) => {
   }
 };
 
+const sendMessage = async(req,res)=>{
+  const { message, chatId } = req.body;
+  console.log("Received message:", message, "for chatId:", chatId);
+  try {
+    // Create a new message
+    const newMessage = new Message({ chatId, message });
+    await newMessage.save();
+    res.status(201).send(newMessage);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error adding message");
+  }
+}
+
+const getMessage = async(req,res)=>{
+  const { chatId } = req.params;
+  try {
+    // Retrieve messages for the given chatId
+    const messages = await Message.find({ chatId });
+    res.status(200).json(messages);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error fetching messages");
+  }
+}
+
 
 module.exports = {
   updateProfile,
@@ -468,5 +467,7 @@ module.exports = {
   listByCategories,
   getMentorForChat,
   getCourseDetailsForCertificate,
-  getCourseCompleted
+  getCourseCompleted,
+  sendMessage,
+  getMessage,
 };
