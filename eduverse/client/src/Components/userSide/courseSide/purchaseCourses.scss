@@ -7,6 +7,32 @@
       margin-bottom: 2vw;
     }
   }
+
+  .pagination-buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  
+    button {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      margin: 0 5px;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+  
+      &:hover {
+        background-color: #0056b3;
+      }
+  
+      &.active {
+        background-color: #0056b3;
+      }
+    }
+  }
+  
   
   .course-listing {
     display: flex;
