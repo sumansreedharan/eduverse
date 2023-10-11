@@ -45,6 +45,6 @@ io.on("connection", (socket) => {
   });
   socket.on("message", (message, chatId) => {
     socket.in(chatId).emit("received-message", message); // Emit the 'message' event to the room
-    console.log(message);
+    console.log(message,"recieved");
   });
 });

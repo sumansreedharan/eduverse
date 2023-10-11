@@ -421,26 +421,46 @@ const getCourseCompleted = async (req, res) => {
   }
 };
 
-// const sendMessage = async(req,res)=>{
+// const sendMessage = async (req, res) => {
 //   const { message, chatId } = req.body;
-//   // console.log("Received message:", message, "for chatId:", chatId);
+//   const timestamp = new Date(); // Get the current timestamp
 //   try {
-//     // Create a new message
-//     const newMessage = new Message({ chatId, message });
+//     // Create a new message with timestamp
+//     const newMessage = new Message({ chatId, message, timestamp });
 //     await newMessage.save();
 //     res.status(201).send(newMessage);
 //   } catch (error) {
 //     console.error(error);
 //     res.status(500).send("Error adding message");
 //   }
-// }
+// };
+
+// const getMessage = async (req, res) => {
+//   const { chatId } = req.params;
+//   try {
+//     // Retrieve messages for the given chatId including timestamps
+//     const messages = await Message.find({ chatId }, null, {
+//       sort: { createdAt: 1 },
+//     });
+//     const messagesWithTimestamps = messages.map((message) => ({
+//       message: message.message,
+//       timestamp: message.createdAt, // Include the message timestamp in the response
+//       send: message.send,
+//     }));
+//     res.status(200).json(messagesWithTimestamps);
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).send("Error fetching messages");
+//   }
+// };
+
 
 const sendMessage = async (req, res) => {
-  const { message, chatId } = req.body;
+  const { message, chatId, senderUserId } = req.body; // Include senderUserId in the request body
   const timestamp = new Date(); // Get the current timestamp
   try {
-    // Create a new message with timestamp
-    const newMessage = new Message({ chatId, message, timestamp });
+    // Create a new message with timestamp and senderUserId
+    const newMessage = new Message({ chatId, senderUserId, message, timestamp });
     await newMessage.save();
     res.status(201).send(newMessage);
   } catch (error) {
@@ -449,35 +469,29 @@ const sendMessage = async (req, res) => {
   }
 };
 
-// const getMessage = async (req, res) => {
-//   const { chatId } = req.params;
-//   try {
-//     // Retrieve messages for the given chatId
-//     const messages = await Message.find({ chatId });
-//     res.status(200).json(messages);
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).send("Error fetching messages");
-//   }
-// };
 
 const getMessage = async (req, res) => {
   const { chatId } = req.params;
   try {
-    // Retrieve messages for the given chatId including timestamps
-    const messages = await Message.find({ chatId }, null, { sort: { createdAt: 1 } });
-    console.log(messages,"backend messages");
+    // Retrieve messages for the given chatId where chatId matches senderUserId or recipientUserId
+    const messages = await Message.find({
+      $or: [{ chatId: chatId }, { senderUserId: chatId }],
+    }).sort({ createdAt: 1 });
+
     const messagesWithTimestamps = messages.map((message) => ({
       message: message.message,
-      timestamp: message.createdAt, // Include the message timestamp in the response
-      send: message.send,
+      timestamp: message.createdAt,
+      send: message.senderUserId === chatId, // Determine if the message was sent by the user
     }));
+
     res.status(200).json(messagesWithTimestamps);
   } catch (error) {
     console.error(error);
     res.status(500).send("Error fetching messages");
   }
 };
+
+
 
 
 module.exports = {

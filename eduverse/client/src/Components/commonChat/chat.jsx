@@ -109,6 +109,7 @@ const Chat = ({ user }) => {
   console.log(chatId,"xxxxxxxxx");
   const socket = useSocket();
   const loggedRole = useSelector((state) => state.loggedUser.currentUser.role);
+  const currentUserId = useSelector((state) => state.loggedUser.currentUser._id);
 
   const getCurrentTime = () => {
     const now = new Date();
@@ -123,12 +124,36 @@ const Chat = ({ user }) => {
     return now.toLocaleDateString(undefined, options);
   };
 
+  // const sendMessage = async (e) => {
+  //   e.preventDefault();
+  //   if (message.trim() !== "") {
+  //     try {
+  //       // Send the message to the server and store it in the database
+  //       await axios.post("/user/sendMessage", { message, chatId });
+  //       socket.emit("message", message, chatId);
+  //       const currentTime = getCurrentTime();
+  //       setMessages((prevMessages) => [
+  //         ...prevMessages,
+  //         { send: true, message: message, timestamp: currentTime },
+  //       ]);
+  //       setMessage("");
+  //     } catch (error) {
+  //       console.error("Error sending message:", error);
+  //     }
+  //   } else {
+  //     alert("empty message");
+  //   }
+  // };
+
   const sendMessage = async (e) => {
     e.preventDefault();
     if (message.trim() !== "") {
       try {
+        // Assuming you have senderUserId available in your component state
+        const senderUserId = currentUserId; // Replace with actual sender user ID
+  
         // Send the message to the server and store it in the database
-        await axios.post("/user/sendMessage", { message, chatId });
+        await axios.post("/user/sendMessage", { message, chatId, senderUserId });
         socket.emit("message", message, chatId);
         const currentTime = getCurrentTime();
         setMessages((prevMessages) => [
@@ -143,6 +168,7 @@ const Chat = ({ user }) => {
       alert("empty message");
     }
   };
+  
 
   useEffect(() => {
     // Fetch chat messages from the server when the component mounts
