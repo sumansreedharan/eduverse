@@ -1,7 +1,9 @@
+
 // import React, { useEffect, useState } from "react";
 // import { useSelector } from "react-redux";
 // import { useSocket } from "../../context/socketProvider";
 // import ResponsiveAppBar from "../../Components/header/navbar";
+// import axios from "../../Config/axios";
 // import "./chat.scss";
 
 // const Chat = ({ user }) => {
@@ -9,36 +11,55 @@
 //   const [messages, setMessages] = useState([]);
 //   const url = new URL(window.location.href);
 //   const chatId = url.pathname.split("/").pop();
+//   console.log(chatId,"cccccccc");
 //   const socket = useSocket();
 //   const loggedRole = useSelector((state) => state.loggedUser.currentUser.role);
 
-//   const sendMessage = (e) => {
+//   const sendMessage = async (e) => {
 //     e.preventDefault();
 //     if (message.trim() !== "") {
-//       // Send the message to the server
-//       socket.emit("message", message, chatId);
-//       console.log(`message: ${message} in room: ${chatId}`);
-//       setMessages((prevMessages) => [
-//         ...prevMessages,
-//         { send: true, message: message },
-//       ]);
-//       setMessage("");
+//       try {
+//         // Send the message to the server and store it in the database
+//         await axios.post("/user/sendMessage", { message, chatId });
+//         socket.emit("message", message, chatId);
+//         setMessages((prevMessages) => [
+//           ...prevMessages,
+//           { send: true, message: message },
+//         ]);
+//         setMessage("");
+//       } catch (error) {
+//         console.error("Error sending message:", error);
+//       }
 //     } else {
 //       alert("empty message");
 //     }
 //   };
 
 //   useEffect(() => {
+//     // Fetch chat messages from the server when the component mounts
+//     const fetchMessages = async () => {
+//       try {
+//         const response = await axios.get(`/user/getMessage/${chatId}`);
+//         setMessages(response.data);
+//       } catch (error) {
+//         console.error("Error fetching messages:", error);
+//       }
+//     };
+
+//     fetchMessages(); // Call the function to fetch chat messages
+
 //     socket.on("received-message", (message) => {
 //       setMessages((prevMessages) => [
 //         ...prevMessages,
 //         { send: false, message: message },
 //       ]);
 //     });
+
 //     return () => {
 //       socket.off("received-message");
 //     };
-//   }, []);
+    
+//   }, [chatId, socket]);
 
 //   return (
 //     <div>
@@ -72,6 +93,7 @@
 
 // export default Chat;
 
+
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useSocket } from "../../context/socketProvider";
@@ -84,8 +106,22 @@ const Chat = ({ user }) => {
   const [messages, setMessages] = useState([]);
   const url = new URL(window.location.href);
   const chatId = url.pathname.split("/").pop();
+  console.log(chatId,"xxxxxxxxx");
   const socket = useSocket();
   const loggedRole = useSelector((state) => state.loggedUser.currentUser.role);
+
+  const getCurrentTime = () => {
+    const now = new Date();
+    const options = {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    };
+    return now.toLocaleDateString(undefined, options);
+  };
 
   const sendMessage = async (e) => {
     e.preventDefault();
@@ -94,9 +130,10 @@ const Chat = ({ user }) => {
         // Send the message to the server and store it in the database
         await axios.post("/user/sendMessage", { message, chatId });
         socket.emit("message", message, chatId);
+        const currentTime = getCurrentTime();
         setMessages((prevMessages) => [
           ...prevMessages,
-          { send: true, message: message },
+          { send: true, message: message, timestamp: currentTime },
         ]);
         setMessage("");
       } catch (error) {
@@ -112,7 +149,13 @@ const Chat = ({ user }) => {
     const fetchMessages = async () => {
       try {
         const response = await axios.get(`/user/getMessage/${chatId}`);
-        setMessages(response.data);
+        // Ensure that the timestamps are stored in the desired format
+        console.log(response.data,"message ethiiii");
+        const formattedMessages = response.data.map((msg) => ({
+          ...msg,
+          timestamp: getCurrentTime(),
+        }));
+        setMessages(formattedMessages);
       } catch (error) {
         console.error("Error fetching messages:", error);
       }
@@ -121,9 +164,10 @@ const Chat = ({ user }) => {
     fetchMessages(); // Call the function to fetch chat messages
 
     socket.on("received-message", (message) => {
+      const currentTime = getCurrentTime();
       setMessages((prevMessages) => [
         ...prevMessages,
-        { send: false, message: message },
+        { send: false, message: message, timestamp: currentTime },
       ]);
     });
 
@@ -144,6 +188,7 @@ const Chat = ({ user }) => {
             return (
               <div key={index} className={`message${out ? " out" : " in"}`}>
                 <strong>{msg.message}</strong>
+                <p className="message-time">{msg.timestamp}</p>
               </div>
             );
           })}

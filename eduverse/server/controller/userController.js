@@ -4,7 +4,7 @@ const Razorpay = require("razorpay");
 const Payment = require("../models/paymentModel");
 const Lesson = require("../models/lessonModel");
 const Category = require("../models/categoryModel");
-const Message = require("../models/chatModel")
+const Message = require("../models/chatModel");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
@@ -352,63 +352,64 @@ const getUserRatingsForCourse = async (req, res) => {
   }
 };
 
-const listByCategories = async(req,res)=>{
+const listByCategories = async (req, res) => {
   const categoryId = req.params.categoryId;
   try {
-    const courses = await Course.find({ category:categoryId})
-    res.status(200).json(courses)
+    const courses = await Course.find({ category: categoryId });
+    res.status(200).json(courses);
   } catch (error) {
-    console.log(error,"error to list category wise");
-    res.status(500).json({error:"internal server error"})
+    console.log(error, "error to list category wise");
+    res.status(500).json({ error: "internal server error" });
   }
-}
+};
 
-const getMentorForChat = async(req,res)=>{
+const getMentorForChat = async (req, res) => {
   const courseId = req.params.courseId;
   console.log(courseId);
   try {
-    const courses = await Course.findById(courseId)
-    res.status(200).json(courses.mentorId)
-    console.log('summmm',courses);
-  } catch (error) {
-    
-  }
-}
+    const courses = await Course.findById(courseId);
+    res.status(200).json(courses.mentorId);
+    console.log("summmm", courses);
+  } catch (error) {}
+};
 
-const getCourseDetailsForCertificate = async(req,res)=>{
+const getCourseDetailsForCertificate = async (req, res) => {
   const courseId = req.params.courseId;
 
   try {
     const course = await Course.findById(courseId);
 
     if (!course) {
-      return res.status(404).json({ error: 'Course not found' });
+      return res.status(404).json({ error: "Course not found" });
     }
     res.status(200).json(course);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ error: "Internal server error" });
   }
-}
-
+};
 
 const getCourseCompleted = async (req, res) => {
   const { userId, courseId } = req.params;
 
   try {
-    const user = await User.findById(userId).populate('completedLessons');
-    
+    const user = await User.findById(userId).populate("completedLessons");
+
     if (!user) {
-      return res.status(404).json({ error: 'User not found' });
+      return res.status(404).json({ error: "User not found" });
     }
 
     // Get lesson IDs associated with the specified course
-    const courseLessonIds = await Lesson.find({ course: courseId }, '_id').lean();
+    const courseLessonIds = await Lesson.find(
+      { course: courseId },
+      "_id"
+    ).lean();
 
     // Check if all lessons of the course are completed by the user
-    const allCourseLessonsCompleted = courseLessonIds.every(courseLesson =>
-      user.completedLessons.some(completedLesson =>
-        completedLesson._id.toString() === courseLesson._id.toString()
+    const allCourseLessonsCompleted = courseLessonIds.every((courseLesson) =>
+      user.completedLessons.some(
+        (completedLesson) =>
+          completedLesson._id.toString() === courseLesson._id.toString()
       )
     );
     console.log(allCourseLessonsCompleted);
@@ -416,35 +417,67 @@ const getCourseCompleted = async (req, res) => {
     res.status(200).json(allCourseLessonsCompleted);
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ error: 'Internal Server Error' });
+    return res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
-const sendMessage = async(req,res)=>{
+// const sendMessage = async(req,res)=>{
+//   const { message, chatId } = req.body;
+//   // console.log("Received message:", message, "for chatId:", chatId);
+//   try {
+//     // Create a new message
+//     const newMessage = new Message({ chatId, message });
+//     await newMessage.save();
+//     res.status(201).send(newMessage);
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).send("Error adding message");
+//   }
+// }
+
+const sendMessage = async (req, res) => {
   const { message, chatId } = req.body;
-  console.log("Received message:", message, "for chatId:", chatId);
+  const timestamp = new Date(); // Get the current timestamp
   try {
-    // Create a new message
-    const newMessage = new Message({ chatId, message });
+    // Create a new message with timestamp
+    const newMessage = new Message({ chatId, message, timestamp });
     await newMessage.save();
     res.status(201).send(newMessage);
   } catch (error) {
     console.error(error);
     res.status(500).send("Error adding message");
   }
-}
+};
 
-const getMessage = async(req,res)=>{
+// const getMessage = async (req, res) => {
+//   const { chatId } = req.params;
+//   try {
+//     // Retrieve messages for the given chatId
+//     const messages = await Message.find({ chatId });
+//     res.status(200).json(messages);
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).send("Error fetching messages");
+//   }
+// };
+
+const getMessage = async (req, res) => {
   const { chatId } = req.params;
   try {
-    // Retrieve messages for the given chatId
-    const messages = await Message.find({ chatId });
-    res.status(200).json(messages);
+    // Retrieve messages for the given chatId including timestamps
+    const messages = await Message.find({ chatId }, null, { sort: { createdAt: 1 } });
+    console.log(messages,"backend messages");
+    const messagesWithTimestamps = messages.map((message) => ({
+      message: message.message,
+      timestamp: message.createdAt, // Include the message timestamp in the response
+      send: message.send,
+    }));
+    res.status(200).json(messagesWithTimestamps);
   } catch (error) {
     console.error(error);
     res.status(500).send("Error fetching messages");
   }
-}
+};
 
 
 module.exports = {
