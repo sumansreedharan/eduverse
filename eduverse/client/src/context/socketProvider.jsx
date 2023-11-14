@@ -10,7 +10,7 @@ export const useSocket = ()=>{
 }
 
 export const SocketProvider = (props)=>{
-    const socket = useMemo(()=>io("http://localhost:3001"),[])
+    const socket = useMemo(()=>io("https://www.chordsconnect.online/"),[])
     return(
         <SocketContext.Provider value = {socket}>
             {props.children}
