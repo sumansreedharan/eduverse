@@ -20,7 +20,7 @@ app.use("/mentor", mentorRoute);
 
 mongoose.connect(process.env.MONGO_URL);
 const server = app.listen(3000, () => {
-  console.log("server on port 3001");
+  console.log("server on port 3000");
 });
 
 const io = require("socket.io")(server, {
