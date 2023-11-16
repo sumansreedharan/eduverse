@@ -35,7 +35,7 @@ function Signup() {
   const onSubmit = async (data) => {
     try {
       const response = await axios.post(
-        "http://localhost:3001/api/register",
+        "https://www.chordsconnect.online/api/register",
         data,
         {
           headers: {

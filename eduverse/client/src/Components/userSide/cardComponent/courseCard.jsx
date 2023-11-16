@@ -7,7 +7,7 @@ const CourseCard = ({ course }) => {
 
   return (
     <div className="course-card">
-      <img src={`http://localhost:3001/images/${course.imageUrl}`} alt={course.title} />
+      <img src={`https://www.chordsconnect.online/images/${course.imageUrl}`} alt={course.title} />
       <div className="course-details">
         <h3>{course.title}</h3>
         <p className="course-category">{course.category.name}</p>

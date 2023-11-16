@@ -82,7 +82,7 @@ const CourseListPage = () => {
               <tr key={course._id}>
                 <td>
                   <img
-                    src={`http://localhost:3001/images/${course.imageUrl}`}
+                    src={`https://www.chordsconnect.online/images/${course.imageUrl}`}
                     alt="Course Thumbnail"
                   />
                 </td>
