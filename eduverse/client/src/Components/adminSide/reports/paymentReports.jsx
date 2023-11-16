@@ -106,7 +106,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "../../../Config/axios";
 import ResponsiveAppBar from "../../header/navbar";
-import "./PaymentReports.scss";
+import "./paymentReports.scss";
 
 const AdminPaymentReport = () => {
   const [paymentReport, setPaymentReport] = useState([]);
