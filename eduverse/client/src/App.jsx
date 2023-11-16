@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import UserRoute from "./Routes/userRoute";
+import UserRoute from "./Routes/UserRoute";
 import AdminRoute from "./Routes/AdminRoute";
 import MentorRoute from "./Routes/MentorRoute";
 import AuthRoute from "./Routes/AuthRoute";
