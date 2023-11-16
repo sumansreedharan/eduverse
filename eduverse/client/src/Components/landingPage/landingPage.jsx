@@ -20,7 +20,7 @@ function LandingPage() {
 
   const fetchCourses = async () => {
     try {
-      const response = await axios.get("http://localhost:3001/api/landingListCourses");
+      const response = await axios.get("https://www.chordsconnect.online/api/landingListCourses");
       setCourses(response.data);
     } catch (error) {
       console.error("Error fetching courses:", error);
@@ -71,7 +71,7 @@ function LandingPage() {
   const handleSearch = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:3001/api/landingCourseSearch?q=${encodeURIComponent(searchQuery)}`
+        `https://www.chordsconnect.online/api/landingCourseSearch?q=${encodeURIComponent(searchQuery)}`
       );
       setCourses(response.data);
     } catch (error) {

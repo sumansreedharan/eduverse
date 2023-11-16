@@ -56,7 +56,7 @@ function Signup() {
   const onVerifyOTP = async (data) => {
     try {
       const response = await axios.post(
-        "http://localhost:3001/api/verifyOtp",
+        "https://www.chordsconnect.online/api/verifyOtp",
         data,
         {
           headers: {
