@@ -130,7 +130,7 @@ const YourCourses = () => {
           {currentItems.map((course) => (
             <div key={course._id} className="course-cards">
               <img
-                src={`http://localhost:3001/images/${course.courseId.imageUrl}`}
+                src={`https://www.chordsconnect.online/images/${course.courseId.imageUrl}`}
                 alt={course.courseId.title}
                 className="course-image1"
               />

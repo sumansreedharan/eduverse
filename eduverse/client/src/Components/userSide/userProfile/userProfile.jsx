@@ -110,7 +110,7 @@ function userProfile() {
                   }}
                 >
                   <MDBCardImage
-                    src={`http://localhost:3001/images/${userDetails.profileImage}`}
+                    src={`https://www.chordsconnect.online/images/${userDetails.profileImage}`}
                     alt="Profile"
                     className="my-5"
                     style={{ width: "100px" }}

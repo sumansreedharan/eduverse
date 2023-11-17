@@ -262,7 +262,7 @@ const CourseDetails = () => {
         <div className="course-details-header">
           <h1>{course.title}</h1>
           <img
-            src={`http://localhost:3001/images/${course.imageUrl}`}
+            src={`https://www.chordsconnect.online/images/${course.imageUrl}`}
             alt={course.title}
           />
         </div>
